@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-900 text-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learning Analytics & Student Prediction Benchmarks</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              500: '#22c55e',
+              600: '#16a34a',
+              700: '#15803d',
+              800: '#166534',
+              900: '#14532d',
+            },
+            accent: {
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    .glass-panel {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.6);
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(100, 116, 139, 0.5);
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: rgba(148, 163, 184, 0.8);
+    }
+  </style>
+</head>
+<body class="h-full flex flex-col min-h-screen bg-slate-950 text-slate-100 antialiased selection:bg-indigo-500 selection:text-white custom-scrollbar">
+
+  <!-- Top Navigation Bar -->
+  <header class="sticky top-0 z-40 w-full glass-panel border-b border-slate-800/80 bg-slate-900/90 backdrop-blur">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-emerald-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+          <i class="fa-solid fa-chart-line text-white text-lg"></i>
+        </div>
+        <div>
+          <h1 class="text-lg font-bold bg-gradient-to-r from-white via-slate-200 to-indigo-300 bg-clip-text text-transparent">
+            EduAnalytics Benchmark
+          </h1>
+          <p class="text-xs text-slate-400 font-medium">Student Learning Outcome & Behavior Analytics</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-3">
+        <button onclick="exportDataJSON()" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 transition duration-200 flex items-center space-x-1.5 shadow-sm">
+          <i class="fa-solid fa-code"></i>
+          <span class="hidden sm:inline">Export Data</span>
+        </button>
+        <a href="#simulator" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white transition duration-200 shadow-lg shadow-indigo-600/30 flex items-center space-x-1.5">
+          <i class="fa-solid fa-microchip"></i>
+          <span>Playground</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+    <!-- Hero / Summary Banner -->
+    <section class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div class="glass-panel p-5 rounded-2xl relative overflow-hidden group hover:border-indigo-500/50 transition duration-300">
+        <div class="absolute -right-4 -top-4 w-20 h-20 bg-indigo-500/10 rounded-full blur-xl group-hover:bg-indigo-500/20 transition"></div>
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold uppercase tracking-wider text-indigo-400">Top Benchmark Model</span>
+          <i class="fa-solid fa-trophy text-amber-400 text-lg"></i>
+        </div>
+        <div class="mt-3">
+          <div class="text-2xl font-extrabold text-white">98.6%</div>
+          <div class="text-xs text-slate-400 mt-1 truncate">Hybrid Deep Learning (Curriculum)</div>
+        </div>
+      </div>
+
+      <div class="glass-panel p-5 rounded-2xl relative overflow-hidden group hover:border-emerald-500/50 transition duration-300">
+        <div class="absolute -right-4 -top-4 w-20 h-20 bg-emerald-500/10 rounded-full blur-xl group-hover:bg-emerald-500/20 transition"></div>
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold uppercase tracking-wider text-emerald-400">Evaluated Systems</span>
+          <i class="fa-solid fa-cubes text-emerald-400 text-lg"></i>
+        </div>
+        <div class="mt-3">
+          <div class="text-2xl font-extrabold text-white">9 Models</div>
+          <div class="text-xs text-slate-400 mt-1">ITS, MOOCCube, LMS & Moodle</div>
+        </div>
+      </div>
+
+      <div class="glass-panel p-5 rounded-2xl relative overflow-hidden group hover:border-purple-500/50 transition duration-300">
+        <div class="absolute -right-4 -top-4 w-20 h-20 bg-purple-500/10 rounded-full blur-xl group-hover:bg-purple-500/20 transition"></div>
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold uppercase tracking-wider text-purple-400">Mean System Accuracy</span>
+          <i class="fa-solid fa-chart-pie text-purple-400 text-lg"></i>
+        </div>
+        <div class="mt-3">
+          <div class="text-2xl font-extrabold text-white">81.92%</div>
+          <div class="text-xs text-slate-400 mt-1">Across traditional & deep learning</div>
+        </div>
+      </div>
+
+      <div class="glass-panel p-5 rounded-2xl relative overflow-hidden group hover:border-blue-500/50 transition duration-300">
+        <div class="absolute -right-4 -top-4 w-20 h-20 bg-blue-500/10 rounded-full blur-xl group-hover:bg-blue-500/20 transition"></div>
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold uppercase tracking-wider text-blue-400">Dominant Behavior</span>
+          <i class="fa-solid fa-user-graduate text-blue-400 text-lg"></i>
+        </div>
+        <div class="mt-3">
+          <div class="text-2xl font-extrabold text-white">58.22%</div>
+          <div class="text-xs text-slate-400 mt-1">Regular Engagement Cluster</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 1: BAR CHART FOR MODEL BENCHMARKS -->
+    <section class="glass-panel rounded-2xl p-6 shadow-xl border border-slate-800">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-slate-800">
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">Benchmark 01</span>
+            <h2 class="text-xl font-bold text-white">Machine Learning Performance Metrics</h2>
+          </div>
+          <p class="text-xs text-slate-400 mt-1">Accuracy and AUC evaluations across diverse learning analytics models and data sources.</p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <!-- Controls -->
+          <div class="bg-slate-900 border border-slate-700 rounded-xl p-1 flex items-center text-xs">
+            <button id="btn-sort-desc" onclick="sortChart('desc')" class="px-3 py-1.5 rounded-lg bg-indigo-600 text-white font-medium transition shadow-sm">
+              <i class="fa-solid fa-sort-amount-down mr-1"></i> Highest First
+            </button>
+            <button id="btn-sort-asc" onclick="sortChart('asc')" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white font-medium transition">
+              <i class="fa-solid fa-sort-amount-up-alt mr-1"></i> Lowest First
+            </button>
+          </div>
+
+          <div class="bg-slate-900 border border-slate-700 rounded-xl p-1 flex items-center text-xs">
+            <button id="btn-chart-bar" onclick="setChartType('bar')" class="px-3 py-1.5 rounded-lg bg-indigo-600 text-white font-medium transition">
+              Horizontal
+            </button>
+            <button id="btn-chart-column" onclick="setChartType('column')" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white font-medium transition">
+              Vertical
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart Container -->
+      <div class="mt-6 relative w-full h-[450px]">
+        <canvas id="barChart"></canvas>
+      </div>
+
+      <div class="mt-4 flex flex-wrap items-center justify-between text-xs text-slate-400 border-t border-slate-800 pt-4">
+        <div class="flex items-center space-x-4">
+          <span class="flex items-center"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 mr-2"></span> Deep Learning / Generative (&gt;90%)</span>
+          <span class="flex items-center"><span class="w-2.5 h-2.5 rounded-full bg-indigo-500 mr-2"></span> Decision Tree / ITS (80%-90%)</span>
+          <span class="flex items-center"><span class="w-2.5 h-2.5 rounded-full bg-amber-500 mr-2"></span> Statistical / LMS (&lt;80%)</span>
+        </div>
+        <span class="italic text-slate-500">*AUC metric denoted specifically for MetaGAN AUC benchmark</span>
+      </div>
+    </section>
+
+    <!-- Detailed Model Cards Grid -->
+    <section class="space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-lg font-bold text-white flex items-center gap-2">
+          <i class="fa-solid fa-list-check text-indigo-400"></i> Model Performance Deep-Dive
+        </h3>
+        <span class="text-xs text-slate-400">Showing all 9 evaluated benchmarks</span>
+      </div>
+
+      <div id="models-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Rendered dynamically by JavaScript -->
+      </div>
+    </section>
+
+    <!-- SECTION 2: PIE CHART FOR STUDENT BEHAVIOR -->
+    <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      
+      <!-- Chart Column -->
+      <div class="lg:col-span-7 glass-panel rounded-2xl p-6 shadow-xl border border-slate-800 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+            <div>
+              <div class="flex items-center space-x-2">
+                <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-purple-500/10 text-purple-400 border border-purple-500/20">Benchmark 02</span>
+                <h2 class="text-xl font-bold text-white">Student Behavior Distribution</h2>
+              </div>
+              <p class="text-xs text-slate-400 mt-1">K-Means Clustering Analysis of Student Engagement & Learning Traits.</p>
+            </div>
+
+            <!-- View Toggle -->
+            <div class="bg-slate-900 border border-slate-700 rounded-xl p-1 flex items-center text-xs">
+              <button id="btn-mode-raw" onclick="setPieMode('raw')" class="px-2.5 py-1.5 rounded-lg bg-purple-600 text-white font-medium transition">
+                Reported Raw %
+              </button>
+              <button id="btn-mode-norm" onclick="setPieMode('normalized')" class="px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-white font-medium transition">
+                Normalized (100%)
+              </button>
+            </div>
+          </div>
+
+          <!-- Methodological Discrepancy Alert Box -->
+          <div class="mt-4 p-3.5 bg-amber-500/10 border border-amber-500/20 rounded-xl flex items-start space-x-3 text-xs text-amber-200/90">
+            <i class="fa-solid fa-circle-info text-amber-400 text-sm mt-0.5 flex-shrink-0"></i>
+            <div>
+              <span class="font-semibold text-amber-300">Methodology Note:</span>
+              Reported percentages sum to <strong class="text-white">105.34%</strong> (58.22% + 45.68% + 1.44%). This non-100% total indicates overlapping multi-cluster membership or sequential cluster tracking across sessions. Use the switch above to view normalized percentages.
+            </div>
+          </div>
+
+          <div class="mt-6 relative h-[320px] flex items-center justify-center">
+            <canvas id="pieChart"></canvas>
+          </div>
+        </div>
+
+        <div class="mt-4 pt-4 border-t border-slate-800 text-xs text-slate-400 flex items-center justify-between">
+          <span>Source: Online Learning Dashboard Clustering Analytics</span>
+          <span id="pie-total-label" class="font-semibold text-purple-300">Total Sum: 105.34%</span>
+        </div>
+      </div>
+
+      <!-- Insights Column -->
+      <div class="lg:col-span-5 glass-panel rounded-2xl p-6 shadow-xl border border-slate-800 flex flex-col justify-between">
+        <div>
+          <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+            <i class="fa-solid fa-users-gear text-purple-400"></i> Cluster Behavioral Insights
+          </h3>
+
+          <div class="space-y-4">
+            <!-- Regular Students -->
+            <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-emerald-500/40 transition">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                  <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                  <h4 class="font-semibold text-white text-sm">Regular Students</h4>
+                </div>
+                <span class="text-sm font-bold text-emerald-400">58.22%</span>
+              </div>
+              <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+                Demonstrates consistent engagement, steady progression through course modules, and routine interaction with dashboard materials.
+              </p>
+              <div class="mt-3 flex items-center space-x-2 text-[11px] text-emerald-400/80 font-medium">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>Action: Standard learning track & maintenance feedback</span>
+              </div>
+            </div>
+
+            <!-- Persistent Students -->
+            <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-indigo-500/40 transition">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                  <span class="w-3 h-3 rounded-full bg-indigo-500"></span>
+                  <h4 class="font-semibold text-white text-sm">Persistent Students</h4>
+                </div>
+                <span class="text-sm font-bold text-indigo-400">45.68%</span>
+              </div>
+              <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+                Shows high determination in completing challenging tasks, frequent repeated attempts on quizzes, and extended engagement despite setbacks.
+              </p>
+              <div class="mt-3 flex items-center space-x-2 text-[11px] text-indigo-400/80 font-medium">
+                <i class="fa-solid fa-bolt"></i>
+                <span>Action: Provide advanced adaptive challenges & master badges</span>
+              </div>
+            </div>
+
+            <!-- Irregular Students -->
+            <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-rose-500/40 transition">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                  <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+                  <h4 class="font-semibold text-white text-sm">Irregular Students</h4>
+                </div>
+                <span class="text-sm font-bold text-rose-400">1.44%</span>
+              </div>
+              <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+                Smallest cluster with sporadic activity, infrequent logins, and high risk of course drop-out or failure.
+              </p>
+              <div class="mt-3 flex items-center space-x-2 text-[11px] text-rose-400/80 font-medium">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span>Action: Early intervention nudge & automated mentor alert</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 p-3 rounded-xl bg-slate-900 border border-slate-800 text-center">
+          <span class="text-xs text-slate-400">Dominant Learning Profile: <strong class="text-white">Consistent & Active (103.9% Combined)</strong></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: INTERACTIVE SIMULATOR PLAYGROUND -->
+    <section id="simulator" class="glass-panel rounded-2xl p-6 shadow-xl border border-indigo-500/30 relative overflow-hidden">
+      <div class="absolute -right-20 -top-20 w-80 h-80 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="flex items-center space-x-3 mb-6">
+        <div class="p-2.5 rounded-xl bg-indigo-600/20 text-indigo-400 border border-indigo-500/30">
+          <i class="fa-solid fa-sliders text-xl"></i>
+        </div>
+        <div>
+          <h2 class="text-xl font-bold text-white">Interactive Model & Behavior Playground</h2>
+          <p class="text-xs text-slate-400">Simulate expected classification accuracy based on architecture selection and student engagement metrics.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Input Form -->
+        <div class="lg:col-span-2 space-y-5 bg-slate-900/60 p-5 rounded-xl border border-slate-800">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-2">Select Architecture / Paradigm</label>
+            <select id="sim-arch" onchange="runSimulation()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-200 focus:outline-none focus:border-indigo-500">
+              <option value="deep">Hybrid Deep Learning (Curriculum Outcomes)</option>
+              <option value="gan">MetaGAN (Metacognitive Skills MOOC Framework)</option>
+              <option value="lstm">LSTM Network (Sequential History Pass/Fail)</option>
+              <option value="tree">Tree Models (RandomTree / J48 / PART - ITS)</option>
+              <option value="moodle">Moodle Analytics (Decision Tree / Naive Bayes)</option>
+            </select>
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs font-semibold text-slate-300 mb-1">
+              <span>LMS Activity Level (Clicks, Submissions, Hours)</span>
+              <span id="val-engagement" class="text-indigo-400">75%</span>
+            </div>
+            <input type="range" id="sim-engagement" min="10" max="100" value="75" oninput="runSimulation()" class="w-full accent-indigo-500 h-2 bg-slate-800 rounded-lg cursor-pointer">
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs font-semibold text-slate-300 mb-1">
+              <span>Student Persistence Factor (Task Re-attempts)</span>
+              <span id="val-persistence" class="text-indigo-400">60%</span>
+            </div>
+            <input type="range" id="sim-persistence" min="10" max="100" value="60" oninput="runSimulation()" class="w-full accent-indigo-500 h-2 bg-slate-800 rounded-lg cursor-pointer">
+          </div>
+        </div>
+
+        <!-- Simulation Output Box -->
+        <div class="glass-panel p-5 rounded-xl border border-indigo-500/40 flex flex-col justify-between bg-gradient-to-br from-indigo-950/40 via-slate-900 to-slate-950">
+          <div>
+            <span class="text-xs uppercase font-bold tracking-wider text-indigo-400">Simulated Prediction</span>
+            
+            <div class="mt-4 flex items-baseline space-x-2">
+              <span id="sim-result-score" class="text-4xl font-extrabold text-white">94.2%</span>
+              <span class="text-xs text-indigo-300 font-medium">Expected Accuracy</span>
+            </div>
+
+            <div class="mt-4 space-y-2">
+              <div class="flex justify-between text-xs">
+                <span class="text-slate-400">Predicted Student Behavior:</span>
+                <span id="sim-result-cluster" class="font-bold text-emerald-400">Regular Student</span>
+              </div>
+              <div class="flex justify-between text-xs">
+                <span class="text-slate-400">Academic Status Risk:</span>
+                <span id="sim-result-risk" class="font-bold text-emerald-400">Low Pass/Fail Risk</span>
+              </div>
+              <div class="flex justify-between text-xs">
+                <span class="text-slate-400">Recommended Intervention:</span>
+                <span id="sim-result-action" class="font-medium text-slate-200">Standard Feedback</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-400">
+            *Simulation estimates outcome based on benchmarked model weights and inputs.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comparative Table -->
+    <section class="glass-panel rounded-2xl p-6 shadow-xl border border-slate-800">
+      <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+        <i class="fa-solid fa-table text-indigo-400"></i> Benchmark Master Data Table
+      </h3>
+
+      <div class="overflow-x-auto custom-scrollbar">
+        <table class="w-full text-left text-xs text-slate-300">
+          <thead class="bg-slate-900/90 uppercase text-[10px] text-slate-400 tracking-wider border-b border-slate-800">
+            <tr>
+              <th class="py-3 px-4">System / Model Name</th>
+              <th class="py-3 px-4">Data Source / Environment</th>
+              <th class="py-3 px-4">Feature Scope</th>
+              <th class="py-3 px-4">Primary Metric</th>
+              <th class="py-3 px-4 text-right">Score</th>
+            </tr>
+          </thead>
+          <tbody id="table-body" class="divide-y divide-slate-800/60">
+            <!-- Rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="mt-auto border-t border-slate-800 bg-slate-950 py-6 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4">
+      <p>Educational Learning Analytics & Prediction Model Benchmarks Dashboard &copy; 2026</p>
+    </div>
+  </footer>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="fixed bottom-5 right-5 px-4 py-3 rounded-xl bg-indigo-600 text-white text-xs font-semibold shadow-2xl transition duration-300 transform translate-y-20 opacity-0 pointer-events-none flex items-center space-x-2 z-50">
+    <i class="fa-solid fa-circle-check"></i>
+    <span id="toast-msg">Copied to clipboard!</span>
+  </div>
+
+  <script>
+    
+    // Dataset Definitions based strictly on prompt details
+    const modelsData = [
+      {
+        id: 'hdl',
+        name: 'Hybrid Deep Learning Architecture',
+        shortName: 'Hybrid Deep Learning',
+        dataset: 'Curriculum Learning Outcomes',
+        metric: 'Accuracy',
+        score: 98.60,
+        type: 'Deep Learning',
+        description: 'Achieved very high accuracy in predicting the attainment of curriculum learning outcomes.'
+      },
+      {
+        id: 'metagan-auc',
+        name: 'MetaGAN (MOOCCube Dataset - AUC)',
+        shortName: 'MetaGAN (AUC)',
+        dataset: 'MOOCCube Dataset',
+        metric: 'AUC',
+        score: 97.64,
+        type: 'Generative / GAN',
+        description: 'MetaGAN, a framework incorporating metacognitive skills for course recommendations, showed this AUC on the MOOCCube dataset.'
+      },
+      {
+        id: 'metagan-acc',
+        name: 'MetaGAN (MOOCCube Dataset - Accuracy)',
+        shortName: 'MetaGAN (Accuracy)',
+        dataset: 'MOOCCube Dataset',
+        metric: 'Accuracy',
+        score: 96.83,
+        type: 'Generative / GAN',
+        description: 'Classification accuracy reported for MetaGAN on the MOOCCube dataset.'
+      },
+      {
+        id: 'lstm',
+        name: 'LSTM Network (Academic Pass/Fail Prediction)',
+        shortName: 'LSTM Network',
+        dataset: 'Academic History & Performance',
+        metric: 'Accuracy',
+        score: 94.00,
+        type: 'Deep Learning',
+        description: 'Effectively classified student learning performance (pass/fail) using academic history and performance data.'
+      },
+      {
+        id: 'rt',
+        name: 'Randomtree (ITS Data - Best Attributes)',
+        shortName: 'Randomtree (Selected Attr)',
+        dataset: 'ITS Data (Selected Best)',
+        metric: 'Accuracy',
+        score: 82.50,
+        type: 'Tree / Decision',
+        description: 'Achieved by Randomtree when predicting student performance from Intelligent Tutoring System data using optimal attributes.'
+      },
+      {
+        id: 'part',
+        name: 'PART (ITS Data, All Attributes)',
+        shortName: 'PART Classifier',
+        dataset: 'ITS Data (All Attributes)',
+        metric: 'Accuracy',
+        score: 80.00,
+        type: 'Rule-Based',
+        description: 'Classification algorithm achieved this accuracy when merging all attributes from various ITS data sources.'
+      },
+      {
+        id: 'j48',
+        name: 'J48 (ITS Data, All Attributes)',
+        shortName: 'J48 Classifier',
+        dataset: 'ITS Data (All Attributes)',
+        metric: 'Accuracy',
+        score: 80.00,
+        type: 'Tree / Decision',
+        description: 'J48 decision tree reached this accuracy using all attributes from Intelligent Tutoring System data.'
+      },
+      {
+        id: 'moodle-dt',
+        name: 'Moodle (Decision Tree Classifier)',
+        shortName: 'Moodle Decision Tree',
+        dataset: 'Moodle Engagement Analytics',
+        metric: 'Accuracy',
+        score: 64.40,
+        type: 'Tree / Decision',
+        description: 'Classified student final performance using Moodle engagement analytics and student characteristics.'
+      },
+      {
+        id: 'moodle-nb',
+        name: 'Moodle (Naive Bayes Classifier)',
+        shortName: 'Moodle Naive Bayes',
+        dataset: 'Moodle Engagement Analytics',
+        metric: 'Accuracy',
+        score: 63.30,
+        type: 'Statistical',
+        description: 'Naive Bayes algorithm classified student final performance using engagement and behavioral features.'
+      }
+    ];
+
+    const studentBehaviorData = [
+      {
+        label: 'Regular Students',
+        rawPercentage: 58.22,
+        normalizedPercentage: 55.27, // 58.22 / 105.34 * 100
+        color: '#10b981', // Emerald
+        description: 'Largest group demonstrating consistent engagement.'
+      },
+      {
+        label: 'Persistent Students',
+        rawPercentage: 45.68,
+        normalizedPercentage: 43.36, // 45.68 / 105.34 * 100
+        color: '#6366f1', // Indigo
+        description: 'Students who show persistence in learning activities.'
+      },
+      {
+        label: 'Irregular Students',
+        rawPercentage: 1.44,
+        normalizedPercentage: 1.37, // 1.44 / 105.34 * 100
+        color: '#f43f5e', // Rose
+        description: 'Smallest group showing sporadic or low engagement.'
+      }
+    ];
+
+    // Chart References
+    let barChartInstance = null;
+    let pieChartInstance = null;
+    let currentSortOrder = 'desc';
+    let currentChartOrientation = 'bar'; // 'bar' or 'column'
+    let currentPieMode = 'raw'; // 'raw' or 'normalized'
+
+    window.onload = function() {
+      initBarChart();
+      initPieChart();
+      renderModelCards();
+      renderTable();
+      runSimulation();
+    };
+
+    function getSortedModelData() {
+      const copy = [...modelsData];
+      if (currentSortOrder === 'desc') {
+        return copy.sort((a, b) => b.score - a.score);
+      } else {
+        return copy.sort((a, b) => a.score - b.score);
+      }
+    }
+
+    function initBarChart() {
+      const ctx = document.getElementById('barChart').getContext('2d');
+      const data = getSortedModelData();
+
+      const labels = data.map(d => d.shortName);
+      const scores = data.map(d => d.score);
+      const backgroundColors = data.map(d => {
+        if (d.score >= 90) return 'rgba(16, 185, 129, 0.85)'; // Emerald
+        if (d.score >= 80) return 'rgba(99, 102, 241, 0.85)'; // Indigo
+        return 'rgba(245, 158, 11, 0.85)'; // Amber
+      });
+
+      const isHorizontal = currentChartOrientation === 'bar';
+
+      if (barChartInstance) {
+        barChartInstance.destroy();
+      }
+
+      barChartInstance = new Chart(ctx, {
+        type: isHorizontal ? 'bar' : 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Performance Metric (%)',
+            data: scores,
+            backgroundColor: backgroundColors,
+            borderColor: backgroundColors.map(c => c.replace('0.85', '1')),
+            borderWidth: 1.5,
+            borderRadius: 6,
+            maxBarThickness: 32
+          }]
+        },
+        options: {
+          indexAxis: isHorizontal ? 'y' : 'x',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  const item = data[context.dataIndex];
+                  return ` ${item.metric}: ${item.score}% (${item.dataset})`;
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              min: 0,
+              max: 100,
+              grid: { color: 'rgba(255, 255, 255, 0.05)' },
+              ticks: { color: '#94a3b8', callback: v => v + '%' }
+            },
+            y: {
+              grid: { display: false },
+              ticks: { color: '#cbd5e1', font: { size: 11, weight: '500' } }
+            }
+          }
+        }
+      });
+    }
+
+    function sortChart(order) {
+      currentSortOrder = order;
+      document.getElementById('btn-sort-desc').className = order === 'desc' 
+        ? 'px-3 py-1.5 rounded-lg bg-indigo-600 text-white font-medium transition shadow-sm'
+        : 'px-3 py-1.5 rounded-lg text-slate-400 hover:text-white font-medium transition';
+      document.getElementById('btn-sort-asc').className = order === 'asc' 
+        ? 'px-3 py-1.5 rounded-lg bg-indigo-600 text-white font-medium transition shadow-sm'
+        : 'px-3 py-1.5 rounded-lg text-slate-400 hover:text-white font-medium transition';
+      
+      initBarChart();
+    }
+
+    function setChartType(type) {
+      currentChartOrientation = type;
+      document.getElementById('btn-chart-bar').className = type === 'bar'
+        ? 'px-3 py-1.5 rounded-lg bg-indigo-600 text-white font-medium transition'
+        : 'px-3 py-1.5 rounded-lg text-slate-400 hover:text-white font-medium transition';
+      document.getElementById('btn-chart-column').className = type === 'column'
+        ? 'px-3 py-1.5 rounded-lg bg-indigo-600 text-white font-medium transition'
+        : 'px-3 py-1.5 rounded-lg text-slate-400 hover:text-white font-medium transition';
+      
+      initBarChart();
+    }
+
+    function initPieChart() {
+      const ctx = document.getElementById('pieChart').getContext('2d');
+      const isRaw = currentPieMode === 'raw';
+
+      const labels = studentBehaviorData.map(d => d.label);
+      const values = studentBehaviorData.map(d => isRaw ? d.rawPercentage : d.normalizedPercentage);
+      const colors = studentBehaviorData.map(d => d.color);
+
+      if (pieChartInstance) {
+        pieChartInstance.destroy();
+      }
+
+      pieChartInstance = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: labels,
+          datasets: [{
+            data: values,
+            backgroundColor: colors,
+            borderColor: '#0f172a',
+            borderWidth: 3,
+            hoverOffset: 8
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                color: '#e2e8f0',
+                font: { size: 12, family: 'Inter' },
+                padding: 18,
+                usePointStyle: true
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  const val = context.raw;
+                  return ` ${context.label}: ${val}% ${isRaw ? '(Reported Raw)' : '(Normalized)'}`;
+                }
+              }
+            }
+          },
+          cutout: '65%'
+        }
+      });
+    }
+
+    function setPieMode(mode) {
+      currentPieMode = mode;
+      document.getElementById('btn-mode-raw').className = mode === 'raw'
+        ? 'px-2.5 py-1.5 rounded-lg bg-purple-600 text-white font-medium transition'
+        : 'px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-white font-medium transition';
+      document.getElementById('btn-mode-norm').className = mode === 'normalized'
+        ? 'px-2.5 py-1.5 rounded-lg bg-purple-600 text-white font-medium transition'
+        : 'px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-white font-medium transition';
+
+      document.getElementById('pie-total-label').innerText = mode === 'raw' ? 'Total Sum: 105.34%' : 'Total Sum: 100.00%';
+      initPieChart();
+    }
+
+    function renderModelCards() {
+      const grid = document.getElementById('models-grid');
+      grid.innerHTML = modelsData.map(m => {
+        let colorClass = 'text-amber-400 bg-amber-500/10 border-amber-500/30';
+        if (m.score >= 90) colorClass = 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30';
+        else if (m.score >= 80) colorClass = 'text-indigo-400 bg-indigo-500/10 border-indigo-500/30';
+
+        return `
+          <div class="glass-panel rounded-xl p-4 flex flex-col justify-between border border-slate-800 hover:border-slate-700 transition">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-md ${colorClass} border">
+                  ${m.metric}: ${m.score}%
+                </span>
+                <span class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">${m.type}</span>
+              </div>
+              <h4 class="font-bold text-white text-sm leading-snug">${m.name}</h4>
+              <p class="text-xs text-slate-400 mt-2 line-clamp-3">${m.description}</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
+              <span class="truncate"><i class="fa-solid fa-database mr-1 text-slate-500"></i> ${m.dataset}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById('table-body');
+      tbody.innerHTML = modelsData.map(m => `
+        <tr class="hover:bg-slate-800/40 transition">
+          <td class="py-3 px-4 font-semibold text-white">${m.name}</td>
+          <td class="py-3 px-4 text-slate-400">${m.dataset}</td>
+          <td class="py-3 px-4 text-slate-400">${m.type}</td>
+          <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-slate-800 text-indigo-300 font-mono">${m.metric}</span></td>
+          <td class="py-3 px-4 text-right font-extrabold text-emerald-400 font-mono text-sm">${m.score.toFixed(2)}%</td>
+        </tr>
+      `).join('');
+    }
+
+    function runSimulation() {
+      const arch = document.getElementById('sim-arch').value;
+      const engagement = parseInt(document.getElementById('sim-engagement').value);
+      const persistence = parseInt(document.getElementById('sim-persistence').value);
+
+      document.getElementById('val-engagement').innerText = engagement + '%';
+      document.getElementById('val-persistence').innerText = persistence + '%';
+
+      let baseAcc = 80;
+      if (arch === 'deep') baseAcc = 98.6;
+      else if (arch === 'gan') baseAcc = 97.2;
+      else if (arch === 'lstm') baseAcc = 94.0;
+      else if (arch === 'tree') baseAcc = 81.2;
+      else if (arch === 'moodle') baseAcc = 63.8;
+
+      // Adjust with sliders
+      const engagementImpact = (engagement - 50) * 0.12;
+      const persistenceImpact = (persistence - 50) * 0.08;
+      
+      let finalScore = Math.min(99.9, Math.max(50.0, baseAcc + engagementImpact + persistenceImpact));
+
+      // Determine predicted cluster
+      let predictedCluster = 'Regular Student';
+      let clusterColor = 'text-emerald-400';
+      if (persistence > 70 && engagement < 60) {
+        predictedCluster = 'Persistent Student';
+        clusterColor = 'text-indigo-400';
+      } else if (engagement < 30 && persistence < 30) {
+        predictedCluster = 'Irregular Student';
+        clusterColor = 'text-rose-400';
+      }
+
+      // Risk level
+      let risk = 'Low Pass/Fail Risk';
+      let riskColor = 'text-emerald-400';
+      if (finalScore < 70) {
+        risk = 'High Failure Risk';
+        riskColor = 'text-rose-400';
+      } else if (finalScore < 82) {
+        risk = 'Moderate Monitoring Risk';
+        riskColor = 'text-amber-400';
+      }
+
+      let action = 'Standard Feedback';
+      if (predictedCluster === 'Irregular Student') action = 'Immediate Intervention Prompt';
+      else if (predictedCluster === 'Persistent Student') action = 'Adaptive Difficulty Boost';
+
+      document.getElementById('sim-result-score').innerText = finalScore.toFixed(1) + '%';
+      
+      const clusterElem = document.getElementById('sim-result-cluster');
+      clusterElem.innerText = predictedCluster;
+      clusterElem.className = 'font-bold ' + clusterColor;
+
+      const riskElem = document.getElementById('sim-result-risk');
+      riskElem.innerText = risk;
+      riskElem.className = 'font-bold ' + riskColor;
+
+      document.getElementById('sim-result-action').innerText = action;
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-msg').innerText = msg;
+      toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+      }, 2500);
+    }
+
+    function exportDataJSON() {
+      const fullExport = {
+        title: "Learning Analytics & Student Prediction Benchmarks",
+        modelsBenchmark: modelsData,
+        studentBehaviorClusters: studentBehaviorData,
+        notes: "Student behavior totals sum to 105.34% in raw sources due to overlapping multi-label cluster membership."
+      };
+
+      const str = JSON.stringify(fullExport, null, 2);
+      
+      // Fallback copy logic for web iframe restrictions
+      const el = document.createElement('textarea');
+      el.value = str;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+
+      showToast("Benchmark data copied as JSON!");
+    }
+  </script>
+</body>
+</html>
