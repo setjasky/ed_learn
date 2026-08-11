@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-900 text-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Benchmark of LMS and ML Model Performance in Learning Prediction</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Inter Font -->
+  <link rel="preconnect" href="https://rsms.me/">
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  
+  <!-- Chart.js & Datalabels Plugin -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+    /* Custom scrollbar for dark UI */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+    .glass-panel {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glass-card {
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+  </style>
+</head>
+<body class="h-full flex flex-col antialiased selection:bg-indigo-500 selection:text-white">
+
+  <header class="border-b border-slate-800 bg-slate-950/80 sticky top-0 z-30 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div class="flex items-center space-x-3">
+        <div class="p-2.5 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-lg shadow-indigo-500/20">
+          <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <h1 class="text-xl sm:text-2xl font-bold bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
+            ED-TECH BENCHMARK HUB
+          </h1>
+          <p class="text-xs sm:text-sm text-slate-400">Student Learning Performance Prediction Models & LMS Analytics</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-2">
+        <button id="exportCsvBtn" class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
+          <i data-lucide="download" class="w-4 h-4"></i>
+          <span>Export Data</span>
+        </button>
+        <button id="resetFiltersBtn" class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white shadow-sm transition">
+          <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+          <span>Reset Views</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+    <!-- KPI Summary Row -->
+    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="glass-panel p-4 rounded-2xl flex items-center justify-between border-l-4 border-l-emerald-500">
+        <div>
+          <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">Top Benchmark Score</p>
+          <h3 class="text-2xl font-extrabold text-emerald-400 mt-1" id="kpiTopScore">98.6%</h3>
+          <p class="text-xs text-slate-400 mt-0.5" id="kpiTopModel">Hybrid Deep Learning Architecture</p>
+        </div>
+        <div class="p-3 bg-emerald-500/10 text-emerald-400 rounded-xl">
+          <i data-lucide="award" class="w-6 h-6"></i>
+        </div>
+      </div>
+
+      <div class="glass-panel p-4 rounded-2xl flex items-center justify-between border-l-4 border-l-indigo-500">
+        <div>
+          <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">Average Performance</p>
+          <h3 class="text-2xl font-extrabold text-indigo-400 mt-1" id="kpiAvgScore">80.12%</h3>
+          <p class="text-xs text-slate-400 mt-0.5">Across All 8 Evaluated Systems</p>
+        </div>
+        <div class="p-3 bg-indigo-500/10 text-indigo-400 rounded-xl">
+          <i data-lucide="calculator" class="w-6 h-6"></i>
+        </div>
+      </div>
+
+      <div class="glass-panel p-4 rounded-2xl flex items-center justify-between border-l-4 border-l-purple-500">
+        <div>
+          <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">Deep Learning Uplift</p>
+          <h3 class="text-2xl font-extrabold text-purple-400 mt-1">+34.2%</h3>
+          <p class="text-xs text-slate-400 mt-0.5">Over Traditional LMS Analytics</p>
+        </div>
+        <div class="p-3 bg-purple-500/10 text-purple-400 rounded-xl">
+          <i data-lucide="trending-up" class="w-6 h-6"></i>
+        </div>
+      </div>
+
+      <div class="glass-panel p-4 rounded-2xl flex items-center justify-between border-l-4 border-l-amber-500">
+        <div>
+          <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">Evaluation Metrics</p>
+          <h3 class="text-2xl font-extrabold text-amber-400 mt-1">3 Metrics</h3>
+          <p class="text-xs text-slate-400 mt-0.5">Accuracy, AUC & Recall@1</p>
+        </div>
+        <div class="p-3 bg-amber-500/10 text-amber-400 rounded-xl">
+          <i data-lucide="pie-chart" class="w-6 h-6"></i>
+        </div>
+      </div>
+    </section>
+
+    <section class="glass-panel p-4 rounded-2xl space-y-4">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        
+        <!-- Search & Metric Filter -->
+        <div class="flex flex-wrap items-center gap-3 flex-1">
+          <div class="relative min-w-[200px] flex-1 sm:flex-initial">
+            <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+            <input type="text" id="searchInput" placeholder="Search model or metric..." class="w-full pl-9 pr-3 py-1.5 text-sm bg-slate-800 border border-slate-700 rounded-lg text-slate-200 placeholder-slate-400 focus:outline-none focus:border-indigo-500">
+          </div>
+
+          <!-- Category Select Filter -->
+          <select id="categoryFilter" class="bg-slate-800 border border-slate-700 text-slate-200 text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:border-indigo-500">
+            <option value="ALL">All Categories</option>
+            <option value="Deep Learning">Deep Learning & Architectures</option>
+            <option value="Ensemble Learning">Ensemble Models</option>
+            <option value="Traditional ML / LMS">Traditional ML / Moodle LMS</option>
+          </select>
+
+          <!-- Metric Filter -->
+          <select id="metricTypeFilter" class="bg-slate-800 border border-slate-700 text-slate-200 text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:border-indigo-500">
+            <option value="ALL">All Metrics</option>
+            <option value="Accuracy">Accuracy Metrics</option>
+            <option value="AUC">AUC Metrics</option>
+            <option value="Recall@1">Recall Metrics</option>
+          </select>
+        </div>
+
+        <!-- View Controls & Sorting -->
+        <div class="flex items-center gap-2 self-end md:self-auto">
+          <span class="text-xs text-slate-400 mr-1 hidden sm:inline">Chart Type:</span>
+          <div class="inline-flex p-1 bg-slate-800 rounded-xl border border-slate-700">
+            <button id="viewBarBtn" title="Vertical Bar Chart" class="p-1.5 rounded-lg text-slate-400 hover:text-white transition active-view bg-indigo-600 text-white">
+              <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
+            </button>
+            <button id="viewHorizontalBtn" title="Horizontal Bar Chart" class="p-1.5 rounded-lg text-slate-400 hover:text-white transition">
+              <i data-lucide="align-left" class="w-4 h-4"></i>
+            </button>
+
+          </div>
+
+          <div class="border-l border-slate-700 h-6 mx-1"></div>
+
+          <button id="sortToggleBtn" class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700">
+            <i data-lucide="arrow-down-wide-narrow" class="w-4 h-4"></i>
+            <span id="sortText">Desc</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      
+      <!-- Chart Canvas Box (2 Columns on Large Screens) -->
+      <div class="lg:col-span-2 glass-panel p-5 rounded-2xl flex flex-col justify-between relative min-h-[440px]">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h2 class="text-base font-bold text-slate-100 flex items-center gap-2">
+              <span>Performance Benchmarks: Student Learning Prediction Accuracy</span>
+            </h2>
+            <p class="text-xs text-slate-400 mt-0.5">Click any bar/point to inspect full architecture details and metrics</p>
+          </div>
+          <span id="activeCountBadge" class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-800 text-indigo-400 border border-slate-700">
+            Showing 8 Models
+          </span>
+        </div>
+
+        <div class="relative w-full flex-1 flex items-center justify-center min-h-[350px]">
+          <canvas id="benchmarkChart"></canvas>
+        </div>
+
+        <!-- Metric Explanation Note -->
+        <div class="mt-4 pt-3 border-t border-slate-800/80 flex flex-wrap items-center justify-between text-xs text-slate-400 gap-2">
+          <div class="flex items-center gap-4">
+            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> DL Architectures</span>
+            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-violet-500"></span> Ensemble Models</span>
+            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> LMS Baseline / Traditional</span>
+          </div>
+          <p class="text-[11px] text-slate-500">* Standardized performance scale (%)</p>
+        </div>
+      </div>
+
+      <!-- Quick Analysis & Key Insights Sidebar -->
+      <div class="glass-panel p-5 rounded-2xl flex flex-col justify-between space-y-4">
+        <div>
+          <h3 class="text-sm font-bold text-slate-100 uppercase tracking-wider flex items-center gap-2">
+            <i data-lucide="lightbulb" class="w-4 h-4 text-amber-400"></i>
+            Key Analytical Takeaways
+          </h3>
+
+          <div class="mt-4 space-y-3.5 text-xs leading-relaxed text-slate-300">
+            <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800 space-y-1">
+              <span class="font-semibold text-emerald-400 flex items-center gap-1">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i> Deep Learning Dominance
+              </span>
+              <p class="text-slate-400">
+                Hybrid Deep Learning (98.6%) and LSTM networks (94.0%) outperform traditional classifiers by over 30%, showing superior capability in modeling sequential learning pathways and outcome rubrics.
+              </p>
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800 space-y-1">
+              <span class="font-semibold text-violet-400 flex items-center gap-1">
+                <i data-lucide="layers" class="w-3.5 h-3.5"></i> Ensemble Power in LMS
+              </span>
+              <p class="text-slate-400">
+                Combining multiple base models (KNN, NB, RF, DT) via stacking reached 82.0% accuracy on LMS data, providing a strong middle-ground without complex DL overhead.
+              </p>
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800 space-y-1">
+              <span class="font-semibold text-rose-400 flex items-center gap-1">
+                <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i> LMS Baseline Limits
+              </span>
+              <p class="text-slate-400">
+                Single traditional algorithms (Moodle Decision Tree 64.4%, Naive Bayes 63.3%) show limited predictive accuracy when relying solely on basic engagement log metrics.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-indigo-950/40 border border-indigo-800/40 text-xs">
+          <div class="flex items-center justify-between text-indigo-300 font-semibold mb-1">
+            <span>Model Comparison Radar</span>
+            <i data-lucide="sparkles" class="w-4 h-4"></i>
+          </div>
+          <p class="text-slate-400">Select any 2 models from the table below to launch dynamic side-by-side comparative analysis.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="glass-panel p-5 rounded-2xl space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <h2 class="text-base font-bold text-slate-100 flex items-center gap-2">
+            <i data-lucide="table" class="w-4 h-4 text-indigo-400"></i>
+            Detailed Model Specifications & Benchmark Metrics
+          </h2>
+          <p class="text-xs text-slate-400">Click row for full study detail modal or check boxes to compare</p>
+        </div>
+        <button id="clearCompareBtn" class="hidden text-xs text-indigo-400 hover:text-indigo-300 underline font-medium">
+          Clear Comparison (<span id="compareCount">0</span>/2 selected)
+        </button>
+      </div>
+
+      <div class="overflow-x-auto rounded-xl border border-slate-800">
+        <table class="w-full text-left text-xs text-slate-300">
+          <thead class="bg-slate-950 text-slate-400 uppercase font-semibold border-b border-slate-800">
+            <tr>
+              <th scope="col" class="p-3 w-10 text-center">Compare</th>
+              <th scope="col" class="p-3">Model / System Name</th>
+              <th scope="col" class="p-3">Category</th>
+              <th scope="col" class="p-3">Target Context</th>
+              <th scope="col" class="p-3 text-right">Metric Type</th>
+              <th scope="col" class="p-3 text-right">Score</th>
+              <th scope="col" class="p-3 text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody id="modelsTableBody" class="divide-y divide-slate-800/60 bg-slate-900/40">
+            <!-- Table rows dynamically populated by JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Benchmark Footnotes Section -->
+    <footer class="glass-card p-4 rounded-xl text-xs text-slate-400 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="flex items-center gap-2">
+        <i data-lucide="info" class="w-4 h-4 text-slate-400"></i>
+        <span>Data normalized from published educational deep learning & LMS analytics studies.</span>
+      </div>
+      <span class="text-slate-500 text-[11px]">Updated 2026 • Interactive Educational Performance Dashboard</span>
+    </footer>
+
+  </main>
+
+  <div id="modelModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm hidden opacity-0 transition-opacity duration-200">
+    <div class="glass-panel w-full max-w-lg rounded-2xl p-6 shadow-2xl border border-slate-700 relative transform transition-transform duration-200 scale-95" id="modalContainer">
+      <button id="closeModalBtn" class="absolute top-4 right-4 p-1.5 rounded-lg text-slate-400 hover:text-white bg-slate-800/80 transition">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="space-y-4">
+        <div class="flex items-start gap-3">
+          <div id="modalCategoryBadge" class="p-2.5 rounded-xl bg-indigo-500/10 text-indigo-400">
+            <i data-lucide="cpu" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <span id="modalCategoryTag" class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700">Category</span>
+            <h3 id="modalTitle" class="text-xl font-bold text-slate-100 mt-1">Model Name</h3>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 flex items-center justify-between">
+          <div>
+            <span class="text-xs text-slate-400 block" id="modalMetricLabel">Primary Performance</span>
+            <span id="modalScore" class="text-3xl font-extrabold text-emerald-400">98.6%</span>
+          </div>
+          <div class="text-right">
+            <span class="text-xs text-slate-400 block">Target Task</span>
+            <span id="modalTarget" class="text-sm font-semibold text-slate-200">Learning Outcomes</span>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Architecture Description</h4>
+          <p id="modalDescription" class="text-xs text-slate-300 leading-relaxed bg-slate-900/50 p-3 rounded-xl border border-slate-800/60">
+            Description details...
+          </p>
+        </div>
+
+        <div id="secondaryMetricsSection" class="space-y-2">
+          <h4 class="text-xs font-semibold text-slate-300 uppercase tracking-wider">Additional Metrics & Findings</h4>
+          <div id="modalSecondaryMetrics" class="grid grid-cols-2 gap-2 text-xs">
+            <!-- Secondary metrics injected here -->
+          </div>
+        </div>
+
+        <div class="pt-2 flex justify-end">
+          <button id="modalOkBtn" class="px-4 py-2 text-xs font-semibold rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white transition">
+            Close Overview
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Compare Modal -->
+  <div id="compareModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm hidden opacity-0 transition-opacity duration-200">
+    <div class="glass-panel w-full max-w-2xl rounded-2xl p-6 shadow-2xl border border-slate-700 relative transform transition-transform duration-200 scale-95" id="compareModalContainer">
+      <button id="closeCompareModalBtn" class="absolute top-4 right-4 p-1.5 rounded-lg text-slate-400 hover:text-white bg-slate-800/80 transition">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <h3 class="text-lg font-bold text-slate-100 mb-4 flex items-center gap-2">
+        <i data-lucide="columns" class="w-5 h-5 text-indigo-400"></i>
+        Side-by-Side Model Comparison
+      </h3>
+
+      <div id="compareGrid" class="grid grid-cols-2 gap-4">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Raw dataset based on study benchmarks provided
+    const rawBenchmarkData = [
+      {
+        id: "hybrid-dl",
+        name: "Hybrid Deep Learning Architecture",
+        shortName: "Hybrid DL Architecture",
+        category: "Deep Learning",
+        metricType: "Accuracy",
+        score: 98.6,
+        scoreFormatted: "98.6% Accuracy",
+        target: "Curriculum Learning Outcomes",
+        description: "Achieved exceptionally high accuracy in predicting curriculum learning outcome attainment, aligning strongly with expert-evaluated rubrics.",
+        secondaryMetrics: [
+          { label: "Rubric Alignment", value: "High / Expert Evaluated" },
+          { label: "Domain", value: "Curriculum Assessment" }
+        ],
+        icon: "cpu",
+        color: "#10b981", // Emerald
+        colorDark: "rgba(16, 185, 129, 0.85)"
+      },
+      {
+        id: "lstm-pathways",
+        name: "LSTM Network",
+        shortName: "LSTM Network (Pathways)",
+        category: "Deep Learning",
+        metricType: "Accuracy",
+        score: 94.0,
+        scoreFormatted: "94.0% Accuracy",
+        target: "Learning Pathways Prediction",
+        description: "A deep learning network (LSTM) classified student learning performance (pass or fail) from individual learning pathways with high accuracy.",
+        secondaryMetrics: [
+          { label: "AUC Score", value: "97.0%" },
+          { label: "Matthews Correlation (MCC)", value: "0.88" }
+        ],
+        icon: "git-branch",
+        color: "#14b8a6", // Teal
+        colorDark: "rgba(20, 184, 166, 0.85)"
+      },
+      {
+        id: "dkt-plus",
+        name: "DKT+ (Deep Knowledge Tracing)",
+        shortName: "DKT+ (RNN/LSTM)",
+        category: "Deep Learning",
+        metricType: "AUC",
+        score: 86.3,
+        scoreFormatted: "86.3% AUC",
+        target: "Statistics Course Performance",
+        description: "This advanced Deep Knowledge Tracing model utilizing RNN/LSTM showed significant effectiveness in performance prediction on statistics courses, improving upon standard DKT models.",
+        secondaryMetrics: [
+          { label: "Base Architecture", value: "RNN / LSTM Hybrid" },
+          { label: "Course Context", value: "Statistics Education" }
+        ],
+        icon: "activity",
+        color: "#3b82f6", // Blue
+        colorDark: "rgba(59, 130, 246, 0.85)"
+      },
+      {
+        id: "metagan",
+        name: "MetaGAN Framework",
+        shortName: "MetaGAN (RecSys)",
+        category: "Deep Learning",
+        metricType: "Recall@1",
+        score: 83.14,
+        scoreFormatted: "83.14% Recall@1",
+        target: "Personalized Recommendation",
+        description: "MetaGAN introduces metacognitive skills into online course recommendations, achieving state-of-the-art performance in recommending highly relevant learning pathways.",
+        secondaryMetrics: [
+          { label: "Recommendation Precision", value: "Recall@1 Target" },
+          { label: "Innovation", value: "Metacognitive Skill Integration" }
+        ],
+        icon: "sparkles",
+        color: "#6366f1", // Indigo
+        colorDark: "rgba(99, 102, 241, 0.85)"
+      },
+      {
+        id: "ensemble-stacking",
+        name: "Ensemble Stacking Model",
+        shortName: "Ensemble Stacking (LMS)",
+        category: "Ensemble Learning",
+        metricType: "Accuracy",
+        score: 82.0,
+        scoreFormatted: "82.0% Accuracy",
+        target: "Enriched LMS Dataset",
+        description: "Integrated multiple base learners like KNN, Naive Bayes, Random Forest, and Decision Tree to achieve this overall accuracy when predicting student performance.",
+        secondaryMetrics: [
+          { label: "Base Learners", value: "KNN, NB, RF, Decision Tree" },
+          { label: "Data Enrichment", value: "Multi-Source LMS Data" }
+        ],
+        icon: "layers",
+        color: "#8b5cf6", // Purple
+        colorDark: "rgba(139, 92, 246, 0.85)"
+      },
+      {
+        id: "dkt-binary",
+        name: "DKT (Deep Knowledge Tracing)",
+        shortName: "DKT (Programming)",
+        category: "Deep Learning",
+        metricType: "Accuracy",
+        score: 69.51,
+        scoreFormatted: "69.51% Binary Accuracy",
+        target: "Programming Tasks Correctness",
+        description: "Predicts the probability of students answering correctly in programming learning contexts, demonstrating a binary accuracy of nearly 70%.",
+        secondaryMetrics: [
+          { label: "Evaluation Task", value: "Binary Question Response" },
+          { label: "Domain Context", value: "Programming Education" }
+        ],
+        icon: "code",
+        color: "#f59e0b", // Amber
+        colorDark: "rgba(245, 158, 11, 0.85)"
+      },
+      {
+        id: "moodle-dt",
+        name: "Moodle (Decision Tree)",
+        shortName: "Moodle (Decision Tree)",
+        category: "Traditional ML / LMS",
+        metricType: "Accuracy",
+        score: 64.4,
+        scoreFormatted: "64.4% Accuracy",
+        target: "Final Course Performance",
+        description: "Classifies final student performance using Moodle engagement analytics and learner characteristics. Decision Tree yielded the highest accuracy among standard ML classifiers.",
+        secondaryMetrics: [
+          { label: "LMS Platform", value: "Moodle Engagement Logs" },
+          { label: "Algorithm", value: "Decision Tree Classifier" }
+        ],
+        icon: "git-commit",
+        color: "#f43f5e", // Rose
+        colorDark: "rgba(244, 63, 94, 0.85)"
+      },
+      {
+        id: "moodle-nb",
+        name: "Moodle (Naive Bayes)",
+        shortName: "Moodle (Naive Bayes)",
+        category: "Traditional ML / LMS",
+        metricType: "Accuracy",
+        score: 63.3,
+        scoreFormatted: "63.3% Accuracy",
+        target: "Final Course Performance",
+        description: "Classifies final performance based on Moodle engagement logs, achieving an accuracy slightly lower than Decision Tree in the benchmark study.",
+        secondaryMetrics: [
+          { label: "LMS Platform", value: "Moodle Engagement Logs" },
+          { label: "Algorithm", value: "Naive Bayes Classifier" }
+        ],
+        icon: "database",
+        color: "#ea580c", // Orange
+        colorDark: "rgba(234, 88, 12, 0.85)"
+      }
+    ];
+
+    // Dashboard State
+    let filteredData = [...rawBenchmarkData];
+    let activeChartType = 'bar'; // 'bar' or 'horizontalBar'
+    let currentSortOrder = 'desc'; // 'desc' or 'asc'
+    let selectedForCompare = [];
+    let benchmarkChart = null;
+
+    // Register Chart.js DataLabels plugin
+    Chart.register(ChartDataLabels);
+
+    function initChart() {
+      const ctx = document.getElementById('benchmarkChart').getContext('2d');
+
+      const isHorizontal = activeChartType === 'horizontalBar';
+      const chartType = 'bar';
+
+      const labels = filteredData.map(d => d.shortName);
+      const scores = filteredData.map(d => d.score);
+      const bgColors = filteredData.map(d => d.color);
+
+      if (benchmarkChart) {
+        benchmarkChart.destroy();
+      }
+
+      benchmarkChart = new Chart(ctx, {
+        type: chartType,
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Performance Metric (%)',
+            data: scores,
+            backgroundColor: bgColors,
+            borderColor: bgColors,
+            borderWidth: 1.5,
+            borderRadius: 8,
+            borderSkipped: false,
+            hoverBackgroundColor: bgColors.map(c => c + 'cc'),
+            barThickness: isHorizontal ? 22 : 36,
+            maxBarThickness: 48
+          }]
+        },
+        options: {
+          indexAxis: isHorizontal ? 'y' : 'x',
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: {
+            duration: 750,
+            easing: 'easeInOutQuart'
+          },
+          plugins: {
+            legend: {
+              display: false
+            },
+            tooltip: {
+              backgroundColor: '#0f172a',
+              titleColor: '#f8fafc',
+              bodyColor: '#cbd5e1',
+              borderColor: '#334155',
+              borderWidth: 1,
+              padding: 12,
+              cornerRadius: 10,
+              titleFont: { size: 13, weight: 'bold', family: 'Inter' },
+              bodyFont: { size: 12, family: 'Inter' },
+              callbacks: {
+                label: function(context) {
+                  const item = filteredData[context.dataIndex];
+                  return [
+                    ` Performance: ${item.scoreFormatted}`,
+                    ` Target: ${item.target}`,
+                    ` Category: ${item.category}`
+                  ];
+                }
+              }
+            },
+            datalabels: {
+              anchor: isHorizontal ? 'end' : 'end',
+              align: isHorizontal ? 'right' : 'top',
+              color: '#f1f5f9',
+              font: {
+                weight: 'bold',
+                size: 11,
+                family: 'Inter'
+              },
+              formatter: function(value, context) {
+                const item = filteredData[context.dataIndex];
+                return value + '%';
+              },
+              offset: 4
+            }
+          },
+          scales: {
+            x: {
+              grid: {
+                color: isHorizontal ? 'rgba(255, 255, 255, 0.06)' : 'transparent'
+              },
+              ticks: {
+                color: '#94a3b8',
+                font: { size: 11, family: 'Inter' },
+                callback: function(value) {
+                  return isHorizontal ? value + '%' : this.getLabelForValue(value);
+                }
+              },
+              max: isHorizontal ? 105 : undefined,
+              border: { color: '#334155' }
+            },
+            y: {
+              grid: {
+                color: isHorizontal ? 'transparent' : 'rgba(255, 255, 255, 0.06)'
+              },
+              ticks: {
+                color: '#94a3b8',
+                font: { size: 11, family: 'Inter' },
+                callback: function(value) {
+                  return isHorizontal ? this.getLabelForValue(value) : value + '%';
+                }
+              },
+              min: 0,
+              max: isHorizontal ? undefined : 110,
+              border: { color: '#334155' }
+            }
+          },
+          onClick: (e, elements) => {
+            if (elements && elements.length > 0) {
+              const index = elements[0].index;
+              openModal(filteredData[index]);
+            }
+          }
+        }
+      });
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById('modelsTableBody');
+      tbody.innerHTML = '';
+
+      if (filteredData.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" class="p-8 text-center text-slate-400">
+              <i data-lucide="search-x" class="w-8 h-8 mx-auto mb-2 text-slate-500"></i>
+              No benchmarks match the selected filters. Try clearing search or category options.
+            </td>
+          </tr>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      filteredData.forEach(item => {
+        const isChecked = selectedForCompare.some(c => c.id === item.id);
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-800/50 transition cursor-pointer group";
+
+        tr.innerHTML = `
+          <td class="p-3 text-center" onclick="event.stopPropagation()">
+            <input type="checkbox" data-id="${item.id}" ${isChecked ? 'checked' : ''} class="compare-checkbox rounded border-slate-700 text-indigo-600 focus:ring-indigo-500 bg-slate-800 w-4 h-4 cursor-pointer">
+          </td>
+          <td class="p-3 font-medium text-slate-100 flex items-center gap-2.5">
+            <span class="w-2.5 h-2.5 rounded-full" style="background-color: ${item.color}"></span>
+            <span class="group-hover:text-indigo-300 transition">${item.name}</span>
+          </td>
+          <td class="p-3">
+            <span class="px-2 py-0.5 text-[10px] rounded-full font-medium bg-slate-800 text-slate-300 border border-slate-700">
+              ${item.category}
+            </span>
+          </td>
+          <td class="p-3 text-slate-300">${item.target}</td>
+          <td class="p-3 text-right text-slate-400">${item.metricType}</td>
+          <td class="p-3 text-right font-bold text-slate-100">${item.scoreFormatted}</td>
+          <td class="p-3 text-center" onclick="event.stopPropagation()">
+            <button class="inspect-btn p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition" data-id="${item.id}" title="Inspect Details">
+              <i data-lucide="eye" class="w-4 h-4"></i>
+            </button>
+          </td>
+        `;
+
+        // Row click opens modal
+        tr.addEventListener('click', () => openModal(item));
+        tbody.appendChild(tr);
+      });
+
+      // Bind checkboxes and inspect buttons
+      document.querySelectorAll('.compare-checkbox').forEach(cb => {
+        cb.addEventListener('change', (e) => toggleCompare(e.target.dataset.id));
+      });
+
+      document.querySelectorAll('.inspect-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const item = rawBenchmarkData.find(d => d.id === btn.dataset.id);
+          if (item) openModal(item);
+        });
+      });
+
+      lucide.createIcons();
+    }
+
+    function filterAndSortData() {
+      const searchVal = document.getElementById('searchInput').value.toLowerCase().trim();
+      const categoryVal = document.getElementById('categoryFilter').value;
+      const metricVal = document.getElementById('metricTypeFilter').value;
+
+      filteredData = rawBenchmarkData.filter(item => {
+        const matchesSearch = item.name.toLowerCase().includes(searchVal) || 
+                              item.target.toLowerCase().includes(searchVal) ||
+                              item.description.toLowerCase().includes(searchVal);
+        const matchesCategory = categoryVal === 'ALL' || item.category === categoryVal;
+        const matchesMetric = metricVal === 'ALL' || item.metricType === metricVal;
+
+        return matchesSearch && matchesCategory && matchesMetric;
+      });
+
+      // Sort
+      filteredData.sort((a, b) => {
+        return currentSortOrder === 'desc' ? b.score - a.score : a.score - b.score;
+      });
+
+      // Update badge
+      document.getElementById('activeCountBadge').innerText = `Showing ${filteredData.length} Models`;
+
+      // Update KPIs based on filtered context
+      updateKPIs();
+
+      // Re-render
+      initChart();
+      renderTable();
+    }
+
+    function updateKPIs() {
+      if (filteredData.length === 0) return;
+
+      const topItem = filteredData.reduce((prev, current) => (prev.score > current.score) ? prev : current, filteredData[0]);
+      const avgScore = (filteredData.reduce((acc, curr) => acc + curr.score, 0) / filteredData.length).toFixed(2);
+
+      document.getElementById('kpiTopScore').innerText = topItem.scoreFormatted;
+      document.getElementById('kpiTopModel').innerText = topItem.name;
+      document.getElementById('kpiAvgScore').innerText = avgScore + '%';
+    }
+
+    function toggleCompare(id) {
+      const item = rawBenchmarkData.find(d => d.id === id);
+      if (!item) return;
+
+      const index = selectedForCompare.findIndex(c => c.id === id);
+      if (index > -1) {
+        selectedForCompare.splice(index, 1);
+      } else {
+        if (selectedForCompare.length >= 2) {
+          selectedForCompare.shift(); // keep max 2
+        }
+        selectedForCompare.push(item);
+      }
+
+      updateCompareUI();
+    }
+
+    function updateCompareUI() {
+      const countSpan = document.getElementById('compareCount');
+      const clearBtn = document.getElementById('clearCompareBtn');
+
+      countSpan.innerText = selectedForCompare.length;
+      if (selectedForCompare.length > 0) {
+        clearBtn.classList.remove('hidden');
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+
+      renderTable();
+
+      if (selectedForCompare.length === 2) {
+        openCompareModal();
+      }
+    }
+
+    function openModal(item) {
+      document.getElementById('modalTitle').innerText = item.name;
+      document.getElementById('modalScore').innerText = item.scoreFormatted;
+      document.getElementById('modalTarget').innerText = item.target;
+      document.getElementById('modalDescription').innerText = item.description;
+      document.getElementById('modalCategoryTag').innerText = item.category;
+      document.getElementById('modalMetricLabel').innerText = `Primary (${item.metricType})`;
+
+      const secondaryContainer = document.getElementById('modalSecondaryMetrics');
+      secondaryContainer.innerHTML = '';
+
+      if (item.secondaryMetrics && item.secondaryMetrics.length > 0) {
+        item.secondaryMetrics.forEach(m => {
+          secondaryContainer.innerHTML += `
+            <div class="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+              <span class="text-slate-400 block text-[10px] uppercase font-semibold">${m.label}</span>
+              <span class="text-slate-200 font-bold mt-0.5 block">${m.value}</span>
+            </div>
+          `;
+        });
+      } else {
+        secondaryContainer.innerHTML = `<span class="text-slate-500 italic">No extra metric variables recorded.</span>`;
+      }
+
+      const modal = document.getElementById('modelModal');
+      const container = document.getElementById('modalContainer');
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        container.classList.remove('scale-95');
+      }, 10);
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('modelModal');
+      const container = document.getElementById('modalContainer');
+      modal.classList.add('opacity-0');
+      container.classList.add('scale-95');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 200);
+    }
+
+    function openCompareModal() {
+      if (selectedForCompare.length < 2) return;
+      const [m1, m2] = selectedForCompare;
+
+      const grid = document.getElementById('compareGrid');
+      grid.innerHTML = `
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 font-medium">${m1.category}</span>
+            <span class="text-xs font-semibold" style="color: ${m1.color}">${m1.scoreFormatted}</span>
+          </div>
+          <h4 class="font-bold text-slate-100 text-sm">${m1.name}</h4>
+          <p class="text-xs text-slate-400">${m1.description}</p>
+          <div class="text-xs text-slate-300 border-t border-slate-800 pt-2 space-y-1">
+            <div><strong class="text-slate-400">Target:</strong> ${m1.target}</div>
+            <div><strong class="text-slate-400">Metric Type:</strong> ${m1.metricType}</div>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 font-medium">${m2.category}</span>
+            <span class="text-xs font-semibold" style="color: ${m2.color}">${m2.scoreFormatted}</span>
+          </div>
+          <h4 class="font-bold text-slate-100 text-sm">${m2.name}</h4>
+          <p class="text-xs text-slate-400">${m2.description}</p>
+          <div class="text-xs text-slate-300 border-t border-slate-800 pt-2 space-y-1">
+            <div><strong class="text-slate-400">Target:</strong> ${m2.target}</div>
+            <div><strong class="text-slate-400">Metric Type:</strong> ${m2.metricType}</div>
+          </div>
+        </div>
+      `;
+
+      const compareModal = document.getElementById('compareModal');
+      const compareContainer = document.getElementById('compareModalContainer');
+      compareModal.classList.remove('hidden');
+      setTimeout(() => {
+        compareModal.classList.remove('opacity-0');
+        compareContainer.classList.remove('scale-95');
+      }, 10);
+    }
+
+    function closeCompareModal() {
+      const compareModal = document.getElementById('compareModal');
+      const compareContainer = document.getElementById('compareModalContainer');
+      compareModal.classList.add('opacity-0');
+      compareContainer.classList.add('scale-95');
+      setTimeout(() => {
+        compareModal.classList.add('hidden');
+      }, 200);
+    }
+
+    function exportToCSV() {
+      const headers = ["System / Model Name", "Category", "Metric Type", "Performance Score (%)", "Target Context", "Description"];
+      const rows = filteredData.map(item => [
+        `"${item.name}"`,
+        `"${item.category}"`,
+        `"${item.metricType}"`,
+        item.score,
+        `"${item.target}"`,
+        `"${item.description.replace(/"/g, '""')}"`
+      ]);
+
+      const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map(e => e.join(","))].join("\n");
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "lms_ml_benchmark_performance.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // Event Listeners initialization on load
+    window.onload = function() {
+      lucide.createIcons();
+      initChart();
+      renderTable();
+
+      // Search & Filters
+      document.getElementById('searchInput').addEventListener('input', filterAndSortData);
+      document.getElementById('categoryFilter').addEventListener('change', filterAndSortData);
+      document.getElementById('metricTypeFilter').addEventListener('change', filterAndSortData);
+
+      // View toggle
+      document.getElementById('viewBarBtn').addEventListener('click', function() {
+        activeChartType = 'bar';
+        this.classList.add('bg-indigo-600', 'text-white');
+        document.getElementById('viewHorizontalBtn').classList.remove('bg-indigo-600', 'text-white');
+        initChart();
+      });
+
+      document.getElementById('viewHorizontalBtn').addEventListener('click', function() {
+        activeChartType = 'horizontalBar';
+        this.classList.add('bg-indigo-600', 'text-white');
+        document.getElementById('viewBarBtn').classList.remove('bg-indigo-600', 'text-white');
+        initChart();
+      });
+
+      // Sort button
+      document.getElementById('sortToggleBtn').addEventListener('click', function() {
+        currentSortOrder = currentSortOrder === 'desc' ? 'asc' : 'desc';
+        document.getElementById('sortText').innerText = currentSortOrder === 'desc' ? 'Desc' : 'Asc';
+        filterAndSortData();
+      });
+
+      // Export & Reset
+      document.getElementById('exportCsvBtn').addEventListener('click', exportToCSV);
+      document.getElementById('resetFiltersBtn').addEventListener('click', function() {
+        document.getElementById('searchInput').value = '';
+        document.getElementById('categoryFilter').value = 'ALL';
+        document.getElementById('metricTypeFilter').value = 'ALL';
+        currentSortOrder = 'desc';
+        document.getElementById('sortText').innerText = 'Desc';
+        selectedForCompare = [];
+        updateCompareUI();
+        filterAndSortData();
+      });
+
+      document.getElementById('clearCompareBtn').addEventListener('click', function() {
+        selectedForCompare = [];
+        updateCompareUI();
+      });
+
+      // Modal buttons
+      document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+      document.getElementById('modalOkBtn').addEventListener('click', closeModal);
+      document.getElementById('closeCompareModalBtn').addEventListener('click', closeCompareModal);
+
+      // Backdrop clicks
+      document.getElementById('modelModal').addEventListener('click', function(e) {
+        if (e.target === this) closeModal();
+      });
+      document.getElementById('compareModal').addEventListener('click', function(e) {
+        if (e.target === this) closeCompareModal();
+      });
+    };
+  </script>
+</body>
+</html>
