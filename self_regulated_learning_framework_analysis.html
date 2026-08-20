@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-900 text-slate-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Self-Regulated Learning (SRL) Comparative Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        zimmerman: { light: '#60a5fa', DEFAULT: '#3b82f6', dark: '#1d4ed8' },
+                        pintrich: { light: '#f472b6', DEFAULT: '#ec4899', dark: '#be185d' },
+                        winne: { light: '#34d399', DEFAULT: '#10b981', dark: '#047857' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+    </style>
+</head>
+<body class="h-full flex flex-col font-sans antialiased bg-slate-950 text-slate-100 overflow-x-hidden">
+
+    <!-- Top Navigation Header -->
+    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50 px-4 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center space-x-3">
+            <div class="p-2 bg-indigo-600/20 border border-indigo-500/30 rounded-xl text-indigo-400">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+            </div>
+            <div>
+                <h1 class="text-lg font-bold text-slate-100 leading-tight">SRL Theoretical Framework Matrix</h1>
+                <p class="text-xs text-slate-400">Comparative Analysis: Zimmerman vs. Pintrich vs. Winne & Hadwin</p>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <nav class="flex space-x-1 bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs sm:text-sm">
+            <button id="tab-btn-diagrams" onclick="switchMainTab('diagrams')" class="px-4 py-1.5 rounded-lg font-medium transition-colors bg-indigo-600 text-white shadow-sm">
+                Visual Diagrams
+            </button>
+            <button id="tab-btn-comparison" onclick="switchMainTab('comparison')" class="px-4 py-1.5 rounded-lg font-medium transition-colors text-slate-400 hover:text-slate-200">
+                Side-by-Side Matrix
+            </button>
+            <button id="tab-btn-analysis" onclick="switchMainTab('analysis')" class="px-4 py-1.5 rounded-lg font-medium transition-colors text-slate-400 hover:text-slate-200">
+                Deep-Dive Synthesis
+            </button>
+        </nav>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-8">
+
+        <!-- VIEW 1: DIAGRAMS SECTION -->
+        <section id="view-diagrams" class="space-y-6">
+            
+            <!-- Controls and View Selector -->
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-900 border border-slate-800 p-4 rounded-2xl">
+                <div>
+                    <h2 class="text-base font-semibold text-slate-100">Interactive Conceptual Architecture</h2>
+                    <p class="text-xs text-slate-400">Select a model to view its structural diagram and operational mechanics.</p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="selectDiagramModel('zimmerman')" id="btn-model-zimmerman" class="px-3 py-1.5 rounded-lg text-xs font-medium border transition-all bg-blue-500/10 border-blue-500 text-blue-400">
+                        Zimmerman (Cyclical)
+                    </button>
+                    <button onclick="selectDiagramModel('pintrich')" id="btn-model-pintrich" class="px-3 py-1.5 rounded-lg text-xs font-medium border transition-all bg-slate-800 border-slate-700 text-slate-400 hover:border-slate-600">
+                        Pintrich (Taxonomic)
+                    </button>
+                    <button onclick="selectDiagramModel('winne')" id="btn-model-winne" class="px-3 py-1.5 rounded-lg text-xs font-medium border transition-all bg-slate-800 border-slate-700 text-slate-400 hover:border-slate-600">
+                        Winne & Hadwin (Cognitive/COPES)
+                    </button>
+                    <button onclick="selectDiagramModel('synthesis')" id="btn-model-synthesis" class="px-3 py-1.5 rounded-lg text-xs font-medium border transition-all bg-slate-800 border-slate-700 text-slate-400 hover:border-slate-600">
+                        Unified Spectrum
+                    </button>
+                </div>
+            </div>
+
+            <!-- Diagram Display Canvas -->
+            <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 relative overflow-hidden shadow-xl min-h-[480px] flex flex-col justify-center">
+                
+                <!-- Zimmerman Diagram Container -->
+                <div id="diagram-zimmerman" class="diagram-panel block space-y-6">
+                    <div class="text-center max-w-xl mx-auto mb-4">
+                        <span class="inline-block px-2.5 py-1 text-[10px] font-bold tracking-wider uppercase rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">Social Cognitive Theory</span>
+                        <h3 class="text-xl font-bold text-slate-100 mt-2">Zimmerman's 3-Phase Cyclical Loop</h3>
+                        <p class="text-xs text-slate-400">Focuses on continuous self-reflective feedback loops anchored by self-efficacy and goal-setting beliefs.</p>
+                    </div>
+
+                    <!-- Flow Diagram -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 relative">
+                        <!-- Connecting Arrows (MD Screen) -->
+                        <div class="hidden md:block absolute top-1/2 left-0 right-0 -translate-y-1/2 pointer-events-none">
+                            <svg class="w-full h-12 stroke-blue-500/30 fill-none" preserveAspectRatio="none" viewBox="0 0 400 40">
+                                <path d="M 120 20 L 280 20" stroke-width="2" stroke-dasharray="4 4"/>
+                                <path d="M 380 30 Q 200 60 20 30" stroke-width="2" stroke-dasharray="4 4" marker-end="url(#arrow)"/>
+                            </svg>
+                        </div>
+
+                        <!-- Card 1: Forethought -->
+                        <div class="bg-slate-950 border border-blue-500/30 rounded-xl p-5 hover:border-blue-500 transition-all group">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="w-7 h-7 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-sm">1</span>
+                                <span class="text-[11px] font-semibold text-blue-400 uppercase tracking-wide">Pre-Task</span>
+                            </div>
+                            <h4 class="font-semibold text-slate-200 text-sm mb-2 group-hover:text-blue-400 transition-colors">Forethought & Planning</h4>
+                            <ul class="text-xs text-slate-400 space-y-1.5 list-disc list-inside">
+                               "><span class="text-slate-300">Goal Setting:</span> Defining specific outcomes</li>
+                               "><span>Strategic Planning:</span> Method selection</li>
+                               "><span>Motivational Beliefs:</span> Self-efficacy, intrinsic value</li>
+                            </ul>
+                        </div>
+
+                        <!-- Card 2: Performance -->
+                        <div class="bg-slate-950 border border-blue-500/30 rounded-xl p-5 hover:border-blue-500 transition-all group">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="w-7 h-7 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-sm">2</span>
+                                <span class="text-[11px] font-semibold text-blue-400 uppercase tracking-wide">Execution</span>
+                            </div>
+                            <h4 class="font-semibold text-slate-200 text-sm mb-2 group-hover:text-blue-400 transition-colors">Performance & Monitoring</h4>
+                            <ul class="text-xs text-slate-400 space-y-1.5 list-disc list-inside">
+                               "><span>Self-Control:</span> Imagery, time management</li>
+                               "><span>Self-Observation:</span> Metacognitive tracking</li>
+                               "><span>Emotion Regulation:</span> Minimizing procrastination</li>
+                            </ul>
+                        </div>
+
+                        <!-- Card 3: Reflection -->
+                        <div class="bg-slate-950 border border-blue-500/30 rounded-xl p-5 hover:border-blue-500 transition-all group">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="w-7 h-7 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-sm">3</span>
+                                <span class="text-[11px] font-semibold text-blue-400 uppercase tracking-wide">Post-Task</span>
+                            </div>
+                            <h4 class="font-semibold text-slate-200 text-sm mb-2 group-hover:text-blue-400 transition-colors">Self-Reflection</h4>
+                            <ul class="text-xs text-slate-400 space-y-1.5 list-disc list-inside">
+                               "><span>Self-Judgment:</span> Evaluation vs. standards</li>
+                               "><span>Causal Attributions:</span> Attributing success/failure</li>
+                               "><span>Adaptive Reactions:</span> Refining future strategies</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pintrich Diagram Container -->
+                <div id="diagram-pintrich" class="diagram-panel hidden space-y-6">
+                    <div class="text-center max-w-xl mx-auto mb-4">
+                        <span class="inline-block px-2.5 py-1 text-[10px] font-bold tracking-wider uppercase rounded-full bg-pink-500/20 text-pink-400 border border-pink-500/30">Taxonomic & Conceptual Matrix</span>
+                        <h3 class="text-xl font-bold text-slate-100 mt-2">Pintrich's 4 Areas × 4 Phases Framework</h3>
+                        <p class="text-xs text-slate-400">Classifies self-regulation across multidimensional areas of cognition, motivation, behavior, and context.</p>
+                    </div>
+
+                    <div class="overflow-x-auto custom-scrollbar">
+                        <table class="w-full text-xs text-left border-collapse min-w-[600px]">
+                            <thead>
+                                <tr class="border-b border-slate-800 text-slate-400">
+                                    <th class="p-3 bg-slate-950/60 font-semibold">Phases \ Areas</th>
+                                    <th class="p-3 bg-pink-950/20 text-pink-300 font-semibold">Cognition</th>
+                                    <th class="p-3 bg-pink-950/20 text-pink-300 font-semibold">Motivation / Affect</th>
+                                    <th class="p-3 bg-pink-950/20 text-pink-300 font-semibold">Behavior</th>
+                                    <th class="p-3 bg-pink-950/20 text-pink-300 font-semibold">Context</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800/60 text-slate-300">
+                                <tr class="hover:bg-slate-800/30">
+                                    <td class="p-3 font-semibold text-slate-200 bg-slate-950/40">1. Forethought / Planning</td>
+                                    <td class="p-3">Target goal setting, prior knowledge activation</td>
+                                    <td class="p-3">Efficacy beliefs, task value adoption, goal orientation</td>
+                                    <td class="p-3">Time & effort planning, scheduling</td>
+                                    <td class="p-3">Perceptions of task & classroom context</td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/30">
+                                    <td class="p-3 font-semibold text-slate-200 bg-slate-950/40">2. Monitoring</td>
+                                    <td class="p-3">Metacognitive awareness & feeling of knowing</td>
+                                    <td class="p-3">Monitoring motivation, anxiety, efficacy</td>
+                                    <td class="p-3">Awareness of time, effort, & need for help</td>
+                                    <td class="p-3">Monitoring task & contextual conditions</td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/30">
+                                    <td class="p-3 font-semibold text-slate-200 bg-slate-950/40">3. Control</td>
+                                    <td class="p-3">Selection of cognitive & learning strategies</td>
+                                    <td class="p-3">Selection of motivational strategies (self-talk)</td>
+                                    <td class="p-3">Increases effort, help-seeking behavior</td>
+                                    <td class="p-3">Changing environment, structuring context</td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/30">
+                                    <td class="p-3 font-semibold text-slate-200 bg-slate-950/40">4. Reaction / Reflection</td>
+                                    <td class="p-3">Cognitive evaluations, attributions</td>
+                                    <td class="p-3">Affective reactions, pride, shame</td>
+                                    <td class="p-3">Choice behavior, persistence, withdrawal</td>
+                                    <td class="p-3">Evaluation of task environment</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Winne & Hadwin Diagram Container -->
+                <div id="diagram-winne" class="diagram-panel hidden space-y-6">
+                    <div class="text-center max-w-xl mx-auto mb-4">
+                        <span class="inline-block px-2.5 py-1 text-[10px] font-bold tracking-wider uppercase rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Information Processing Theory (IPT)</span>
+                        <h3 class="text-xl font-bold text-slate-100 mt-2">Winne & Hadwin's COPES & 4-Stage Iterative Model</h3>
+                        <p class="text-xs text-slate-400">Views learners as active information processors using COPES architecture (Conditions, Operations, Products, Evaluations, Standards).</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                        <div class="bg-slate-950 border border-emerald-500/30 rounded-xl p-4">
+                            <div class="text-emerald-400 font-bold text-xs uppercase mb-1">Stage 1</div>
+                            <h4 class="font-semibold text-slate-200 text-sm mb-2">Task Definition</h4>
+                            <p class="text-xs text-slate-400">Learner builds an internal perception of task conditions (domain, resources, time limits).</p>
+                        </div>
+                        <div class="bg-slate-950 border border-emerald-500/30 rounded-xl p-4">
+                            <div class="text-emerald-400 font-bold text-xs uppercase mb-1">Stage 2</div>
+                            <h4 class="font-semibold text-slate-200 text-sm mb-2">Goals & Plans</h4>
+                            <p class="text-xs text-slate-400">Setting specific learning targets and selecting cognitive operations (e.g., distributed practice).</p>
+                        </div>
+                        <div class="bg-slate-950 border border-emerald-500/30 rounded-xl p-4">
+                            <div class="text-emerald-400 font-bold text-xs uppercase mb-1">Stage 3</div>
+                            <h4 class="font-semibold text-slate-200 text-sm mb-2">Enactment</h4>
+                            <p class="text-xs text-slate-400">Executing cognitive tactics (pre-reading, note-taking, self-testing, quizzing).</p>
+                        </div>
+                        <div class="bg-slate-950 border border-emerald-500/30 rounded-xl p-4">
+                            <div class="text-emerald-400 font-bold text-xs uppercase mb-1">Stage 4</div>
+                            <h4 class="font-semibold text-slate-200 text-sm mb-2">Metacognitive Adaptation</h4>
+                            <p class="text-xs text-slate-400">Evaluating products against standards; making macro-level adaptations across future cycles.</p>
+                        </div>
+                    </div>
+
+                    <!-- COPES Mechanism Explanation -->
+                    <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-4 flex flex-col md:flex-row items-center justify-between gap-4">
+                        <div class="text-xs space-y-1">
+                            <span class="font-bold text-emerald-400">COPES Architecture Core:</span>
+                            <p class="text-slate-400">Every stage processes <strong class="text-slate-200">Conditions</strong> via cognitive <strong class="text-slate-200">Operations</strong> (SMART tactics) to generate cognitive <strong class="text-slate-200">Products</strong>, which undergo <strong class="text-slate-200">Evaluations</strong> against internal <strong class="text-slate-200">Standards</strong>.</p>
+                        </div>
+                        <div class="shrink-0 bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs px-3 py-2 rounded-lg">
+                            Primary Assessment: LMS Trace Logs
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Synthesis Spectrum Container -->
+                <div id="diagram-synthesis" class="diagram-panel hidden space-y-6">
+                    <div class="text-center max-w-xl mx-auto mb-4">
+                        <span class="inline-block px-2.5 py-1 text-[10px] font-bold tracking-wider uppercase rounded-full bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">Measurement & Intervention Spectrum</span>
+                        <h3 class="text-xl font-bold text-slate-100 mt-2">Methodological & Assessment Alignment</h3>
+                        <p class="text-xs text-slate-400">Comparing assessment paradigms from subjective self-report to unobtrusive digital clickstream analytics.</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <!-- Spectrum Bar -->
+                        <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-3">
+                            <div class="flex justify-between text-xs text-slate-400 font-medium">
+                                <span>Subjective / Aptitude Scales</span>
+                                <span>Scaffolded Reflection</span>
+                                <span>Unobtrusive Digital Traces</span>
+                            </div>
+                            <div class="h-3 w-full bg-gradient-to-r from-blue-500 via-pink-500 to-emerald-500 rounded-full"></div>
+                        </div>
+
+                        <!-- 3 Model Anchors -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                            <div class="p-4 bg-slate-950/60 rounded-xl border border-blue-500/30">
+                                <h4 class="font-bold text-blue-400 mb-1">Zimmerman</h4>
+                                <p class="text-slate-300 font-medium mb-1">ePSRL Systems & Triangulation</p>
+                                <p class="text-slate-400">Combines SRL-SRS self-reports with scaffolded reflective posts and HMM pattern mining from clickstreams.</p>
+                            </div>
+                            <div class="p-4 bg-slate-950/60 rounded-xl border border-pink-500/30">
+                                <h4 class="font-bold text-pink-400 mb-1">Pintrich</h4>
+                                <p class="text-slate-300 font-medium mb-1">MSLQ Psychometrics</p>
+                                <p class="text-slate-400">Relies heavily on self-report questionnaires measuring motivational beliefs and cognitive/metacognitive strategy scales.</p>
+                            </div>
+                            <div class="p-4 bg-slate-950/60 rounded-xl border border-emerald-500/30">
+                                <h4 class="font-bold text-emerald-400 mb-1">Winne & Hadwin</h4>
+                                <p class="text-slate-300 font-medium mb-1">LMS Trace Analytics</p>
+                                <p class="text-slate-400">Rejects self-report bias. Captures real-time log data (timestamps, quiz attempts, feature engineering) as direct cognitive proxies.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- VIEW 2: COMPARATIVE TABLE SECTION -->
+        <section id="view-comparison" class="hidden space-y-6">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-900 border border-slate-800 p-4 rounded-2xl">
+                <div>
+                    <h2 class="text-base font-semibold text-slate-100">Framework Matrix Comparison</h2>
+                    <p class="text-xs text-slate-400">Comprehensive breakdown across core mechanics, metrics, instruments, and outcomes.</p>
+                </div>
+                <!-- Filter Search -->
+                <input type="text" id="matrix-search" onkeyup="filterMatrix()" placeholder="Filter dimensions..." class="px-3 py-1.5 bg-slate-950 border border-slate-800 rounded-lg text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500 w-full sm:w-64">
+            </div>
+
+            <!-- Detailed Matrix Table -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+                <div class="overflow-x-auto custom-scrollbar">
+                    <table class="w-full text-xs text-left border-collapse min-w-[800px]" id="comparison-table">
+                        <thead>
+                            <tr class="bg-slate-950 border-b border-slate-800 text-slate-300">
+                                <th class="p-4 w-1/5 font-semibold">Metric / Dimension</th>
+                                <th class="p-4 w-1/4 bg-blue-950/20 text-blue-300 font-semibold border-l border-slate-800/80">
+                                    Barry Zimmerman (2000)
+                                </th>
+                                <th class="p-4 w-1/4 bg-pink-950/20 text-pink-300 font-semibold border-l border-slate-800/80">
+                                    Paul Pintrich (2000)
+                                </th>
+                                <th class="p-4 w-1/4 bg-emerald-950/20 text-emerald-300 font-semibold border-l border-slate-800/80">
+                                    Winne & Hadwin (1998)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/60 text-slate-300">
+                            <!-- Row 1 -->
+                            <tr class="matrix-row hover:bg-slate-800/30">
+                                <td class="p-4 font-semibold text-slate-200 bg-slate-950/40">
+                                    Core Model & Phases
+                                </td>
+                                <td class="p-4 border-l border-slate-800/60">
+                                    <span class="font-bold text-blue-400">Cyclical 3-Phase Model:</span>
+                                    <ul class="mt-1 space-y-1 text-slate-400 list-disc list-inside">
+                                        ">Forethought & Planning</li>
+                                        ">Performance & Monitoring</li>
+                                        ">Self-Reflection</li>
+                                    </ul>
+                                </td>
+                                <td class="p-4 border-l border-slate-800/60">
+                                    <span class="font-bold text-pink-400">4 Areas × 4 Phases Matrix:</span>
+                                    <ul class="mt-1 space-y-1 text-slate-400 list-disc list-inside">
+                                        ">Phases: Planning, Monitoring, Control, Reaction</li>
+                                        ">Areas: Cognition, Motivation/Affect, Behavior, Context</li>
+                                    </ul>
+                                </td>
+                                <td class="p-4 border-l border-slate-800/60">
+                                    <span class="font-bold text-emerald-400">Iterative COPES Architecture:</span>
+                                    <ul class="mt-1 space-y-1 text-slate-400 list-disc list-inside">
+                                        ">Task Definition</li>
+                                        ">Goals & Planning</li>
+                                        ">Enactment</li>
+                                        ">Metacognitive Adaptation</li>
+                                    </ul>
+                                </td>
+                            </tr>
+
+                            <!-- Row 2 -->
+                            <tr class="matrix-row hover:bg-slate-800/30">
+                                <td class="p-4 font-semibold text-slate-200 bg-slate-950/40">
+                                    Key Theoretical Focus
+                                </td>
+                                <td class="p-4 border-l border-slate-800/60">
+                                    Socio-cognitive mastery & agentic feedback loops. Strong emphasis on <strong class="text-slate-200">self-efficacy</strong> and self-motivation beliefs.
+                                </td>
+                                <td class="p-4 border-l border-slate-800/60">
+                                    Interplay between <strong class="text-slate-200">motivational beliefs</strong> and cognitive engagement. Categorizes domains of self-regulation explicitly.
+                                </td>
+                                <td class="p-4 border-l border-slate-800/60">
+                                    Information Processing Theory (IPT). Emphasizes <strong class="text-slate-200">cognitive strategies</strong> (distributed practice, self-testing) and metacognitive monitoring.
+                                </td>
+                            </tr>
+
+                            <!-- Row 3 -->
+                            <tr class="matrix-row hover:bg-slate-800/30">
+                                <td class="p-4 font-semibold text-slate-200 bg-slate-950/40">
+                                    Primary Measurement Tools
+                                </td>
+                                <td class="p-4 border-l border-slate-800/60">
+                                    <ul class="space-y-1 text-slate-400 list-disc list-inside">
+                                        ">SRL Self-Report Scale (SRL-SRS)</li>
+                                        ">ePSRL Management System</li>
+                                        ">Scaffolded reflective posts</li>
+                                        ">Hidden Markov Models (HMM) on clickstream</li>
+                                    </ul>
+                                </td>
+                                <td class="p-4 border-l border-slate-800/60">
+                                    <ul class="space-y-1 text-slate-400 list-disc list-inside">
+                                        "><strong class="text-slate-200">MSLQ</strong> (Motivated Strategies for Learning Questionnaire)</li>
+                                        ">Subscales for elaboration, critical thinking, time management</li>
+                                    </ul>
+                                </td>
+                                <td class="p-4 border-l border-slate-800/60">
+                                    <ul class="space-y-1 text-slate-400 list-disc list-inside">
+                                        "><strong class="text-slate-200">LMS Trace Data</strong> (unobtrusive log data)</li>
+                                        ">Time spent, access frequency, quiz attempts</li>
+                                        ">Feature engineering for strategy identification</li>
+                                    </ul>
+                                </td>
+                            </tr>
+
+                            <!-- Row 4 -->
+                            <tr class="matrix-row hover:bg-slate-800/30">
+                                <td class="p-4 font-semibold text-slate-200 bg-slate-950/40">
+                                    Measurement Critique / Limit
+                                </td>
+                                <td class="p-4 border-l border-slate-800/60 text-slate-400">
+                                    Requires scaffolded systems to collect qualitative reflection; benefits from trace data triangulation.
+                                </td>
+                                <td class="p-4 border-l border-slate-800/60 text-slate-400">
+                                    MSLQ was developed for traditional face-to-face learning; may lack validation for dynamic digital traces.
+                                </td>
+                                <td class="p-4 border-l border-slate-800/60 text-slate-400">
+                                    Critiques self-reports as prone to recall bias. Requires sophisticated data mining to map clickstream to cognitive intent.
+                                </td>
+                            </tr>
+
+                            <!-- Row 5 -->
+                            <tr class="matrix-row hover:bg-slate-800/30">
+                                <td class="p-4 font-semibold text-slate-200 bg-slate-950/40">
+                                    Key Educational Outcomes
+                                </td>
+                                <td class="p-4 border-l border-slate-800/60">
+                                    Higher course completion rates, reduced procrastination, increased study time, improved metacognitive reflection via AI scaffolding.
+                                </td>
+                                <td class="p-4 border-l border-slate-800/60">
+                                    Effective in distinguishing high vs. low academic scorers; strong predictor of distance learning success.
+                                </td>
+                                <td class="p-4 border-l border-slate-800/60">
+                                    Improved exam performance through cognitive skill training, precise detection of individual learner adjustment pathways.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW 3: DEEP-DIVE ANALYSIS SECTION -->
+        <section id="view-analysis" class="hidden space-y-6">
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4">
+                <h2 class="text-lg font-bold text-slate-100">Theoretical Synthesis & Analytical Deep-Dive</h2>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    Self-Regulated Learning (SRL) is not a single unified theory, but an umbrella concept defined through different theoretical lenses. Understanding the distinctions between Zimmerman, Pintrich, and Winne & Hadwin enables researchers and instructional designers to select appropriate assessment methodologies and AI-driven interventions.
+                </p>
+            </div>
+
+            <!-- Grid Analysis Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- Card 1 -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3">
+                    <div class="w-8 h-8 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-sm">
+                        1
+                    </div>
+                    <h3 class="font-bold text-slate-200 text-sm">The Motivational Engine</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        <strong class="text-blue-400">Zimmerman</strong> places self-efficacy at the center of the cyclical feedback loop—learners will not initiate forethought without believing they can succeed. <strong class="text-pink-400">Pintrich</strong> categorizes motivational beliefs across all phases, proving that motivation predicts performance in online environments more than raw cognitive strategy alone. Conversely, <strong class="text-emerald-400">Winne & Hadwin</strong> treat motivation as an implicit condition within the COPES system, prioritizing cognitive tactics over affective state.
+                    </p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3">
+                    <div class="w-8 h-8 rounded-lg bg-pink-500/20 text-pink-400 flex items-center justify-center font-bold text-sm">
+                        2
+                    </div>
+                    <h3 class="font-bold text-slate-200 text-sm">The Measurement Shift</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        A major divide exists between <strong class="text-pink-400">Pintrich's MSLQ</strong> self-report paradigm (measuring SRL as a static aptitude) and <strong class="text-emerald-400">Winne & Hadwin's trace data perspective</strong> (measuring SRL as a dynamic, temporal process). Winne & Hadwin argue that self-reports capture what students *think* they do, while LMS log files capture what students *actually* do (e.g., distributed practice, quiz timing).
+                    </p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-sm">
+                        3
+                    </div>
+                    <h3 class="font-bold text-slate-200 text-sm">AI & Learning Analytics Integration</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Modern educational tech synthesizes all three models: <strong class="text-blue-400">Zimmerman's</strong> phases are operationalized via AI prompts during planning and reflection; <strong class="text-pink-400">Pintrich's</strong> subscales guide diagnostic surveys; and <strong class="text-emerald-400">Winne & Hadwin's</strong> model forms the algorithmic foundation for clickstream analytics (HMM and feature engineering) to deliver adaptive interventions.
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- Modern Digital Application Summary -->
+            <div class="bg-slate-900/60 border border-indigo-500/30 rounded-2xl p-6 space-y-3">
+                <h3 class="font-bold text-indigo-300 text-sm flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                    Practical Application for EdTech Developers & Educators
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-slate-400">
+                    <div>
+                        <strong class="text-slate-200 block mb-1">Intervention Scaffolding:</strong>
+                        Use Zimmerman's model to structure learning portals with explicit "Plan → Execute → Reflect" prompts.
+                    </div>
+                    <div>
+                        <strong class="text-slate-200 block mb-1">Diagnostic Profiling:</strong>
+                        Deploy Pintrich's MSLQ at course onset to identify low-efficacy learners needing motivational nudges.
+                    </div>
+                    <div>
+                        <strong class="text-slate-200 block mb-1">Real-time Analytics:</strong>
+                        Implement Winne & Hadwin's trace metrics to automatically flag students struggling with cognitive strategy enactment.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Tab switching logic
+        function switchMainTab(tabKey) {
+            // Views
+            document.getElementById('view-diagrams').classList.add('hidden');
+            document.getElementById('view-comparison').classList.add('hidden');
+            document.getElementById('view-analysis').classList.add('hidden');
+
+            // Buttons
+            const btnDiagrams = document.getElementById('tab-btn-diagrams');
+            const btnComparison = document.getElementById('tab-btn-comparison');
+            const btnAnalysis = document.getElementById('tab-btn-analysis');
+
+            const inactiveClasses = ['text-slate-400', 'hover:text-slate-200'];
+            const activeClasses = ['bg-indigo-600', 'text-white', 'shadow-sm'];
+
+            [btnDiagrams, btnComparison, btnAnalysis].forEach(btn => {
+                btn.classList.remove(...activeClasses);
+                btn.classList.add('text-slate-400');
+            });
+
+            if (tabKey === 'diagrams') {
+                document.getElementById('view-diagrams').classList.remove('hidden');
+                btnDiagrams.classList.add(...activeClasses);
+                btnDiagrams.classList.remove('text-slate-400');
+            } else if (tabKey === 'comparison') {
+                document.getElementById('view-comparison').classList.remove('hidden');
+                btnComparison.classList.add(...activeClasses);
+                btnComparison.classList.remove('text-slate-400');
+            } else if (tabKey === 'analysis') {
+                document.getElementById('view-analysis').classList.remove('hidden');
+                btnAnalysis.classList.add(...activeClasses);
+                btnAnalysis.classList.remove('text-slate-400');
+            }
+        }
+
+        // Diagram selector logic
+        function selectDiagramModel(modelKey) {
+            // Hide all panels
+            const panels = document.querySelectorAll('.diagram-panel');
+            panels.forEach(panel => panel.classList.add('hidden'));
+
+            // Button active styles
+            const btnZimmerman = document.getElementById('btn-model-zimmerman');
+            const btnPintrich = document.getElementById('btn-model-pintrich');
+            const btnWinne = document.getElementById('btn-model-winne');
+            const btnSynthesis = document.getElementById('btn-model-synthesis');
+
+            const allBtns = [btnZimmerman, btnPintrich, btnWinne, btnSynthesis];
+            allBtns.forEach(btn => {
+                btn.className = "px-3 py-1.5 rounded-lg text-xs font-medium border transition-all bg-slate-800 border-slate-700 text-slate-400 hover:border-slate-600";
+            });
+
+            if (modelKey === 'zimmerman') {
+                document.getElementById('diagram-zimmerman').classList.remove('hidden');
+                btnZimmerman.className = "px-3 py-1.5 rounded-lg text-xs font-medium border transition-all bg-blue-500/10 border-blue-500 text-blue-400";
+            } else if (modelKey === 'pintrich') {
+                document.getElementById('diagram-pintrich').classList.remove('hidden');
+                btnPintrich.className = "px-3 py-1.5 rounded-lg text-xs font-medium border transition-all bg-pink-500/10 border-pink-500 text-pink-400";
+            } else if (modelKey === 'winne') {
+                document.getElementById('diagram-winne').classList.remove('hidden');
+                btnWinne.className = "px-3 py-1.5 rounded-lg text-xs font-medium border transition-all bg-emerald-500/10 border-emerald-500 text-emerald-400";
+            } else if (modelKey === 'synthesis') {
+                document.getElementById('diagram-synthesis').classList.remove('hidden');
+                btnSynthesis.className = "px-3 py-1.5 rounded-lg text-xs font-medium border transition-all bg-indigo-500/10 border-indigo-500 text-indigo-400";
+            }
+        }
+
+        // Filter comparison matrix rows
+        function filterMatrix() {
+            const query = document.getElementById('matrix-search').value.toLowerCase();
+            const rows = document.querySelectorAll('.matrix-row');
+
+            rows.forEach(row => {
+                const text = row.innerText.toLowerCase();
+                if (text.includes(query)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
