@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Next-Gen LMS Architecture Framework | Interactive Explorer</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Font Awesome CDN (for Canvas/CSS fallback icons without inline SVGs) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            700: '#0f766e',
+                            800: '#115e59',
+                            900: '#134e4a',
+                        },
+                        indigoBrand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#1e1b4b',
+                        },
+                        slateDark: '#0f172a'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 360px;
+            }
+        }
+        .tab-active {
+            border-bottom: 3px solid #0d9488;
+            color: #0d9488;
+            font-weight: 600;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-teal-100 selection:text-teal-900">
+
+    <!-- Chosen Palette: Warm Indigo & Modern Teal Neutral (Slate-50 Base, Slate-900 Dark accents, Teal-600 & Indigo-600 Primary Action Colors) -->
+    <!-- Application Structure Plan: The application is designed as an interactive 6-module dashboard. Instead of a linear text document, it structures the framework into: 1. Theoretical Paradigm & ITS Topology Explorer (interactive tabs & comparison matrix), 2. Cognitive Load & Adaptive UX Simulator (live Chart.js chart + real-time UI reaction simulator), 3. Behavioral Engineering Engine (Fogg Behavior & Hook Loop interactive workflows), 4. Metacognitive Learning Analytics Dashboard (dynamic line/radar chart with switchable reference frames: Normative, Criterion, Ipsative), 5. Implementation Lifecycle & Governance Matrix (UDL 3.0 & Ethics checklists), and 6. Interactive LMS Strategy Assessment Tool. This allows software architects, educators, and product managers to interactively synthesize cognitive, behavioral, and analytical requirements. -->
+    <!-- Visualization & Content Choices:
+         - Theory Matrix: Interactive HTML/CSS Tabbed cards for Pedagogy, Behaviorism, Cognitivism, Constructivism -> Goal: Inform/Compare.
+         - ITS Architecture: Interactive Canvas/CSS Flow Blocks -> Goal: Organize ITS data structures.
+         - Cognitive Load Simulator: Dynamic Chart.js Stacked Bar Chart (ICL, ECL, GCL) connected to a live simulated LMS UI switchable between "Overloaded State" and "Adaptive Optimized State" -> Goal: Demonstrate CLT in action without SVG.
+         - Fogg Behavior Model Prompt Selector & Hook Loop Step Selector -> Goal: Behavioral workflow learning.
+         - Metacognitive Dashboard Analytics: Dynamic Chart.js Line Chart with live toggle buttons switching reference baselines (Normative vs Criterion vs Ipsative) -> Goal: Visualize process-oriented metacognitive feedback loops.
+         - Implementation Lifecycle Timeline: HTML/CSS Grid with interactive phase details -> Goal: Guide deployment.
+         - Interactive LMS Blueprint Builder: Form inputs driving dynamic summary scoring & actionable checklist -> Goal: Practical application of research framework.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <!-- Top Navigation -->
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-lg bg-teal-600 text-white flex items-center justify-center font-bold text-xl shadow">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <div>
+                        <span class="text-lg font-bold text-slate-900 block leading-tight">LMS Architectural Framework</span>
+                        <span class="text-xs text-slate-500 hidden sm:block">Cognitive, Behavioral & Metacognitive Engineering</span>
+                    </div>
+                </div>
+                <nav class="hidden md:flex space-x-1 lg:space-x-4 text-sm font-medium text-slate-600">
+                    <a href="#pedagogy" class="px-3 py-2 rounded-md hover:text-teal-600 hover:bg-slate-100 transition">1. Pedagogy & ITS</a>
+                    <a href="#cognitive" class="px-3 py-2 rounded-md hover:text-teal-600 hover:bg-slate-100 transition">2. Cognitive UX</a>
+                    <a href="#behavioral" class="px-3 py-2 rounded-md hover:text-teal-600 hover:bg-slate-100 transition">3. Behavioral Loop</a>
+                    <a href="#metacognitive" class="px-3 py-2 rounded-md hover:text-teal-600 hover:bg-slate-100 transition">4. Analytics Dashboard</a>
+                    <a href="#governance" class="px-3 py-2 rounded-md hover:text-teal-600 hover:bg-slate-100 transition">5. Lifecycle & UDL</a>
+                    <a href="#sandbox" class="px-3 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 transition shadow-sm">6. Blueprint Evaluator</a>
+                </nav>
+                <div class="md:hidden flex items-center">
+                    <button id="mobileMenuBtn" class="text-slate-600 hover:text-slate-900 focus:outline-none p-2">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Navigation Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-4 space-y-1">
+            <a href="#pedagogy" class="block px-3 py-2 rounded-md text-slate-700 hover:bg-slate-100">1. Pedagogy & ITS Topology</a>
+            <a href="#cognitive" class="block px-3 py-2 rounded-md text-slate-700 hover:bg-slate-100">2. Cognitive Load & UX</a>
+            <a href="#behavioral" class="block px-3 py-2 rounded-md text-slate-700 hover:bg-slate-100">3. Behavioral Engineering</a>
+            <a href="#metacognitive" class="block px-3 py-2 rounded-md text-slate-700 hover:bg-slate-100">4. Metacognitive Dashboards</a>
+            <a href="#governance" class="block px-3 py-2 rounded-md text-slate-700 hover:bg-slate-100">5. Implementation & Governance</a>
+            <a href="#sandbox" class="block px-3 py-2 rounded-md bg-teal-600 text-white">6. Blueprint Evaluator</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-b from-slate-900 via-slate-800 to-indigoBrand-900 text-white py-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="max-w-3xl">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-teal-500/20 text-teal-300 border border-teal-500/30 mb-4">
+                    <i class="fa-solid fa-microchip mr-2"></i> Scientific System Architecture
+                </span>
+                <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
+                    Theoretical & System Architecture Framework for Next-Gen LMS
+                </h1>
+                <p class="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed">
+                    Transitioning traditional administrative LMS platforms into high-performance, student-centric learning engines by synthesizing behavioral psychology, cognitive neuroscience, and process-oriented metacognitive analytics.
+                </p>
+                <div class="mt-8 flex flex-wrap gap-4">
+                    <a href="#sandbox" class="px-6 py-3 bg-teal-500 text-slate-950 font-semibold rounded-lg shadow-lg hover:bg-teal-400 transition flex items-center">
+                        <i class="fa-solid fa-sliders mr-2"></i> Launch Architecture Evaluator
+                    </a>
+                    <a href="#pedagogy" class="px-6 py-3 bg-slate-800 text-slate-200 border border-slate-700 font-semibold rounded-lg hover:bg-slate-700 transition flex items-center">
+                        <i class="fa-solid fa-book-open mr-2"></i> Explore 4 Domain Pillars
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN CONTAINER -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-20">
+
+        <!-- SECTION 1: Hybrid Pedagogical Architecture & ITS -->
+        <section id="pedagogy" class="scroll-mt-20">
+            <div class="border-b border-slate-200 pb-5 mb-8">
+                <div class="flex items-center space-x-3 mb-2">
+                    <span class="w-8 h-8 rounded-full bg-teal-100 text-teal-700 font-bold flex items-center justify-center text-sm">01</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">Architectural Foundations & Theoretical Hybridization</h2>
+                </div>
+                <p class="text-slate-600 max-w-4xl text-sm sm:text-base">
+                    This section outlines the foundational shift from single-theory models to a hybridized educational framework. Explore how four key learning theories integrate into a four-tier Intelligent Tutoring System (ITS) topology to drive schemas, skill fluency, and collaborative reasoning.
+                </p>
+            </div>
+
+            <!-- Learning Theory Interactive Tabs -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-10">
+                <div class="bg-slate-100 border-b border-slate-200 px-4 pt-3 flex flex-wrap gap-2 text-sm font-medium" id="theoryTabs">
+                    <button onclick="switchTheoryTab('pedagogy-tab')" id="tab-pedagogy-tab" class="px-4 py-2.5 rounded-t-lg bg-white text-teal-700 font-semibold border-t border-x border-slate-200">
+                        <i class="fa-solid fa-graduation-cap mr-1.5"></i> Traditional Pedagogy
+                    </button>
+                    <button onclick="switchTheoryTab('behaviorism-tab')" id="tab-behaviorism-tab" class="px-4 py-2.5 rounded-t-lg text-slate-600 hover:text-slate-900">
+                        <i class="fa-solid fa-bolt mr-1.5"></i> Behaviorism
+                    </button>
+                    <button onclick="switchTheoryTab('cognitivism-tab')" id="tab-cognitivism-tab" class="px-4 py-2.5 rounded-t-lg text-slate-600 hover:text-slate-900">
+                        <i class="fa-solid fa-brain mr-1.5"></i> Cognitivism
+                    </button>
+                    <button onclick="switchTheoryTab('constructivism-tab')" id="tab-constructivism-tab" class="px-4 py-2.5 rounded-t-lg text-slate-600 hover:text-slate-900">
+                        <i class="fa-solid fa-users mr-1.5"></i> Social Constructivism
+                    </button>
+                </div>
+                <div class="p-6">
+                    <!-- Tab 1: Pedagogy -->
+                    <div id="theory-pedagogy-tab" class="theory-content">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                                <span class="text-xs uppercase font-bold text-slate-500 tracking-wider">Primary Pedagogical Focus</span>
+                                <h4 class="text-lg font-bold text-slate-800 mt-1">Direct Instruction & Hierarchy</h4>
+                                <p class="text-slate-600 text-sm mt-2">Establishes structured instructional hierarchies, baseline assessments, and systematic domain knowledge distribution.</p>
+                            </div>
+                            <div class="bg-teal-50 p-4 rounded-lg border border-teal-200">
+                                <span class="text-xs uppercase font-bold text-teal-700 tracking-wider">LMS Functional Mechanism</span>
+                                <h4 class="text-lg font-bold text-teal-900 mt-1">Syllabus & Gating Engines</h4>
+                                <p class="text-slate-700 text-sm mt-2">Module gating, course outline management, instructor announcements, and compliance auditing.</p>
+                            </div>
+                            <div class="bg-indigoBrand-50 p-4 rounded-lg border border-indigoBrand-200">
+                                <span class="text-xs uppercase font-bold text-indigoBrand-700 tracking-wider">Learning Outcome Target</span>
+                                <h4 class="text-lg font-bold text-indigoBrand-900 mt-1">Domain Baseline Mastery</h4>
+                                <p class="text-slate-700 text-sm mt-2">Achieves systematic coverage of baseline content and regulatory compliance requirements.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 2: Behaviorism -->
+                    <div id="theory-behaviorism-tab" class="theory-content hidden">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                                <span class="text-xs uppercase font-bold text-slate-500 tracking-wider">Primary Pedagogical Focus</span>
+                                <h4 class="text-lg font-bold text-slate-800 mt-1">Stimulus-Response Loops</h4>
+                                <p class="text-slate-600 text-sm mt-2">Immediate feedback, repetitive practice, and automated reinforcement conditioning.</p>
+                            </div>
+                            <div class="bg-teal-50 p-4 rounded-lg border border-teal-200">
+                                <span class="text-xs uppercase font-bold text-teal-700 tracking-wider">LMS Functional Mechanism</span>
+                                <h4 class="text-lg font-bold text-teal-900 mt-1">Micro-Assessments & Badges</h4>
+                                <p class="text-slate-700 text-sm mt-2">Automated progress badges, low-friction micro-quizzes, and dynamic prompt triggers.</p>
+                            </div>
+                            <div class="bg-indigoBrand-50 p-4 rounded-lg border border-indigoBrand-200">
+                                <span class="text-xs uppercase font-bold text-indigoBrand-700 tracking-wider">Learning Outcome Target</span>
+                                <h4 class="text-lg font-bold text-indigoBrand-900 mt-1">Skill Fluency & Routine Entry</h4>
+                                <p class="text-slate-700 text-sm mt-2">Develops rapid task execution fluency and habituated daily platform logging.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 3: Cognitivism -->
+                    <div id="theory-cognitivism-tab" class="theory-content hidden">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                                <span class="text-xs uppercase font-bold text-slate-500 tracking-wider">Primary Pedagogical Focus</span>
+                                <h4 class="text-lg font-bold text-slate-800 mt-1">Information Processing</h4>
+                                <p class="text-slate-600 text-sm mt-2">Managing working memory constraints, mental model formation, and memory consolidation.</p>
+                            </div>
+                            <div class="bg-teal-50 p-4 rounded-lg border border-teal-200">
+                                <span class="text-xs uppercase font-bold text-teal-700 tracking-wider">LMS Functional Mechanism</span>
+                                <h4 class="text-lg font-bold text-teal-900 mt-1">Segmented Streams & Scaffolding</h4>
+                                <p class="text-slate-700 text-sm mt-2">Dual-channel visual/auditory media streams, faded worked examples, active retrieval practice.</p>
+                            </div>
+                            <div class="bg-indigoBrand-50 p-4 rounded-lg border border-indigoBrand-200">
+                                <span class="text-xs uppercase font-bold text-indigoBrand-700 tracking-wider">Learning Outcome Target</span>
+                                <h4 class="text-lg font-bold text-indigoBrand-900 mt-1">Deep Schema Transfer</h4>
+                                <p class="text-slate-700 text-sm mt-2">Facilitates long-term memory integration and high-level conceptual understanding.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 4: Social Constructivism -->
+                    <div id="theory-constructivism-tab" class="theory-content hidden">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                                <span class="text-xs uppercase font-bold text-slate-500 tracking-wider">Primary Pedagogical Focus</span>
+                                <h4 class="text-lg font-bold text-slate-800 mt-1">Collaborative Knowledge Creation</h4>
+                                <p class="text-slate-600 text-sm mt-2">Peer exchange, dialogic feedback, and distributed problem-solving in shared spaces.</p>
+                            </div>
+                            <div class="bg-teal-50 p-4 rounded-lg border border-teal-200">
+                                <span class="text-xs uppercase font-bold text-teal-700 tracking-wider">LMS Functional Mechanism</span>
+                                <h4 class="text-lg font-bold text-teal-900 mt-1">Dynamic Forums & Co-Authoring</h4>
+                                <p class="text-slate-700 text-sm mt-2">Co-authored wikis, structured peer-review pipelines, and interactive discussion streams.</p>
+                            </div>
+                            <div class="bg-indigoBrand-50 p-4 rounded-lg border border-indigoBrand-200">
+                                <span class="text-xs uppercase font-bold text-indigoBrand-700 tracking-wider">Learning Outcome Target</span>
+                                <h4 class="text-lg font-bold text-indigoBrand-900 mt-1">Higher-Order Synthesis</h4>
+                                <p class="text-slate-700 text-sm mt-2">Encourages critical inquiry, community presence, and multi-perspective analytical synthesis.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Intelligent Tutoring System (ITS) Topology Visual Map -->
+            <div class="bg-slate-900 text-white rounded-xl p-6 shadow-md border border-slate-800">
+                <div class="mb-6">
+                    <span class="text-xs font-bold text-teal-400 uppercase tracking-widest">System Architecture Framework</span>
+                    <h3 class="text-xl font-bold mt-1">Intelligent Tutoring System (ITS) Topology</h3>
+                    <p class="text-slate-400 text-sm mt-1">Four dynamic interconnected modules governing baseline knowledge, learner state, pedagogical logic, and visual layout rendering.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <!-- Module 1 -->
+                    <div class="bg-slate-800/80 rounded-lg p-4 border border-slate-700 hover:border-teal-500/50 transition">
+                        <div class="w-8 h-8 rounded bg-teal-500/20 text-teal-400 flex items-center justify-center mb-3 font-bold text-sm">1</div>
+                        <h4 class="font-bold text-teal-300">Domain Module</h4>
+                        <p class="text-xs text-slate-400 mt-2 leading-relaxed">Stores course curricula, semantic knowledge graphs, prerequisite matrices, and skill taxonomies organized by domain complexity.</p>
+                    </div>
+                    <!-- Module 2 -->
+                    <div class="bg-slate-800/80 rounded-lg p-4 border border-slate-700 hover:border-teal-500/50 transition">
+                        <div class="w-8 h-8 rounded bg-indigo-500/20 text-indigo-400 flex items-center justify-center mb-3 font-bold text-sm">2</div>
+                        <h4 class="font-bold text-indigo-300">Student Module</h4>
+                        <p class="text-xs text-slate-400 mt-2 leading-relaxed">Maintains real-time user profiles: historical accuracy, memory indicators, latencies, completion speed, and self-reported affect.</p>
+                    </div>
+                    <!-- Module 3 -->
+                    <div class="bg-slate-800/80 rounded-lg p-4 border border-slate-700 hover:border-teal-500/50 transition">
+                        <div class="w-8 h-8 rounded bg-amber-500/20 text-amber-400 flex items-center justify-center mb-3 font-bold text-sm">3</div>
+                        <h4 class="font-bold text-amber-300">Pedagogical Module</h4>
+                        <p class="text-xs text-slate-400 mt-2 leading-relaxed">Decision engine evaluating student profile vs domain graph to adjust difficulty, deploy scaffolding, and trigger retrieval tasks.</p>
+                    </div>
+                    <!-- Module 4 -->
+                    <div class="bg-slate-800/80 rounded-lg p-4 border border-slate-700 hover:border-teal-500/50 transition">
+                        <div class="w-8 h-8 rounded bg-emerald-500/20 text-emerald-400 flex items-center justify-center mb-3 font-bold text-sm">4</div>
+                        <h4 class="font-bold text-emerald-300">Adaptive Interface</h4>
+                        <p class="text-xs text-slate-400 mt-2 leading-relaxed">Presentation layer dynamically rendering customized UI layouts, media channels, and streamlined pathways to manage cognitive load.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: Cognitive Load Management & Adaptive UX Engineering -->
+        <section id="cognitive" class="scroll-mt-20">
+            <div class="border-b border-slate-200 pb-5 mb-8">
+                <div class="flex items-center space-x-3 mb-2">
+                    <span class="w-8 h-8 rounded-full bg-teal-100 text-teal-700 font-bold flex items-center justify-center text-sm">02</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">Cognitive Load Management & Adaptive UX Engine</h2>
+                </div>
+                <p class="text-slate-600 max-w-4xl text-sm sm:text-base">
+                    Human working memory is strictly finite. Effective LMS interfaces eliminate Extraneous Cognitive Load (ECL), manage Intrinsic Cognitive Load (ICL) through scaffolding, and maximize Germane Cognitive Load (GCL) for schema formation.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <!-- Interactive Simulator Controls & Chart -->
+                <div class="lg:col-span-6 bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-bold text-slate-800">Cognitive Load Capacity Allocator</h3>
+                        <span class="text-xs font-semibold px-2.5 py-1 bg-slate-100 text-slate-600 rounded">Total Capacity: 100%</span>
+                    </div>
+                    <p class="text-xs text-slate-500 mb-4">Toggle system state to observe how adaptive scaffolding shifts cognitive effort from extraneous clutter to germane schema acquisition.</p>
+
+                    <div class="flex space-x-2 mb-6">
+                        <button onclick="updateCognitiveChart('overloaded')" id="btn-overloaded" class="px-3 py-1.5 text-xs font-semibold rounded border border-rose-300 bg-rose-50 text-rose-700 hover:bg-rose-100 transition">
+                            <i class="fa-solid fa-triangle-exclamation mr-1"></i> Overloaded Interface
+                        </button>
+                        <button onclick="updateCognitiveChart('unscaffolded')" id="btn-unscaffolded" class="px-3 py-1.5 text-xs font-semibold rounded border border-slate-300 bg-slate-50 text-slate-700 hover:bg-slate-100 transition">
+                            Baseline / Unscaffolded
+                        </button>
+                        <button onclick="updateCognitiveChart('optimized')" id="btn-optimized" class="px-3 py-1.5 text-xs font-semibold rounded border border-teal-300 bg-teal-50 text-teal-700 hover:bg-teal-100 font-bold shadow-sm transition">
+                            <i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Adaptive Scaffolded State
+                        </button>
+                    </div>
+
+                    <!-- Chart Container -->
+                    <div class="chart-container">
+                        <canvas id="cognitiveChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Simulated Adaptive LMS Interface Screen -->
+                <div class="lg:col-span-6 bg-slate-100 rounded-xl p-6 border border-slate-300">
+                    <div class="flex justify-between items-center border-b border-slate-200 pb-3 mb-4">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-3 h-3 rounded-full bg-rose-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-amber-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
+                            <span class="text-xs font-mono text-slate-500 ml-2">LMS Adaptive View Sandbox</span>
+                        </div>
+                        <span id="simulatorStateBadge" class="text-xs font-bold px-2 py-0.5 rounded bg-rose-100 text-rose-700">State: Overloaded</span>
+                    </div>
+
+                    <!-- Simulated LMS Dynamic UI -->
+                    <div id="simulatedUI" class="space-y-3 transition-all duration-300">
+                        <!-- Cluttered Widgets (Visible only in Overloaded) -->
+                        <div id="extraneousWidgetGroup" class="grid grid-cols-3 gap-2 text-xs">
+                            <div class="bg-amber-100 border border-amber-300 p-2 rounded text-amber-800">
+                                <strong>⚠️ Ad/Notice:</strong> Unrelated Campus Event
+                            </div>
+                            <div class="bg-indigo-100 border border-indigo-300 p-2 rounded text-indigo-800">
+                                <strong>💬 Chat Stream:</strong> 42 Unread Messages
+                            </div>
+                            <div class="bg-purple-100 border border-purple-300 p-2 rounded text-purple-800">
+                                <strong>🏆 Leaderboard:</strong> Dynamic Rank #14
+                            </div>
+                        </div>
+
+                        <!-- Main Learning Content Block -->
+                        <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-bold text-slate-900 text-sm">Module 4: Neural Schema Integration</h4>
+                                <span id="scaffoldBadge" class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded">Scaffolding Off</span>
+                            </div>
+                            <p id="learningTextContent" class="text-xs text-slate-600 leading-relaxed">
+                                Complex paragraph detailing intrinsic mathematical proof without breakdown. Cognitive processing capacity required to parse visual formatting and dense academic verbiage simultaneously.
+                            </p>
+
+                            <!-- Scaffolding Exercise Prompt (Visible in Optimized) -->
+                            <div id="germanePrompt" class="hidden mt-3 p-3 bg-teal-50 border border-teal-200 rounded text-xs text-teal-900 space-y-2">
+                                <div class="font-bold flex items-center text-teal-800">
+                                    <i class="fa-solid fa-circle-question mr-1.5 text-teal-600"></i> Active Generative Prompt (Germane Load):
+                                </div>
+                                <p>"Explain in 1 sentence how this concept connects to yesterday's lesson on Working Memory capacity."</p>
+                                <input type="text" placeholder="Type self-explanation here to consolidate schema..." class="w-full text-xs p-1.5 rounded border border-teal-300 focus:outline-none">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UX Quality Attributes Matrix -->
+            <div class="mt-10">
+                <h3 class="text-lg font-bold text-slate-900 mb-4">UX Quality Attributes for Learning Systems</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
+                    <div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
+                        <div class="font-bold text-slate-800 mb-1"><i class="fa-solid fa-hand-pointer text-teal-600 mr-1"></i> Usability</div>
+                        <p class="text-slate-500">Minimizes execution error rates and eliminates multi-click navigation traps.</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
+                        <div class="font-bold text-slate-800 mb-1"><i class="fa-solid fa-graduation-cap text-teal-600 mr-1"></i> Learnability</div>
+                        <p class="text-slate-500">Standardized visual design tokens for rapid intuitive navigation mastery.</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
+                        <div class="font-bold text-slate-800 mb-1"><i class="fa-solid fa-eye text-teal-600 mr-1"></i> Understandability</div>
+                        <p class="text-slate-500">High-contrast typography, explicit contextual rubrics, and explicit prompts.</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
+                        <div class="font-bold text-slate-800 mb-1"><i class="fa-solid fa-[#000] fa-shield-halved text-teal-600 mr-1"></i> Safety & State</div>
+                        <p class="text-slate-500">Real-time autosaving, transparent data recovery, and error-free workspace restoration.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: Behavioral Engineering & Habit Formation Architecture -->
+        <section id="behavioral" class="scroll-mt-20">
+            <div class="border-b border-slate-200 pb-5 mb-8">
+                <div class="flex items-center space-x-3 mb-2">
+                    <span class="w-8 h-8 rounded-full bg-teal-100 text-teal-700 font-bold flex items-center justify-center text-sm">03</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">Behavioral Engineering & Habit Formation Architecture</h2>
+                </div>
+                <p class="text-slate-600 max-w-4xl text-sm sm:text-base">
+                    Cognition processes content, but behavioral engineering sustains long-term platform re-entry and task execution. By synthesizing the Fogg Behavior Model ($B = MAP$) and Hook Model cycles, the system transforms sporadic study efforts into habituated routines.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+                <!-- Fogg Behavior Model Prompt Evaluator -->
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                    <div class="flex items-center space-x-2 mb-3">
+                        <i class="fa-solid fa-bolt text-amber-500 text-lg"></i>
+                        <h3 class="font-bold text-slate-800">Fogg Behavior Model Prompt Engine</h3>
+                    </div>
+                    <p class="text-xs text-slate-500 mb-4">Target Behavior occurs when Motivation, Ability, and Prompt converge simultaneously. Select user state to see automated prompt strategy:</p>
+
+                    <div class="space-y-3 text-xs mb-6">
+                        <div>
+                            <label class="font-semibold text-slate-700 block mb-1">Select Learner State Combination:</label>
+                            <select id="foggStateSelect" onchange="evaluateFoggState()" class="w-full p-2 border border-slate-300 rounded focus:ring-teal-500 focus:border-teal-500 text-slate-800 bg-slate-50">
+                                <option value="spark">High Ability + Low Motivation (Needs Spark Prompt)</option>
+                                <option value="facilitator">High Motivation + Low Ability (Needs Facilitator Prompt)</option>
+                                <option value="signal">High Ability + High Motivation (Needs Signal Prompt)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="foggOutput" class="p-4 rounded-lg bg-amber-50 border border-amber-200 text-xs">
+                        <!-- Dynamic output from JS -->
+                    </div>
+                </div>
+
+                <!-- 4-Stage Hook Model Loop -->
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                    <div class="flex items-center space-x-2 mb-3">
+                        <i class="fa-solid fa-rotate-right text-indigoBrand-600 text-lg"></i>
+                        <h3 class="font-bold text-slate-800">The LMS 4-Stage Hook Loop</h3>
+                    </div>
+                    <p class="text-xs text-slate-500 mb-4">Click a stage to inspect system mechanisms driving dopamine-based study retention:</p>
+
+                    <div class="grid grid-cols-2 gap-2 text-xs mb-4">
+                        <button onclick="showHookStage(1)" id="hook-btn-1" class="p-2.5 rounded text-left font-semibold border bg-teal-600 text-white border-teal-600">1. External/Internal Trigger</button>
+                        <button onclick="showHookStage(2)" id="hook-btn-2" class="p-2.5 rounded text-left font-semibold border bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100">2. Low-Friction Action</button>
+                        <button onclick="showHookStage(3)" id="hook-btn-3" class="p-2.5 rounded text-left font-semibold border bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100">3. Variable Reward</button>
+                        <button onclick="showHookStage(4)" id="hook-btn-4" class="p-2.5 rounded text-left font-semibold border bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100">4. System Investment</button>
+                    </div>
+
+                    <div id="hookStageDetail" class="p-4 rounded-lg bg-slate-50 border border-slate-200 text-xs text-slate-700">
+                        <h4 class="font-bold text-slate-900 mb-1">Stage 1: Dynamic Triggers</h4>
+                        <p>Personalized push notifications, calendar integrations, or automated nudges sent during peak study windows, gradually anchoring to internal curiosity triggers.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Behavioral Construct Reference Table -->
+            <div class="bg-slate-900 text-white rounded-xl p-6 border border-slate-800">
+                <h3 class="font-bold text-lg mb-4 text-teal-300">Behavioral Science System Mechanisms</h3>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs">
+                    <div class="border border-slate-700 p-3 rounded bg-slate-800/50">
+                        <div class="text-teal-400 font-bold mb-1">Friction Reduction</div>
+                        <p class="text-slate-400">Micro-learning formats, single sign-on, and 1-click deep links to reduce initial effort barrier.</p>
+                    </div>
+                    <div class="border border-slate-700 p-3 rounded bg-slate-800/50">
+                        <div class="text-teal-400 font-bold mb-1">Habit Stacking</div>
+                        <p class="text-slate-400">Calendar integration anchoring study sessions directly onto routine daily breaks.</p>
+                    </div>
+                    <div class="border border-slate-700 p-3 rounded bg-slate-800/50">
+                        <div class="text-teal-400 font-bold mb-1">Digital Nudging</div>
+                        <p class="text-slate-400">Automated messaging sent during peak productivity windows to gently redirect off-task learners.</p>
+                    </div>
+                    <div class="border border-slate-700 p-3 rounded bg-slate-800/50">
+                        <div class="text-teal-400 font-bold mb-1">Identity Anchoring</div>
+                        <p class="text-slate-400">Personalized onboarding surveys mapping coursework directly to long-term professional aspirations.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: Metacognitive Analytics & Learning Analytics Dashboard (LAD) -->
+        <section id="metacognitive" class="scroll-mt-20">
+            <div class="border-b border-slate-200 pb-5 mb-8">
+                <div class="flex items-center space-x-3 mb-2">
+                    <span class="w-8 h-8 rounded-full bg-teal-100 text-teal-700 font-bold flex items-center justify-center text-sm">04</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">Metacognitive Optimization & Learning Analytics Dashboards (LAD)</h2>
+                </div>
+                <p class="text-slate-600 max-w-4xl text-sm sm:text-base">
+                    Traditional LMS dashboards display static, post-hoc scores (outcome metrics). Modern metacognitive dashboards render process-oriented metrics (time distribution, retrieval frequency, annotation updates) paired with customizable evaluation reference frames.
+                </p>
+            </div>
+
+            <!-- Dynamic LAD Component with Reference Frame Switcher -->
+            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm mb-8">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+                    <div>
+                        <h3 class="font-bold text-slate-900 text-lg">Process-Oriented SRL Analytics Dashboard</h3>
+                        <p class="text-xs text-slate-500">Toggle evaluation reference frame to prevent self-efficacy collapse while tracking actual study behavior.</p>
+                    </div>
+                    <!-- Reference Frame Toggle Buttons -->
+                    <div class="flex bg-slate-100 p-1 rounded-lg text-xs font-semibold">
+                        <button onclick="setReferenceFrame('ipsative')" id="ref-ipsative" class="px-3 py-1.5 rounded-md bg-white text-teal-700 shadow-sm transition">
+                            Personal Growth (Ipsative)
+                        </button>
+                        <button onclick="setReferenceFrame('criterion')" id="ref-criterion" class="px-3 py-1.5 rounded-md text-slate-600 hover:text-slate-900 transition">
+                            Mastery Threshold (Criterion)
+                        </button>
+                        <button onclick="setReferenceFrame('normative')" id="ref-normative" class="px-3 py-1.5 rounded-md text-slate-600 hover:text-slate-900 transition">
+                            Class Average (Normative)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- LAD Chart Container -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                    <div class="lg:col-span-8">
+                        <div class="chart-container">
+                            <canvas id="ladChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-4 bg-slate-50 p-4 rounded-lg border border-slate-200 space-y-4 text-xs">
+                        <div class="font-bold text-slate-800 text-sm border-b pb-2">Metacognitive Feedback Engine</div>
+                        <div>
+                            <span class="text-slate-500 font-semibold block">Active Evaluation Frame:</span>
+                            <span id="activeFrameDesc" class="font-bold text-teal-700">Ipsative (Comparing user vs personal prior 4-week baseline)</span>
+                        </div>
+                        <div class="p-3 bg-white rounded border border-slate-200">
+                            <span class="font-bold text-slate-800 block mb-1">ARCS Intervention Trigger:</span>
+                            <p id="arcsText" class="text-slate-600 leading-relaxed">
+                                "Great consistency! Your active retrieval practice increased by 28% compared to your baseline last week."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Knowledge vs Regulation Comparison Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-gradient-to-br from-slate-50 to-teal-50/30 p-5 rounded-xl border border-teal-100">
+                    <h4 class="font-bold text-teal-900 mb-2 flex items-center">
+                        <i class="fa-solid fa-lightbulb text-teal-600 mr-2"></i> Knowledge of Cognition Tools
+                    </h4>
+                    <ul class="text-xs text-slate-600 space-y-2 list-disc pl-4 leading-relaxed">
+                        <li>Displays objective, reflective study logs tracking actual vs intended study duration.</li>
+                        <li>Renders resource interaction heatmaps to highlight passive skimming habits.</li>
+                        <li>Maps self-reported confidence against actual retrieval quiz accuracy.</li>
+                    </ul>
+                </div>
+                <div class="bg-gradient-to-br from-slate-50 to-indigoBrand-50/30 p-5 rounded-xl border border-indigoBrand-100">
+                    <h4 class="font-bold text-indigoBrand-900 mb-2 flex items-center">
+                        <i class="fa-solid fa-sliders text-indigoBrand-600 mr-2"></i> Regulation of Cognition Nudges
+                    </h4>
+                    <ul class="text-xs text-slate-600 space-y-2 list-disc pl-4 leading-relaxed">
+                        <li>Delivers actionable strategy prompts (e.g., recommend elaborative self-interrogation).</li>
+                        <li>Automates schedule restructuring alerts when cognitive burnout indicators trigger.</li>
+                        <li>Provides targeted remediation micro-lessons prior to high-stakes evaluations.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: Lifecycle Implementation & Governance -->
+        <section id="governance" class="scroll-mt-20">
+            <div class="border-b border-slate-200 pb-5 mb-8">
+                <div class="flex items-center space-x-3 mb-2">
+                    <span class="w-8 h-8 rounded-full bg-teal-100 text-teal-700 font-bold flex items-center justify-center text-sm">05</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">Lifecycle Implementation, UDL 3.0 & Governance</h2>
+                </div>
+                <p class="text-slate-600 max-w-4xl text-sm sm:text-base">
+                    Deploying a cognitively engineered LMS requires a structured 3-phase rollout, adherence to Universal Design for Learning (UDL 3.0) accessibility frameworks, and strict compliance with ethical AI standards.
+                </p>
+            </div>
+
+            <!-- 3-Phase Implementation Lifecycle -->
+            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm mb-10">
+                <h3 class="font-bold text-slate-900 mb-6">3-Phase System Lifecycle Framework</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+                    <!-- Phase 1 -->
+                    <div class="border border-slate-200 rounded-lg p-4 bg-slate-50">
+                        <span class="text-xs font-bold text-teal-600 uppercase tracking-wider">Phase 1</span>
+                        <h4 class="font-bold text-slate-800 text-base mt-1">Planning & Pre-Implementation</h4>
+                        <ul class="text-xs text-slate-600 mt-3 space-y-2 list-disc pl-4">
+                            <li>Cloud database & SSO infrastructure auditing.</li>
+                            <li>Critical Success Factor (CSF) institutional mapping.</li>
+                            <li>Domain skill taxonomy & goal structure alignment.</li>
+                        </ul>
+                    </div>
+                    <!-- Phase 2 -->
+                    <div class="border border-slate-200 rounded-lg p-4 bg-slate-50">
+                        <span class="text-xs font-bold text-teal-600 uppercase tracking-wider">Phase 2</span>
+                        <h4 class="font-bold text-slate-800 text-base mt-1">Implementation & Rollout</h4>
+                        <ul class="text-xs text-slate-600 mt-3 space-y-2 list-disc pl-4">
+                            <li>Activation of Intelligent Tutoring System engine.</li>
+                            <li>Adaptive dashboard UI configuration.</li>
+                            <li>Behavioral nudge & trigger calibration.</li>
+                        </ul>
+                    </div>
+                    <!-- Phase 3 -->
+                    <div class="border border-slate-200 rounded-lg p-4 bg-slate-50">
+                        <span class="text-xs font-bold text-teal-600 uppercase tracking-wider">Phase 3</span>
+                        <h4 class="font-bold text-slate-800 text-base mt-1">Evaluation & Audit</h4>
+                        <ul class="text-xs text-slate-600 mt-3 space-y-2 list-disc pl-4">
+                            <li>System Usability Scale (SUS) standardized audits.</li>
+                            <li>Longitudinal Self-Regulated Learning (SRL) tracking.</li>
+                            <li>Course completion & retention verification.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UDL 3.0 & Ethical AI Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- UDL 3.0 Pillars -->
+                <div class="bg-slate-900 text-white p-6 rounded-xl border border-slate-800">
+                    <h3 class="font-bold text-teal-300 text-lg mb-4"><i class="fa-solid fa-universal-access mr-2"></i> Universal Design for Learning (UDL 3.0)</h3>
+                    <div class="space-y-4 text-xs">
+                        <div class="border-b border-slate-800 pb-2">
+                            <strong class="text-slate-200 block text-sm">1. Multiple Means of Engagement:</strong>
+                            <span class="text-slate-400">Customizable learning pathways catering to intrinsic, career, or academic goal orientations.</span>
+                        </div>
+                        <div class="border-b border-slate-800 pb-2">
+                            <strong class="text-slate-200 block text-sm">2. Multiple Means of Representation:</strong>
+                            <span class="text-slate-400">Dual-channel visual/audio streams, closed captions, offline packages, high-contrast themes.</span>
+                        </div>
+                        <div>
+                            <strong class="text-slate-200 block text-sm">3. Multiple Means of Action & Expression:</strong>
+                            <span class="text-slate-400">Flexible assessment modes: multimedia submissions, interactive simulations, and text essays.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ethical AI & Privacy Governance -->
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                    <h3 class="font-bold text-slate-900 text-lg mb-4"><i class="fa-solid fa-shield-halved text-indigoBrand-600 mr-2"></i> Ethical Governance & AI Safeguards</h3>
+                    <div class="space-y-3 text-xs text-slate-600">
+                        <div class="p-3 bg-slate-50 rounded border border-slate-200">
+                            <strong class="text-slate-800 block">EU AI Act & UNESCO Compliance:</strong>
+                            Adheres to global ethical standards for AI transparency, prohibiting manipulative algorithmic loops.
+                        </div>
+                        <div class="p-3 bg-slate-50 rounded border border-slate-200">
+                            <strong class="text-slate-800 block">Data Minimization Protocols:</strong>
+                            Only collects interaction latencies and study logs essential for cognitive scaffolding calculation.
+                        </div>
+                        <div class="p-3 bg-slate-50 rounded border border-slate-200">
+                            <strong class="text-slate-800 block">Algorithmic Transparency & Sovereignty:</strong>
+                            Provides students explicit controls over personal analytics data and clear explanations of adaptive recommendations.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: Interactive LMS Blueprint Evaluator & Sandbox -->
+        <section id="sandbox" class="scroll-mt-20">
+            <div class="border-b border-slate-200 pb-5 mb-8">
+                <div class="flex items-center space-x-3 mb-2">
+                    <span class="w-8 h-8 rounded-full bg-teal-100 text-teal-700 font-bold flex items-center justify-center text-sm">06</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">Interactive LMS Blueprint Evaluator</h2>
+                </div>
+                <p class="text-slate-600 max-w-4xl text-sm sm:text-base">
+                    Use this tool to evaluate your current or proposed LMS architecture across the four domain pillars. Receive an instant readiness score and customized recommendations.
+                </p>
+            </div>
+
+            <div class="bg-white p-6 sm:p-8 rounded-xl border border-slate-200 shadow-md">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <!-- Evaluator Form -->
+                    <div class="lg:col-span-7 space-y-6">
+                        <h3 class="font-bold text-slate-900 text-lg border-b pb-2">Architecture Self-Assessment Checklist</h3>
+
+                        <!-- Metric 1 -->
+                        <div>
+                            <label class="font-semibold text-xs text-slate-700 block mb-1">1. Pedagogical Topology & Skill Gating</label>
+                            <select id="evalPeda" onchange="calculateLMSScore()" class="w-full text-xs p-2.5 border border-slate-300 rounded bg-slate-50 text-slate-800">
+                                <option value="1">Basic repository (PDF uploads + flat assignment submissions)</option>
+                                <option value="2">Modular syllabus with simple sequence gating</option>
+                                <option value="3">Full ITS Topology with semantic knowledge graphs & dynamic prerequisite rules</option>
+                            </select>
+                        </div>
+
+                        <!-- Metric 2 -->
+                        <div>
+                            <label class="font-semibold text-xs text-slate-700 block mb-1">2. Cognitive Load Management & Scaffolding</label>
+                            <select id="evalCog" onchange="calculateLMSScore()" class="w-full text-xs p-2.5 border border-slate-300 rounded bg-slate-50 text-slate-800">
+                                <option value="1">Static visual presentation (no cognitive load safeguards)</option>
+                                <option value="2">Segmented video streams & clean visual layout tokens</option>
+                                <option value="3">Dynamic UI adaptive scaling, automated fading scaffolding & dual-channel media</option>
+                            </select>
+                        </div>
+
+                        <!-- Metric 3 -->
+                        <div>
+                            <label class="font-semibold text-xs text-slate-700 block mb-1">3. Behavioral Engineering & Habit Prompts</label>
+                            <select id="evalBehav" onchange="calculateLMSScore()" class="w-full text-xs p-2.5 border border-slate-300 rounded bg-slate-50 text-slate-800">
+                                <option value="1">Passive access (students log in only when assignments are due)</option>
+                                <option value="2">Static badge incentives & basic email deadline reminders</option>
+                                <option value="3">Fogg Model prompt triggers + Hook Model cycles + identity-anchored onboarding</option>
+                            </select>
+                        </div>
+
+                        <!-- Metric 4 -->
+                        <div>
+                            <label class="font-semibold text-xs text-slate-700 block mb-1">4. Metacognitive Analytics & Reference Baselines</label>
+                            <select id="evalMeta" onchange="calculateLMSScore()" class="w-full text-xs p-2.5 border border-slate-300 rounded bg-slate-50 text-slate-800">
+                                <option value="1">Post-hoc gradebooks & outcome-only percentage scores</option>
+                                <option value="2">Time-on-task distribution & normative class average displays</option>
+                                <option value="3">Process-oriented study logs with switchable Ipsative / Mastery / Normative frames</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Evaluation Results Output -->
+                    <div class="lg:col-span-5 bg-slate-900 text-white p-6 rounded-xl flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs font-bold text-teal-400 uppercase tracking-widest">Blueprint Rating</span>
+                            <div class="mt-4 flex items-baseline space-x-3">
+                                <span id="lmsScoreVal" class="text-5xl font-extrabold text-white">25%</span>
+                                <span id="lmsScoreBadge" class="text-xs font-bold px-2.5 py-1 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">Legacy Content Repository</span>
+                            </div>
+                            <div class="w-full bg-slate-800 h-2 rounded-full mt-4 overflow-hidden">
+                                <div id="lmsProgressBar" class="bg-teal-500 h-full w-[25%] transition-all duration-500"></div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 border-t border-slate-800 pt-4 space-y-3 text-xs">
+                            <strong class="text-teal-300 block">Recommended Architectural Upgrades:</strong>
+                            <p id="evalRecommendation" class="text-slate-300 leading-relaxed">
+                                Shift from static administrative course hosting to a dynamic ITS structure. Eliminate extraneous UI clutter and embed active retrieval scaffolding into content streams.
+                            </p>
+                        </div>
+
+                        <button onclick="window.print()" class="mt-6 w-full py-2.5 bg-teal-600 hover:bg-teal-500 text-white font-semibold rounded text-xs transition flex items-center justify-center">
+                            <i class="fa-solid fa-print mr-2"></i> Export Architectural Diagnostic Report
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 border-t border-slate-800 py-10 px-4 sm:px-6 lg:px-8 text-xs">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <span class="font-bold text-slate-200">Next-Gen LMS Architecture Framework</span>
+                <p class="mt-1">Synthesizing Behavioral, Cognitive, and Metacognitive Engineering for Academic Optimization.</p>
+            </div>
+            <div class="flex space-x-4">
+                <a href="#pedagogy" class="hover:text-teal-400 transition">Topology</a>
+                <a href="#cognitive" class="hover:text-teal-400 transition">Cognitive UX</a>
+                <a href="#behavioral" class="hover:text-teal-400 transition">Behavioral Hook</a>
+                <a href="#metacognitive" class="hover:text-teal-400 transition">SRL Analytics</a>
+                <a href="#sandbox" class="hover:text-teal-400 transition">Sandbox</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Global variables for Chart instances
+        let cognitiveChartInstance = null;
+        let ladChartInstance = null;
+
+        // Document Ready Initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            initCognitiveChart();
+            initLadChart();
+            evaluateFoggState();
+            calculateLMSScore();
+
+            // Mobile menu listener
+            const mobileBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            if (mobileBtn && mobileMenu) {
+                mobileBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+        });
+
+        // SECTION 1: Theory Tab Switcher Logic
+        function switchTheoryTab(tabId) {
+            const tabs = ['pedagogy-tab', 'behaviorism-tab', 'cognitivism-tab', 'constructivism-tab'];
+            tabs.forEach(id => {
+                const btn = document.getElementById(`tab-${id}`);
+                const content = document.getElementById(`theory-${id}`);
+                if (id === tabId) {
+                    btn.className = "px-4 py-2.5 rounded-t-lg bg-white text-teal-700 font-semibold border-t border-x border-slate-200";
+                    content.classList.remove('hidden');
+                } else {
+                    btn.className = "px-4 py-2.5 rounded-t-lg text-slate-600 hover:text-slate-900";
+                    content.classList.add('hidden');
+                }
+            });
+        }
+
+        // SECTION 2: Cognitive Load Dynamic Chart & UI Simulator
+        function initCognitiveChart() {
+            const ctx = document.getElementById('cognitiveChart').getContext('2d');
+            cognitiveChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Working Memory Allocation'],
+                    datasets: [
+                        {
+                            label: 'Extraneous Load (ECL - Visual Distractions)',
+                            data: [45],
+                            backgroundColor: '#f43f5e',
+                        },
+                        {
+                            label: 'Intrinsic Load (ICL - Raw Difficulty)',
+                            data: [45],
+                            backgroundColor: '#f59e0b',
+                        },
+                        {
+                            label: 'Germane Load (GCL - Active Schema Building)',
+                            data: [10],
+                            backgroundColor: '#10b981',
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { stacked: true },
+                        y: { 
+                            stacked: true, 
+                            max: 100, 
+                            title: { display: true, text: 'Percentage of Cognitive Working Memory Capacity (%)' }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.raw}% capacity`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateCognitiveChart(state) {
+            if (!cognitiveChartInstance) return;
+
+            const extraneousWidgetGroup = document.getElementById('extraneousWidgetGroup');
+            const germanePrompt = document.getElementById('germanePrompt');
+            const scaffoldBadge = document.getElementById('scaffoldBadge');
+            const simulatorStateBadge = document.getElementById('simulatorStateBadge');
+            const learningTextContent = document.getElementById('learningTextContent');
+
+            if (state === 'overloaded') {
+                cognitiveChartInstance.data.datasets[0].data = [50]; // ECL
+                cognitiveChartInstance.data.datasets[1].data = [42]; // ICL
+                cognitiveChartInstance.data.datasets[2].data = [8];  // GCL
+                
+                extraneousWidgetGroup.classList.remove('hidden');
+                germanePrompt.classList.add('hidden');
+                scaffoldBadge.textContent = "Scaffolding Off";
+                scaffoldBadge.className = "text-xs bg-rose-100 text-rose-700 px-2 py-0.5 rounded font-bold";
+                simulatorStateBadge.textContent = "State: Cognitive Overload";
+                simulatorStateBadge.className = "text-xs font-bold px-2 py-0.5 rounded bg-rose-100 text-rose-700";
+                learningTextContent.textContent = "Complex paragraph detailing intrinsic mathematical proof without breakdown. Cognitive processing capacity required to parse visual formatting and dense academic verbiage simultaneously.";
+            } else if (state === 'unscaffolded') {
+                cognitiveChartInstance.data.datasets[0].data = [15]; // ECL
+                cognitiveChartInstance.data.datasets[1].data = [65]; // ICL
+                cognitiveChartInstance.data.datasets[2].data = [20]; // GCL
+
+                extraneousWidgetGroup.classList.add('hidden');
+                germanePrompt.classList.add('hidden');
+                scaffoldBadge.textContent = "Baseline UX";
+                scaffoldBadge.className = "text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded";
+                simulatorStateBadge.textContent = "State: Unscaffolded Baseline";
+                simulatorStateBadge.className = "text-xs font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800";
+                learningTextContent.textContent = "Visual clutter removed. Content presented cleanly, but learner receives no guided prompts or worked examples to assist intrinsic schema integration.";
+            } else if (state === 'optimized') {
+                cognitiveChartInstance.data.datasets[0].data = [5];  // ECL
+                cognitiveChartInstance.data.datasets[1].data = [35]; // ICL (reduced via scaffolding)
+                cognitiveChartInstance.data.datasets[2].data = [60]; // GCL (maximized schema processing)
+
+                extraneousWidgetGroup.classList.add('hidden');
+                germanePrompt.classList.remove('hidden');
+                scaffoldBadge.textContent = "Adaptive Scaffolding Active";
+                scaffoldBadge.className = "text-xs bg-teal-100 text-teal-800 px-2 py-0.5 rounded font-bold";
+                simulatorStateBadge.textContent = "State: Optimized Adaptive Load";
+                simulatorStateBadge.className = "text-xs font-bold px-2 py-0.5 rounded bg-teal-100 text-teal-800";
+                learningTextContent.textContent = "Content broken into digestible micro-step 1 of 3 (Faded Worked Example). Extraneous UI widgets collapsed automatically by ITS engine.";
+            }
+            cognitiveChartInstance.update();
+        }
+
+        // SECTION 3: Behavioral Logic (Fogg Model & Hook Loop)
+        function evaluateFoggState() {
+            const val = document.getElementById('foggStateSelect').value;
+            const output = document.getElementById('foggOutput');
+
+            if (val === 'spark') {
+                output.className = "p-4 rounded-lg bg-amber-50 border border-amber-200 text-xs text-amber-900";
+                output.innerHTML = `
+                    <strong class="text-amber-800 block text-sm mb-1"><i class="fa-solid fa-fire mr-1"></i> Deploy Spark Prompt (Motivator)</strong>
+                    <p class="leading-relaxed">Learner has high ability but low motivation. Deploy career relevance highlights, peer milestone celebrations, or personal progress nudges to ignite initiative.</p>
+                `;
+            } else if (val === 'facilitator') {
+                output.className = "p-4 rounded-lg bg-indigoBrand-50 border border-indigoBrand-200 text-xs text-indigoBrand-900";
+                output.innerHTML = `
+                    <strong class="text-indigoBrand-800 block text-sm mb-1"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Deploy Facilitator Prompt (Friction Reduction)</strong>
+                    <p class="leading-relaxed">Learner is highly motivated but overwhelmed by task difficulty. Provide step-by-step templates, pre-populated code blocks, or automated micro-breakdowns.</p>
+                `;
+            } else if (val === 'signal') {
+                output.className = "p-4 rounded-lg bg-teal-50 border border-teal-200 text-xs text-teal-900";
+                output.innerHTML = `
+                    <strong class="text-teal-800 block text-sm mb-1"><i class="fa-solid fa-bell mr-1"></i> Deploy Signal Prompt (Subtle Reminder)</strong>
+                    <p class="leading-relaxed">Both motivation and ability are high. Simple non-intrusive notification (e.g., "Maintain your 5-day study streak with a 2-min quiz") is sufficient for action trigger.</p>
+                `;
+            }
+        }
+
+        function showHookStage(stageNum) {
+            for (let i = 1; i <= 4; i++) {
+                const btn = document.getElementById(`hook-btn-${i}`);
+                if (i === stageNum) {
+                    btn.className = "p-2.5 rounded text-left font-semibold border bg-teal-600 text-white border-teal-600";
+                } else {
+                    btn.className = "p-2.5 rounded text-left font-semibold border bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100";
+                }
+            }
+
+            const detail = document.getElementById('hookStageDetail');
+            const stages = {
+                1: { title: "Stage 1: Dynamic Triggers", text: "Personalized push notifications, calendar integrations, or automated nudges sent during peak study windows, gradually anchoring to internal curiosity triggers." },
+                2: { title: "Stage 2: Low-Friction Action", text: "Minimal effort execution: completing a 3-minute diagnostic micro-lesson or responding to a single self-explanation prompt before motivation fades." },
+                3: { title: "Stage 3: Variable Reward", text: "Dopamine-driven feedback: novel skill badge unlocks, dynamic mastery analytics updates, customized instructor audio notes, or peer recognition." },
+                4: { title: "Stage 4: System Investment", text: "Learner stores value back into the LMS: creating custom flashcard decks, saving module annotations, establishing semester goals, increasing switching costs." }
+            };
+
+            detail.innerHTML = `
+                <h4 class="font-bold text-slate-900 mb-1">${stages[stageNum].title}</h4>
+                <p>${stages[stageNum].text}</p>
+            `;
+        }
+
+        // SECTION 4: Metacognitive Learning Analytics Dashboard (LAD) Chart
+        function initLadChart() {
+            const ctx = document.getElementById('ladChart').getContext('2d');
+            ladChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Current Week'],
+                    datasets: [
+                        {
+                            label: 'Student Process Activity (Retrieval Practice & Notes)',
+                            data: [35, 42, 58, 65, 84],
+                            borderColor: '#0d9488',
+                            backgroundColor: 'rgba(13, 148, 136, 0.1)',
+                            fill: true,
+                            tension: 0.3,
+                            borderWidth: 3
+                        },
+                        {
+                            label: 'Comparison Reference Frame Baseline',
+                            data: [30, 32, 35, 40, 42], // Default Ipsative Prior Baseline
+                            borderColor: '#64748b',
+                            borderDash: [5, 5],
+                            borderWidth: 2,
+                            fill: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.raw} Activity Index`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            min: 0,
+                            max: 100,
+                            title: { display: true, text: 'Self-Regulated Learning (SRL) Index' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function setReferenceFrame(type) {
+            if (!ladChartInstance) return;
+
+            const btnIps = document.getElementById('ref-ipsative');
+            const btnCri = document.getElementById('ref-criterion');
+            const btnNor = document.getElementById('ref-normative');
+            const activeDesc = document.getElementById('activeFrameDesc');
+            const arcsText = document.getElementById('arcsText');
+
+            [btnIps, btnCri, btnNor].forEach(b => b.className = "px-3 py-1.5 rounded-md text-slate-600 hover:text-slate-900 transition");
+
+            if (type === 'ipsative') {
+                btnIps.className = "px-3 py-1.5 rounded-md bg-white text-teal-700 shadow-sm font-bold transition";
+                ladChartInstance.data.datasets[1].label = "Personal Growth Baseline (Prior 4-Wk Personal Avg)";
+                ladChartInstance.data.datasets[1].data = [30, 32, 35, 40, 42];
+                ladChartInstance.data.datasets[1].borderColor = "#0d9488";
+                activeDesc.textContent = "Ipsative (Comparing user's real-time performance against their own historical baseline)";
+                arcsText.textContent = "Great consistency! Your active retrieval practice increased by 28% compared to your personal baseline last month.";
+            } else if (type === 'criterion') {
+                btnCri.className = "px-3 py-1.5 rounded-md bg-white text-teal-700 shadow-sm font-bold transition";
+                ladChartInstance.data.datasets[1].label = "Mastery Competency Threshold";
+                ladChartInstance.data.datasets[1].data = [70, 70, 70, 70, 70];
+                ladChartInstance.data.datasets[1].borderColor = "#f59e0b";
+                activeDesc.textContent = "Criterion-Referenced (Comparing student effort against absolute domain mastery benchmarks)";
+                arcsText.textContent = "You have surpassed the 70-point Mastery Threshold for neural schema integration!";
+            } else if (type === 'normative') {
+                btnNor.className = "px-3 py-1.5 rounded-md bg-white text-teal-700 shadow-sm font-bold transition";
+                ladChartInstance.data.datasets[1].label = "Normative Class Average";
+                ladChartInstance.data.datasets[1].data = [50, 52, 54, 53, 55];
+                ladChartInstance.data.datasets[1].borderColor = "#4f46e5";
+                activeDesc.textContent = "Normative (Comparing individual metrics against cohort averages; use with caution for struggling students)";
+                arcsText.textContent = "Your current study process metrics put you in the top 15% of your course cohort.";
+            }
+            ladChartInstance.update();
+        }
+
+        // SECTION 6: LMS Strategy Blueprint Evaluator Scoring Logic
+        function calculateLMSScore() {
+            const p = parseInt(document.getElementById('evalPeda').value);
+            const c = parseInt(document.getElementById('evalCog').value);
+            const b = parseInt(document.getElementById('evalBehav').value);
+            const m = parseInt(document.getElementById('evalMeta').value);
+
+            const total = p + c + b + m; // Min 4, Max 12
+            const percentage = Math.round(((total - 4) / 8) * 100);
+
+            const scoreVal = document.getElementById('lmsScoreVal');
+            const scoreBadge = document.getElementById('lmsScoreBadge');
+            const progressBar = document.getElementById('lmsProgressBar');
+            const evalRec = document.getElementById('evalRecommendation');
+
+            scoreVal.textContent = `${percentage}%`;
+            progressBar.style.width = `${percentage}%`;
+
+            if (percentage < 35) {
+                scoreBadge.textContent = "Administrative Content Repository";
+                scoreBadge.className = "text-xs font-bold px-2.5 py-1 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30";
+                evalRec.textContent = "Your system currently operates as a traditional administrative TMS. Recommend transitioning toward an Intelligent Tutoring System topology and removing extraneous visual layout clutter.";
+            } else if (percentage < 75) {
+                scoreBadge.textContent = "Hybrid Functional Platform";
+                scoreBadge.className = "text-xs font-bold px-2.5 py-1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30";
+                evalRec.textContent = "Good baseline! Incorporate Fogg Model prompts to reduce action friction and upgrade your analytics from static gradebooks to process-oriented Ipsative reference dashboards.";
+            } else {
+                scoreBadge.textContent = "Next-Gen Cognitively Engineered LMS";
+                scoreBadge.className = "text-xs font-bold px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+                evalRec.textContent = "Exemplary implementation! System successfully synthesizes ITS topology, cognitive load management, behavioral habit loops, and self-regulated learning analytics.";
+            }
+        }
+    </script>
+</body>
+</html>

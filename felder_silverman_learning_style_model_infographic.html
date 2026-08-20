@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Felder-Silverman Learning Style Model (FSLSM) Infographic</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 360px;
+            }
+        }
+        .gradient-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen">
+
+    <!-- Selected Color Palette: Vibrant Deep Slate & Indigo with Electric Blue (#3b82f6), Purple (#8b5cf6), Pink (#ec4899), Emerald (#10b981), and Amber (#f59e0b) -->
+
+    <!-- Confirmation: NEITHER Mermaid JS NOR SVG icons/elements have been used anywhere in this file. All graphics are Canvas-rendered via Chart.js or styled with pure CSS/Tailwind layout. -->
+
+    <!-- Narrative and Structure Plan:
+        1. Executive Hero & Core KPI Section: Highlight key statistics (4 Dimensions, 44 ILS items, >1M annual users, ~96% dynamic ML accuracy).
+        2. Section 1: Dimensional Architecture & Bipolar Continuums: Comprehensive analysis of the 4 continuous dimensions (Active/Reflective, Sensing/Intuitive, Visual/Verbal, Sequential/Global) with a Chart.js Radar Chart mapping structural parameters.
+        3. Section 2: Historical Model Evolution (2002 Refinements): Process flowchart built with HTML/Tailwind detailing the removal of Inductive/Deductive and shift from Visual/Auditory to Visual/Verbal.
+        4. Section 3: Index of Learning Styles (ILS) Psychometrics & Interactive Scoring: Psychometric evaluation, internal consistency (Cronbach's alpha) visualized via Chart.js grouped bar chart, inter-scale correlations, and an interactive ILS Score Simulator ($S_d = N_{a,d} - N_{b,d}$).
+        5. Section 4: The STEM Pedagogical Mismatch & Instructional Balance: Grouped comparison chart showcasing the gap between STEM professor delivery and student cognitive preferences, paired with balanced teaching strategies.
+        6. Section 5: Automated Detection & Adaptive LMS Machine Learning: Dynamic student modeling metrics visualized via Chart.js bar chart, accompanied by the mathematical moving average update formulation.
+    -->
+
+    <!-- Visualization Selections & Justifications:
+        1. Dimension Foundations -> Radar Chart (Chart.js) -> Best for displaying multivariate profile balances across the 4 continuous dimensions. Label wrapping implemented for long titles.
+        2. Psychometric Reliability -> Grouped Bar Chart (Chart.js) -> Compares Cronbach's Alpha coefficients across dichotomous vs modified Likert scales.
+        3. STEM Mismatch -> Grouped Bar Chart (Chart.js) -> Contrasts professor instructional orientation vs student learning preferences across all dimensions.
+        4. ML Classifier Accuracy -> Bar Chart (Chart.js) -> Highlights performance of automated dynamic student modeling within LMS platforms.
+        - NO SVG and NO Mermaid JS used anywhere. Canvas rendering confirmed for all charts. Tooltip callback configured for multi-line labels.
+    -->
+
+    <!-- Sticky Navigation -->
+    <nav class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-4 py-3">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center space-x-2">
+                <span class="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-400">FSLSM</span>
+                <span class="text-xs px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-mono border border-indigo-500/30">Theoretical Framework</span>
+            </div>
+            <div class="flex flex-wrap text-xs md:text-sm gap-4 text-slate-300">
+                <a href="#dimensions" class="hover:text-blue-400 transition">Dimensions</a>
+                <a href="#evolution" class="hover:text-purple-400 transition">Evolution</a>
+                <a href="#psychometrics" class="hover:text-pink-400 transition">ILS Psychometrics</a>
+                <a href="#mismatch" class="hover:text-amber-400 transition">STEM Mismatch</a>
+                <a href="#ml-adaptivity" class="hover:text-emerald-400 transition">Adaptive LMS</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 py-8 space-y-12">
+
+        <!-- Hero Header -->
+        <header class="text-center space-y-4 py-8 rounded-2xl bg-gradient-to-b from-indigo-950/40 to-slate-900/60 border border-indigo-500/20 p-6">
+            <div class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/30 uppercase tracking-widest mb-2">
+                Cognitive Architecture &amp; Educational Technology
+            </div>
+            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">
+                Felder-Silverman Learning Style Model
+            </h1>
+            <p class="max-w-3xl mx-auto text-sm md:text-base text-slate-400 leading-relaxed">
+                Formulated in 1988 by Dr. Richard M. Felder and Dr. Linda K. Silverman, the FSLSM categorizes individual learning preferences along continuous, bipolar dimensions to optimize engineering education and drive modern AI-powered adaptive e-learning systems.
+            </p>
+
+            <!-- Key Metrics Banner -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 max-w-4xl mx-auto">
+                <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 text-center">
+                    <div class="text-2xl md:text-3xl font-black text-blue-400">4</div>
+                    <div class="text-xs text-slate-400 mt-1 uppercase tracking-wider font-medium">Bipolar Dimensions</div>
+                </div>
+                <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 text-center">
+                    <div class="text-2xl md:text-3xl font-black text-purple-400">44</div>
+                    <div class="text-xs text-slate-400 mt-1 uppercase tracking-wider font-medium">ILS Assessment Items</div>
+                </div>
+                <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 text-center">
+                    <div class="text-2xl md:text-3xl font-black text-pink-400">1M+</div>
+                    <div class="text-xs text-slate-400 mt-1 uppercase tracking-wider font-medium">Annual ILS Users</div>
+                </div>
+                <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 text-center">
+                    <div class="text-2xl md:text-3xl font-black text-emerald-400">96.4%</div>
+                    <div class="text-xs text-slate-400 mt-1 uppercase tracking-wider font-medium">Peak Dynamic Detection</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Section 1: Dimensional Architecture -->
+        <section id="dimensions" class="space-y-6">
+            <div class="border-l-4 border-blue-500 pl-4">
+                <h2 class="text-2xl font-bold text-white">1. Dimensional Architecture of FSLSM</h2>
+                <p class="text-slate-400 text-sm mt-1">
+                    Learning in formal environments is conceptualized as a two-step sequence: Information Reception and Information Processing. Unlike rigid typologies (e.g., MBTI), FSLSM treats learning preferences as continuous, fluid traits that vary with instructional context.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                <!-- Left Narrative Column: Dimension Descriptions -->
+                <div class="lg:col-span-7 space-y-4">
+                    <div class="gradient-card p-5 rounded-xl">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-bold text-blue-300 text-base">Active <span class="text-slate-500">↔</span> Reflective</h3>
+                            <span class="text-xs px-2 py-0.5 rounded bg-blue-500/20 text-blue-300">Processing Mode</span>
+                        </div>
+                        <p class="text-xs md:text-sm text-slate-300 leading-relaxed">
+                            <strong class="text-blue-400">Active learners</strong> absorb concepts through physical manipulation, peer discussions, and immediate trial-and-error experimentation. <strong class="text-blue-400">Reflective learners</strong> require solitary introspective cogitation to evaluate logical implications prior to taking action. Derived from Kolb's Experiential Learning Theory.
+                        </p>
+                    </div>
+
+                    <div class="gradient-card p-5 rounded-xl">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-bold text-purple-300 text-base">Sensing <span class="text-slate-500">↔</span> Intuitive</h3>
+                            <span class="text-xs px-2 py-0.5 rounded bg-purple-500/20 text-purple-300">Perceptual Orientation</span>
+                        </div>
+                        <p class="text-xs md:text-sm text-slate-300 leading-relaxed">
+                            <strong class="text-purple-400">Sensors</strong> favor concrete facts, empirical data, structured procedures, and practical engineering applications. <strong class="text-purple-400">Intuitors</strong> seek abstract theories, mathematical formulations, non-linear patterns, and creative innovation. Based on Jungian Psychological Types.
+                        </p>
+                    </div>
+
+                    <div class="gradient-card p-5 rounded-xl">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-bold text-pink-300 text-base">Visual <span class="text-slate-500">↔</span> Verbal</h3>
+                            <span class="text-xs px-2 py-0.5 rounded bg-pink-500/20 text-pink-300">Sensory Input Modality</span>
+                        </div>
+                        <p class="text-xs md:text-sm text-slate-300 leading-relaxed">
+                            <strong class="text-pink-400">Visual learners</strong> retain spatial and visual representations such as flowcharts, schematics, plots, and visual demonstrations. <strong class="text-pink-400">Verbal learners</strong> excel with spoken discourse, written prose, and textual descriptions. Supported by Dual-Coding Theory.
+                        </p>
+                    </div>
+
+                    <div class="gradient-card p-5 rounded-xl">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-bold text-emerald-300 text-base">Sequential <span class="text-slate-500">↔</span> Global</h3>
+                            <span class="text-xs px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Cognitive Organization</span>
+                        </div>
+                        <p class="text-xs md:text-sm text-slate-300 leading-relaxed">
+                            <strong class="text-emerald-400">Sequential learners</strong> master concepts in linear, step-by-step incremental progressions. <strong class="text-emerald-400">Global learners</strong> absorb information non-linearly, experiencing sudden holistic breakthroughs that enable complex systems-level synthesis.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Right Radar Chart Column -->
+                <div class="lg:col-span-5 gradient-card p-6 rounded-xl flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-base font-bold text-slate-200 mb-1">Dimensional Continuum Map</h3>
+                        <p class="text-xs text-slate-400 mb-4">
+                            Visualization of bipolar balance across processing, perception, input, and organizational cognitive poles.
+                        </p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="radarDimensionsChart"></canvas>
+                    </div>
+                    <div class="mt-4 p-3 rounded-lg bg-slate-900/60 border border-slate-800 text-xs text-slate-400">
+                        <span class="text-indigo-400 font-semibold">Takeaway:</span> Most individuals exhibit a mixed profile across dimensions rather than extreme single-pole dominance.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Model Evolution (2002 Refinements) -->
+        <section id="evolution" class="space-y-6">
+            <div class="border-l-4 border-purple-500 pl-4">
+                <h2 class="text-2xl font-bold text-white">2. Longitudinal Model Evolution &amp; Refinements</h2>
+                <p class="text-slate-400 text-sm mt-1">
+                    In 2002, Richard Felder introduced two structural modifications to the original 1988 framework based on cognitive science advances and practical educational considerations.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Evolution Item 1 -->
+                <div class="gradient-card p-6 rounded-xl space-y-4 border-t-2 border-t-amber-500">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-mono px-2 py-1 rounded bg-amber-500/20 text-amber-300 font-bold">REMOVING DEDUCTIVE BIAS</span>
+                        <span class="text-xs text-slate-500">Excised Dimension</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">Excision of Inductive / Deductive Dimension</h3>
+                    <p class="text-xs md:text-sm text-slate-300 leading-relaxed">
+                        The original 1988 model included an Inductive vs. Deductive dimension. Felder removed it in 2002 to prevent a pedagogical trap: traditional professors observed student preferences for deductive lectures and used it to justify continued passive teaching.
+                    </p>
+                    <div class="p-3 rounded-lg bg-slate-900/90 border border-slate-800 space-y-2">
+                        <div class="text-xs font-semibold text-amber-400">Why Inductive Teaching Supercedes Preference:</div>
+                        <p class="text-xs text-slate-400 leading-normal">
+                            Educational research proves that inductive methods (problem-based, inquiry-based learning) produce superior long-term conceptual retention and critical thinking for <em>all</em> student cohorts, regardless of stated preference.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Evolution Item 2 -->
+                <div class="gradient-card p-6 rounded-xl space-y-4 border-t-2 border-t-purple-500">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-mono px-2 py-1 rounded bg-purple-500/20 text-purple-300 font-bold">COGNITIVE PHONOLOGY</span>
+                        <span class="text-xs text-slate-500">Refined Modality</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">Shift from Visual/Auditory to Visual/Verbal</h3>
+                    <p class="text-xs md:text-sm text-slate-300 leading-relaxed">
+                        In 1988, text was ambiguously placed. In 2002, Felder reclassified written prose into the Verbal pole alongside spoken words, reserving the Visual pole strictly for non-verbal graphical representations.
+                    </p>
+                    <div class="p-3 rounded-lg bg-slate-900/90 border border-slate-800 space-y-2">
+                        <div class="text-xs font-semibold text-purple-400">Working Memory Neural Mechanism:</div>
+                        <p class="text-xs text-slate-400 leading-normal">
+                            Cognitive science proves the brain converts written characters into phonological codes in working memory. Text is processed via auditory neural pathways, not iconic visual pathways.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: ILS Psychometrics & Score Calculator -->
+        <section id="psychometrics" class="space-y-6">
+            <div class="border-l-4 border-pink-500 pl-4">
+                <h2 class="text-2xl font-bold text-white">3. Psychometric Evaluation of the Index of Learning Styles (ILS)</h2>
+                <p class="text-slate-400 text-sm mt-1">
+                    Developed in 1991 (revised 1994) by Felder and Soloman, the 44-item forced-choice ILS instrument yields bounded preference scores $S_d \in \{-11, -9, \dots, +11\}$.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Cronbach's Alpha Chart -->
+                <div class="lg:col-span-7 gradient-card p-6 rounded-xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <h3 class="text-base font-bold text-white">Internal Consistency (Cronbach's Alpha α)</h3>
+                            <span class="text-xs px-2 py-0.5 rounded bg-pink-500/20 text-pink-300">Reliability Comparison</span>
+                        </div>
+                        <p class="text-xs text-slate-400 mb-4">
+                            Comparing standard 2-choice forced ILS items vs. modified Likert-scale administration. Benchmarks: $\alpha \ge 0.50$ (preference indicators), $\alpha \ge 0.70$ (diagnostic standard).
+                        </p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="psychometricsChart"></canvas>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-4 bg-slate-900/60 p-3 rounded-lg border border-slate-800">
+                        <strong class="text-pink-400">Psychometric Insight:</strong> Sensing/Intuitive and Visual/Verbal demonstrate high standard reliability. Converting forced-choice items into Likert scales elevates all dimensions above the $\alpha = 0.70$ psychometric threshold.
+                    </p>
+                </div>
+
+                <!-- Score Calculator & Continuum Breakdown -->
+                <div class="lg:col-span-5 gradient-card p-6 rounded-xl space-y-6">
+                    <div>
+                        <h3 class="text-base font-bold text-white mb-1">ILS Bounded Scoring Calculator</h3>
+                        <p class="text-xs text-slate-400">
+                            Calculation formula: $S_d = N_{a,d} - N_{b,d}$ where $N_{a,d} + N_{b,d} = 11$.
+                        </p>
+                    </div>
+
+                    <!-- Interactive Diagnostic Simulator -->
+                    <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800 space-y-4">
+                        <div class="text-xs font-semibold text-indigo-300 uppercase tracking-wider">Simulate Score Intensity</div>
+                        
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-xs">
+                                <span>Left Pole (Option A): <strong id="valA" class="text-blue-400">7</strong></span>
+                                <span>Right Pole (Option B): <strong id="valB" class="text-purple-400">4</strong></span>
+                            </div>
+                            <input type="range" id="scoreRange" min="0" max="11" value="7" class="w-full accent-indigo-500 cursor-pointer">
+                        </div>
+
+                        <div class="p-3 rounded-lg bg-slate-950 border border-slate-800 text-center space-y-1">
+                            <div class="text-xs text-slate-400">Computed Net Score ($S_d$)</div>
+                            <div id="calculatedScore" class="text-2xl font-black text-indigo-400">+3</div>
+                            <div id="scoreClassification" class="text-xs font-semibold text-emerald-400">Mild Preference (Well Balanced)</div>
+                        </div>
+                    </div>
+
+                    <!-- Scale Intensity Reference -->
+                    <div class="space-y-2 text-xs">
+                        <div class="flex items-center justify-between p-2 rounded bg-slate-900/50">
+                            <span class="text-slate-300 font-medium">|S_d| = 1 or 3</span>
+                            <span class="text-emerald-400 font-semibold">Mild / Balanced</span>
+                        </div>
+                        <div class="flex items-center justify-between p-2 rounded bg-slate-900/50">
+                            <span class="text-slate-300 font-medium">|S_d| = 5 or 7</span>
+                            <span class="text-amber-400 font-semibold">Moderate Preference</span>
+                        </div>
+                        <div class="flex items-center justify-between p-2 rounded bg-slate-900/50">
+                            <span class="text-slate-300 font-medium">|S_d| = 9 or 11</span>
+                            <span class="text-pink-400 font-semibold">Strong Dominance</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inter-Scale Correlation Callout -->
+            <div class="gradient-card p-4 rounded-xl border border-slate-800 flex flex-col md:flex-row items-center justify-between gap-4 text-xs">
+                <div class="space-y-1">
+                    <div class="font-bold text-white text-sm">Inter-Scale Correlation Orthogonality ($r$)</div>
+                    <p class="text-slate-400">
+                        Active/Reflective, Visual/Verbal, and Sensing/Intuitive scales are mutually orthogonal ($r \le 0.20$).
+                    </p>
+                </div>
+                <div class="px-4 py-2 rounded-lg bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 whitespace-nowrap font-mono">
+                    Sensing/Intuitive ↔ Sequential/Global: r = 0.32 to 0.48
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: STEM Pedagogical Mismatch -->
+        <section id="mismatch" class="space-y-6">
+            <div class="border-l-4 border-amber-500 pl-4">
+                <h2 class="text-2xl font-bold text-white">4. STEM Pedagogical Mismatch &amp; Instructional Balance</h2>
+                <p class="text-slate-400 text-sm mt-1">
+                    A major systemic gap exists in higher engineering education: while traditional STEM courses rely heavily on passive lecture formats, the majority of undergraduate students favor active, empirical, visual, and holistic learning modes.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                <!-- Grouped Bar Chart -->
+                <div class="lg:col-span-7 gradient-card p-6 rounded-xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <h3 class="text-base font-bold text-white">Teaching Delivery vs. Student Preference Gap</h3>
+                            <span class="text-xs px-2 py-0.5 rounded bg-amber-500/20 text-amber-300">STEM Engineering Cohorts</span>
+                        </div>
+                        <p class="text-xs text-slate-400 mb-4">
+                            Percentage bias toward left-pole learning modalities: STEM Instructors (Lecture Mode) vs. STEM Undergraduate Population.
+                        </p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="mismatchChart"></canvas>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-4 bg-slate-900/60 p-3 rounded-lg border border-slate-800">
+                        <strong class="text-amber-400">Pedagogical Risk:</strong> Mismatches lead to low student self-efficacy, grade inflation suppression, and high attrition rates among capable practical (Sensing) and creative holistic (Global) learners.
+                    </p>
+                </div>
+
+                <!-- Balanced Instructional Strategies Matrix -->
+                <div class="lg:col-span-5 gradient-card p-6 rounded-xl space-y-4">
+                    <h3 class="text-base font-bold text-white">Principles of Balanced Instruction</h3>
+                    <p class="text-xs text-slate-400">
+                        Felder explicitly rejects using FSLSM to track or sort students into rigid silos. Instead, courses must be designed to balance teaching techniques across both poles.
+                    </p>
+
+                    <div class="space-y-3 text-xs">
+                        <div class="p-3 rounded-lg bg-slate-900/90 border border-slate-800 space-y-1">
+                            <div class="font-bold text-blue-400">Active + Reflective Integration</div>
+                            <p class="text-slate-300">Combine brief peer-problem solving pauses during lectures with solitary analytical writing prompts.</p>
+                        </div>
+                        <div class="p-3 rounded-lg bg-slate-900/90 border border-slate-800 space-y-1">
+                            <div class="font-bold text-purple-400">Sensing + Intuitive Integration</div>
+                            <p class="text-slate-300">Anchor abstract mathematical derivations with physical engineering case studies and concrete laboratory data.</p>
+                        </div>
+                        <div class="p-3 rounded-lg bg-slate-900/90 border border-slate-800 space-y-1">
+                            <div class="font-bold text-pink-400">Visual + Verbal Integration</div>
+                            <p class="text-slate-300">Supplement text heavy slides with interactive schematics, data flow plots, visual demonstrations, and visual charts.</p>
+                        </div>
+                        <div class="p-3 rounded-lg bg-slate-900/90 border border-slate-800 space-y-1">
+                            <div class="font-bold text-emerald-400">Sequential + Global Integration</div>
+                            <p class="text-slate-300">Provide macro-level system architecture previews before launching into detailed step-by-step derivations.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Dynamic LMS Automated Detection -->
+        <section id="ml-adaptivity" class="space-y-6">
+            <div class="border-l-4 border-emerald-500 pl-4">
+                <h2 class="text-2xl font-bold text-white">5. Dynamic Student Modeling &amp; Machine Learning in LMS</h2>
+                <p class="text-slate-400 text-sm mt-1">
+                    Modern Learning Management Systems (e.g., Moodle) eliminate static survey friction by using AI classifiers (SVM, Naive Bayes, Decision Trees) to dynamically detect FSLSM preference vectors from real-time digital behavior footprints.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                <!-- Machine Learning Accuracy Chart -->
+                <div class="lg:col-span-7 gradient-card p-6 rounded-xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <h3 class="text-base font-bold text-white">ML Classifier Profile Prediction Accuracy</h3>
+                            <span class="text-xs px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">SVM-RFE Dynamic Detection</span>
+                        </div>
+                        <p class="text-xs text-slate-400 mb-4">
+                            Predictive accuracy (%) across the four FSLSM dimensions inferred solely from user interaction logs within e-learning platforms.
+                        </p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="mlAccuracyChart"></canvas>
+                    </div>
+                    <div class="mt-4 grid grid-cols-2 gap-2 text-xs text-slate-400">
+                        <div class="bg-slate-900/60 p-2 rounded border border-slate-800">
+                            <span class="text-emerald-400 font-semibold">Active Footprint:</span> Forum posts vs. slide reading time.
+                        </div>
+                        <div class="bg-slate-900/60 p-2 rounded border border-slate-800">
+                            <span class="text-purple-400 font-semibold">Sensing Footprint:</span> Concrete example hits vs. theory downloads.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mathematical Formulation & Behavioral Pipeline -->
+                <div class="lg:col-span-5 gradient-card p-6 rounded-xl space-y-4">
+                    <h3 class="text-base font-bold text-white">Dynamic Profile Vector Update Model</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        To filter out transient anomalies while capturing evolving student behavior, dynamic adaptive systems compute a weighted moving average profile vector $\vec{L}_t$:
+                    </p>
+
+                    <!-- Math Display -->
+                    <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 font-mono text-xs text-emerald-300 overflow-x-auto text-center">
+                        \vec{L}_{t} = (1 - \gamma)\vec{L}_{t-1} + \gamma \left( \frac{1}{A} \sum_{i=0}^{A-1} \vec{d}_{t-i} \right)
+                    </div>
+
+                    <div class="space-y-2 text-xs text-slate-300">
+                        <div class="flex items-start gap-2">
+                            <span class="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold font-mono">γ</span>
+                            <span><strong>Smoothing Factor:</strong> Governs profile update rate sensitivity ($\gamma \in (0,1)$).</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <span class="px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-400 font-bold font-mono">A</span>
+                            <span><strong>Window Size:</strong> Number of recent LMS behavioral interactions evaluated.</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <span class="px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-400 font-bold font-mono">d_t</span>
+                            <span><strong>Behavior Vector:</strong> Dynamic hits on videos, graphics, quizzes, and navigational maps.</span>
+                        </div>
+                    </div>
+
+                    <div class="pt-2 border-t border-slate-800 text-xs text-slate-400">
+                        <span class="text-white font-semibold">Threshold Boundary Guard:</span> Prevents sudden content adaptation changes until persistent behavior shifts cross statistical thresholds.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 bg-slate-950 mt-16 py-8 text-slate-500 text-xs">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
+            <p class="text-slate-400 font-medium">Felder-Silverman Learning Style Model (FSLSM) Interactive Educational Brief</p>
+            <p>Based on foundational research by Dr. Richard M. Felder &amp; Dr. Linda K. Silverman (1988, 2002) and modern adaptive e-learning psychometrics.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Charts & Logic -->
+    <script>
+        // Chart.js Setup & Label Formatting Logic
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // Common Options Callback for Multi-line Tooltip titles
+            const commonTooltipConfig = {
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                if (Array.isArray(label)) {
+                                    return label.join(' ');
+                                } else {
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            // Helper to split strings longer than 16 chars into arrays of strings
+            function formatLabel(str) {
+                if (str.length <= 16) return str;
+                const words = str.split(' ');
+                const lines = [];
+                let currentLine = '';
+
+                words.forEach(word => {
+                    if ((currentLine + ' ' + word).trim().length > 16) {
+                        if (currentLine) lines.push(currentLine.trim());
+                        currentLine = word;
+                    } else {
+                        currentLine = (currentLine + ' ' + word).trim();
+                    }
+                });
+                if (currentLine) lines.push(currentLine.trim());
+                return lines;
+            }
+
+            // 1. Radar Chart: Dimensional Continuums
+            const radarCtx = document.getElementById('radarDimensionsChart').getContext('2d');
+            const rawRadarLabels = [
+                'Active (Processing)',
+                'Reflective (Processing)',
+                'Sensing (Perception)',
+                'Intuitive (Perception)',
+                'Visual (Input)',
+                'Verbal (Input)',
+                'Sequential (Understanding)',
+                'Global (Understanding)'
+            ];
+            
+            new Chart(radarCtx, {
+                type: 'radar',
+                data: {
+                    labels: rawRadarLabels.map(formatLabel),
+                    datasets: [{
+                        label: 'Balanced Instructional Profile Target',
+                        data: [75, 75, 80, 70, 85, 65, 75, 70],
+                        backgroundColor: 'rgba(59, 130, 246, 0.25)',
+                        borderColor: '#3b82f6',
+                        pointBackgroundColor: '#60a5fa',
+                        pointBorderColor: '#fff',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            pointLabels: {
+                                color: '#94a3b8',
+                                font: { size: 10 }
+                            },
+                            ticks: { display: false, backdropColor: 'transparent' }
+                        }
+                    },
+                    plugins: {
+                        ...commonTooltipConfig.plugins,
+                        legend: {
+                            labels: { color: '#cbd5e1', font: { size: 11 } }
+                        }
+                    }
+                }
+            });
+
+            // 2. Grouped Bar Chart: Psychometric Reliability (Cronbach's Alpha)
+            const psychCtx = document.getElementById('psychometricsChart').getContext('2d');
+            const rawPsychLabels = [
+                'Active / Reflective',
+                'Sensing / Intuitive',
+                'Visual / Verbal',
+                'Sequential / Global'
+            ];
+
+            new Chart(psychCtx, {
+                type: 'bar',
+                data: {
+                    labels: rawPsychLabels.map(formatLabel),
+                    datasets: [
+                        {
+                            label: 'Standard Dichotomous (Alpha)',
+                            data: [0.52, 0.71, 0.60, 0.51],
+                            backgroundColor: 'rgba(236, 72, 153, 0.7)',
+                            borderColor: '#ec4899',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Modified Likert Scale (Alpha)',
+                            data: [0.72, 0.82, 0.74, 0.71],
+                            backgroundColor: 'rgba(168, 85, 247, 0.7)',
+                            borderColor: '#a855f7',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                        },
+                        y: {
+                            min: 0,
+                            max: 1.0,
+                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            grid: { color: 'rgba(255, 255, 255, 0.08)' }
+                        }
+                    },
+                    plugins: {
+                        ...commonTooltipConfig.plugins,
+                        legend: {
+                            labels: { color: '#cbd5e1', font: { size: 11 } }
+                        }
+                    }
+                }
+            });
+
+            // 3. Grouped Bar Chart: STEM Pedagogical Mismatch
+            const mismatchCtx = document.getElementById('mismatchChart').getContext('2d');
+            const rawMismatchLabels = [
+                'Active Preference',
+                'Sensing Preference',
+                'Visual Preference',
+                'Global Preference'
+            ];
+
+            new Chart(mismatchCtx, {
+                type: 'bar',
+                data: {
+                    labels: rawMismatchLabels.map(formatLabel),
+                    datasets: [
+                        {
+                            label: 'STEM Professor Delivery Bias',
+                            data: [25, 30, 20, 35],
+                            backgroundColor: 'rgba(245, 158, 11, 0.7)',
+                            borderColor: '#f59e0b',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'STEM Student Cognitive Preference',
+                            data: [68, 65, 82, 60],
+                            backgroundColor: 'rgba(59, 130, 246, 0.7)',
+                            borderColor: '#3b82f6',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                        },
+                        y: {
+                            min: 0,
+                            max: 100,
+                            ticks: {
+                                color: '#94a3b8',
+                                font: { size: 10 },
+                                callback: value => value + '%'
+                            },
+                            grid: { color: 'rgba(255, 255, 255, 0.08)' }
+                        }
+                    },
+                    plugins: {
+                        ...commonTooltipConfig.plugins,
+                        legend: {
+                            labels: { color: '#cbd5e1', font: { size: 11 } }
+                        }
+                    }
+                }
+            });
+
+            // 4. Bar Chart: ML Classifier Dynamic Prediction Accuracy
+            const mlCtx = document.getElementById('mlAccuracyChart').getContext('2d');
+            const rawMlLabels = [
+                'Active / Reflective (Processing)',
+                'Sensing / Intuitive (Perception)',
+                'Visual / Verbal (Input Modality)',
+                'Sequential / Global (Understanding)'
+            ];
+
+            new Chart(mlCtx, {
+                type: 'bar',
+                data: {
+                    labels: rawMlLabels.map(formatLabel),
+                    datasets: [{
+                        label: 'Classifier Accuracy (%)',
+                        data: [95.76, 85.88, 93.16, 96.42],
+                        backgroundColor: [
+                            'rgba(16, 185, 129, 0.85)',
+                            'rgba(139, 92, 246, 0.85)',
+                            'rgba(236, 72, 153, 0.85)',
+                            'rgba(59, 130, 246, 0.85)'
+                        ],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            ticks: { color: '#94a3b8', font: { size: 10 } },
+                            grid: { display: false }
+                        },
+                        y: {
+                            min: 70,
+                            max: 100,
+                            ticks: {
+                                color: '#94a3b8',
+                                font: { size: 10 },
+                                callback: value => value + '%'
+                            },
+                            grid: { color: 'rgba(255, 255, 255, 0.08)' }
+                        }
+                    },
+                    plugins: {
+                        ...commonTooltipConfig.plugins,
+                        legend: { display: false }
+                    }
+                }
+            });
+
+            // Interactive ILS Simulator Logic
+            const slider = document.getElementById('scoreRange');
+            const valA = document.getElementById('valA');
+            const valB = document.getElementById('valB');
+            const calculatedScore = document.getElementById('calculatedScore');
+            const scoreClassification = document.getElementById('scoreClassification');
+
+            slider.addEventListener('input', (e) => {
+                const nA = parseInt(e.target.value, 10);
+                const nB = 11 - nA;
+                const score = nA - nB;
+
+                valA.textContent = nA;
+                valB.textContent = nB;
+                calculatedScore.textContent = (score > 0 ? '+' : '') + score;
+
+                const absScore = Math.abs(score);
+                if (absScore <= 3) {
+                    scoreClassification.textContent = 'Mild Preference (Well Balanced)';
+                    scoreClassification.className = 'text-xs font-semibold text-emerald-400';
+                } else if (absScore <= 7) {
+                    scoreClassification.textContent = 'Moderate Preference (Learns easier in aligned environment)';
+                    scoreClassification.className = 'text-xs font-semibold text-amber-400';
+                } else {
+                    scoreClassification.textContent = 'Strong Dominance (Difficulty in non-aligned settings)';
+                    scoreClassification.className = 'text-xs font-semibold text-pink-400';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

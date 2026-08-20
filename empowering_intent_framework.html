@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Empowering Intent: Ethical Engagement Framework</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        warmbg: '#FBF9F5',
+                        warmcard: '#FFFFFF',
+                        warmborder: '#E8E4DC',
+                        branddark: '#222523',
+                        brandaccent: '#2E6F40',
+                        brandmuted: '#626864',
+                        brandgold: '#D97706',
+                        brandred: '#DC2626'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 380px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 360px;
+            }
+        }
+        .tab-btn.active {
+            border-bottom-color: #2E6F40;
+            color: #2E6F40;
+            font-weight: 600;
+        }
+        input[type=range] {
+            accent-color: #2E6F40;
+        }
+    </style>
+</head>
+<!-- Chosen Palette: Warm Neutral Harmony -->
+<!-- Application Structure Plan: The SPA is structured into five cohesive interactive tabs: 1. Executive Overview & Paradigm Comparison (combining core theory with a dynamic dual-line trajectory chart comparing Manipulative vs Empowering models over 24 months), 2. Core Principles Deep-Dive (offering interactive 'Before vs After' toggles for the 4 principles), 3. 4-Stage Architecture Flow (a step-by-step interactive workflow builder mapping intent capture to graceful exit), 4. Operational Metrics & Ethical Health Calculator (allowing product managers to simulate GCR, Deliberate Consumption, and compute their application's Value Realization Index in real-time with dynamic Chart.js feedback), and 5. Dark Pattern & Friction Audit Checklist (an interactive self-assessment tool generating instant compliance & remediation reports). This task-oriented architecture allows product teams to seamlessly move from theoretical understanding to active metric modeling and implementation audit. -->
+<!-- Visualization & Content Choices: 1. Model Trajectory -> Compare short-term metrics vs long-term LTV -> Interactive Line Chart (Chart.js) -> Canvas rendering with custom dataset toggles. 2. Paradigm Dimensions -> Structural comparison table -> Interactive category filter -> Custom JS table filtering. 3. Principles -> Explaining intent-aligned friction -> Before/After interactive toggle cards -> JS state switcher. 4. Operational Metrics Calculator -> Quantifying ethical health -> Interactive Range Sliders + Dynamic Chart.js Bar Visualization -> Real-time JS event listeners. 5. Audit Checklist -> Assessing app compliance -> Interactive Checklist with live Scorecard and remediation recommendations -> Dynamic JS scoring array. CONFIRMATION: NO SVG icons/graphics used. Unicode symbols and HTML/Tailwind elements are used exclusively. NO Mermaid JS used. -->
+<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+<body class="bg-warmbg text-branddark font-sans antialiased min-h-screen flex flex-col justify-between">
+
+    <header class="border-b border-warmborder bg-white sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <span class="text-2xl">🌱</span>
+                    <div>
+                        <h1 class="text-lg font-bold text-branddark leading-none">Empowering Intent</h1>
+                        <p class="text-xs text-brandmuted font-medium mt-0.5">Ethical User Engagement Framework (IEEF)</p>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-3 text-xs">
+                    <span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 font-medium">✦ High Agency Design</span>
+                    <span class="px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 font-medium">🛡️ Zero Dark Patterns</span>
+                </div>
+            </div>
+            
+            <nav class="flex space-x-6 overflow-x-auto no-scrollbar text-sm border-t border-stone-100 pt-1" id="nav-tabs">
+                <button onclick="switchTab('overview')" id="tab-overview" class="tab-btn active py-3 border-b-2 border-transparent text-brandmuted hover:text-branddark whitespace-nowrap">
+                    📊 Overview & Paradigm Shift
+                </button>
+                <button onclick="switchTab('principles')" id="tab-principles" class="tab-btn py-3 border-b-2 border-transparent text-brandmuted hover:text-branddark whitespace-nowrap">
+                    💡 Core Principles
+                </button>
+                <button onclick="switchTab('architecture')" id="tab-architecture" class="tab-btn py-3 border-b-2 border-transparent text-brandmuted hover:text-branddark whitespace-nowrap">
+                    🏗️ 4-Stage Architecture
+                </button>
+                <button onclick="switchTab('metrics')" id="tab-metrics" class="tab-btn py-3 border-b-2 border-transparent text-brandmuted hover:text-branddark whitespace-nowrap">
+                    📈 Metrics & Health Calculator
+                </button>
+                <button onclick="switchTab('audit')" id="tab-audit" class="tab-btn py-3 border-b-2 border-transparent text-brandmuted hover:text-branddark whitespace-nowrap">
+                    🗺️ Dark Pattern Audit Tool
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+
+        <section id="section-overview" class="space-y-8">
+            <div class="bg-white rounded-xl p-6 sm:p-8 border border-warmborder shadow-sm">
+                <div class="max-w-3xl">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-brandaccent">Executive Summary</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-branddark mt-1 mb-3">Shifting Product Success from Attention Capture to Agency Amplification</h2>
+                    <p class="text-brandmuted text-sm sm:text-base leading-relaxed">
+                        For two decades, product design prioritized behavioral manipulation models—infinite scroll, urgent push notifications, and variable rewards. While driving short-term metrics like session length and DAU, these tactics led to systemic long-term friction: user burnout, brand erosion, regulatory fines, and eventual churn. The <strong class="text-branddark">Intent-Empowerment Engagement Framework (IEEF)</strong> aligns business growth with user self-determination.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 pt-6 border-t border-stone-100">
+                    <div class="p-4 rounded-lg bg-stone-50 border border-stone-200">
+                        <div class="text-2xl mb-1">⏱️</div>
+                        <div class="text-sm font-bold text-branddark">Time-to-Value Focus</div>
+                        <div class="text-xs text-brandmuted mt-1">Replaces endless time-in-app metrics with swift goal execution.</div>
+                    </div>
+                    <div class="p-4 rounded-lg bg-stone-50 border border-stone-200">
+                        <div class="text-2xl mb-1">🛡️</div>
+                        <div class="text-sm font-bold text-branddark">Protective Friction</div>
+                        <div class="text-xs text-brandmuted mt-1">Eliminates sludge (harmful friction) while inserting user-centric pause points.</div>
+                    </div>
+                    <div class="p-4 rounded-lg bg-stone-50 border border-stone-200">
+                        <div class="text-2xl mb-1">📈</div>
+                        <div class="text-sm font-bold text-branddark">Durable LTV & Advocacy</div>
+                        <div class="text-xs text-brandmuted mt-1">Swaps artificial retention traps for sustained brand equity and high NPS.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-7 bg-white rounded-xl p-6 border border-warmborder shadow-sm">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+                        <div>
+                            <h3 class="text-lg font-bold text-branddark">24-Month Brand Trajectory Simulation</h3>
+                            <p class="text-xs text-brandmuted">Comparing Manipulative vs. Intent-Empowering long-term growth</p>
+                        </div>
+                        <div class="flex items-center space-x-2 text-xs">
+                            <span class="inline-block w-3 h-3 bg-red-500 rounded-full"></span>
+                            <span class="text-brandmuted">Manipulative</span>
+                            <span class="inline-block w-3 h-3 bg-emerald-600 rounded-full ml-2"></span>
+                            <span class="text-brandmuted">Intent-Empowered</span>
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <canvas id="trajectoryChart"></canvas>
+                    </div>
+
+                    <div class="mt-4 p-3 bg-stone-50 rounded-lg text-xs text-brandmuted border border-stone-200">
+                        <strong class="text-branddark">Takeaway:</strong> Manipulative models deliver initial surges in activity but peak early due to user fatigue, leading to steady churn. Intent-Empowered models experience steady compound growth driven by high organic advocacy and high LTV.
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 bg-white rounded-xl p-6 border border-warmborder shadow-sm flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-branddark mb-1">Paradigm Matrix Comparison</h3>
+                        <p class="text-xs text-brandmuted mb-4">Select a dimension to inspect key differences</p>
+
+                        <div class="space-y-2" id="paradigm-buttons">
+                            <button onclick="renderParadigmDetail('philosophy')" id="pbtn-philosophy" class="w-full text-left p-3 rounded-lg border border-stone-200 hover:border-brandaccent transition text-xs font-semibold text-branddark bg-stone-50">
+                                🎯 Core Philosophy & Objectives
+                            </button>
+                            <button onclick="renderParadigmDetail('kpis')" id="pbtn-kpis" class="w-full text-left p-3 rounded-lg border border-stone-200 hover:border-brandaccent transition text-xs font-semibold text-branddark">
+                                📊 Primary Performance KPIs
+                            </button>
+                            <button onclick="renderParadigmDetail('notifications')" id="pbtn-notifications" class="w-full text-left p-3 rounded-lg border border-stone-200 hover:border-brandaccent transition text-xs font-semibold text-branddark">
+                                🔔 Notification & Messaging Strategy
+                            </button>
+                            <button onclick="renderParadigmDetail('choice')" id="pbtn-choice" class="w-full text-left p-3 rounded-lg border border-stone-200 hover:border-brandaccent transition text-xs font-semibold text-branddark">
+                                ⚙️ Choice Architecture & Exits
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="paradigm-detail-box" class="mt-4 p-4 rounded-lg bg-emerald-50/50 border border-emerald-200/60">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-principles" class="hidden space-y-8">
+            <div class="bg-white rounded-xl p-6 sm:p-8 border border-warmborder shadow-sm">
+                <div class="max-w-3xl">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-brandaccent">Core Architectural Principles</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-branddark mt-1 mb-3">The 4 Pillars of Intent-Empowered Design</h2>
+                    <p class="text-brandmuted text-sm sm:text-base leading-relaxed">
+                        Ethical user engagement replaces deceptive patterns with explicit choices and cognitive boundary protection. Click each principle to toggle between traditional manipulative mechanics and the intent-empowered alternative.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-xl p-6 border border-warmborder shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-2xl">🧠</span>
+                            <span class="text-xs font-bold px-2 py-1 bg-stone-100 rounded text-stone-700">Principle 1</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-branddark mb-1">Respect Cognitive Bandwidth</h3>
+                        <p class="text-xs text-brandmuted mb-4">Users arrive with finite mental energy. Software should lower cognitive load rather than trigger decision fatigue or artificial panic.</p>
+                        
+                        <div id="p1-card" class="p-4 rounded-lg bg-stone-50 border border-stone-200 text-xs space-y-2">
+                        </div>
+                    </div>
+                    <button onclick="togglePrinciple(1)" class="mt-4 w-full py-2 bg-stone-100 hover:bg-stone-200 text-branddark text-xs font-semibold rounded-lg transition">
+                        🔄 Toggle Manipulative vs. Empowered View
+                    </button>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 border border-warmborder shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-2xl">🛡️</span>
+                            <span class="text-xs font-bold px-2 py-1 bg-stone-100 rounded text-stone-700">Principle 2</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-branddark mb-1">Intent-Aligned Friction</h3>
+                        <p class="text-xs text-brandmuted mb-4">Friction isn't always bad. Manipulative design uses friction to trap users ("sludge"); ethical design uses friction to protect user intent.</p>
+
+                        <div id="p2-card" class="p-4 rounded-lg bg-stone-50 border border-stone-200 text-xs space-y-2">
+                        </div>
+                    </div>
+                    <button onclick="togglePrinciple(2)" class="mt-4 w-full py-2 bg-stone-100 hover:bg-stone-200 text-branddark text-xs font-semibold rounded-lg transition">
+                        🔄 Toggle Manipulative vs. Empowered View
+                    </button>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 border border-warmborder shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-2xl">🔍</span>
+                            <span class="text-xs font-bold px-2 py-1 bg-stone-100 rounded text-stone-700">Principle 3</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-branddark mb-1">Transparent Choice Architecture</h3>
+                        <p class="text-xs text-brandmuted mb-4">Users must retain clear visibility and complete agency over how their attention, time, and data are harnessed.</p>
+
+                        <div id="p3-card" class="p-4 rounded-lg bg-stone-50 border border-stone-200 text-xs space-y-2">
+                        </div>
+                    </div>
+                    <button onclick="togglePrinciple(3)" class="mt-4 w-full py-2 bg-stone-100 hover:bg-stone-200 text-branddark text-xs font-semibold rounded-lg transition">
+                        🔄 Toggle Manipulative vs. Empowered View
+                    </button>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 border border-warmborder shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-2xl">🏁</span>
+                            <span class="text-xs font-bold px-2 py-1 bg-stone-100 rounded text-stone-700">Principle 4</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-branddark mb-1">Graceful Completion</h3>
+                        <p class="text-xs text-brandmuted mb-4">A healthy session concludes with the user feeling accomplished and leaving the app—not trapped in infinite feedback loops.</p>
+
+                        <div id="p4-card" class="p-4 rounded-lg bg-stone-50 border border-stone-200 text-xs space-y-2">
+                        </div>
+                    </div>
+                    <button onclick="togglePrinciple(4)" class="mt-4 w-full py-2 bg-stone-100 hover:bg-stone-200 text-branddark text-xs font-semibold rounded-lg transition">
+                        🔄 Toggle Manipulative vs. Empowered View
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-architecture" class="hidden space-y-8">
+            <div class="bg-white rounded-xl p-6 sm:p-8 border border-warmborder shadow-sm">
+                <div class="max-w-3xl">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-brandaccent">Framework Flow</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-branddark mt-1 mb-3">The 4-Stage Intent Architecture Pipeline</h2>
+                    <p class="text-brandmuted text-sm sm:text-base leading-relaxed">
+                        To transition from attention loops to goal achievement, product workflows should follow a linear 4-stage lifecycle. Click any stage in the flow below to examine core mechanisms, design questions, and practical UX patterns.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 mt-8">
+                    <button onclick="selectStage(1)" id="stage-btn-1" class="p-4 rounded-xl border-2 border-brandaccent bg-emerald-50 text-left transition flex flex-col justify-between">
+                        <span class="text-xs font-bold text-brandaccent">Stage 01</span>
+                        <span class="text-sm font-bold text-branddark mt-2">Intent Capture & Alignment</span>
+                    </button>
+                    <button onclick="selectStage(2)" id="stage-btn-2" class="p-4 rounded-xl border-2 border-stone-200 bg-white hover:border-stone-300 text-left transition flex flex-col justify-between">
+                        <span class="text-xs font-bold text-brandmuted">Stage 02</span>
+                        <span class="text-sm font-bold text-branddark mt-2">Path Optimization & Guidance</span>
+                    </button>
+                    <button onclick="selectStage(3)" id="stage-btn-3" class="p-4 rounded-xl border-2 border-stone-200 bg-white hover:border-stone-300 text-left transition flex flex-col justify-between">
+                        <span class="text-xs font-bold text-brandmuted">Stage 03</span>
+                        <span class="text-sm font-bold text-branddark mt-2">Value Realization</span>
+                    </button>
+                    <button onclick="selectStage(4)" id="stage-btn-4" class="p-4 rounded-xl border-2 border-stone-200 bg-white hover:border-stone-300 text-left transition flex flex-col justify-between">
+                        <span class="text-xs font-bold text-brandmuted">Stage 04</span>
+                        <span class="text-sm font-bold text-branddark mt-2">Graceful Exit & Reflection</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 sm:p-8 border border-warmborder shadow-sm">
+                <div id="stage-content-display">
+                </div>
+            </div>
+        </section>
+
+        <section id="section-metrics" class="hidden space-y-8">
+            <div class="bg-white rounded-xl p-6 sm:p-8 border border-warmborder shadow-sm">
+                <div class="max-w-3xl">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-brandaccent">Measurement & Analytics</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-branddark mt-1 mb-3">Operational Metrics & Health Calculator</h2>
+                    <p class="text-brandmuted text-sm sm:text-base leading-relaxed">
+                        Ethical engagement requires substituting raw engagement metrics (time-in-app, CTR, DAU) with goal completion KPIs. Adjust the sliders below to simulate your product's performance and calculate your application's <strong>Value Realization Index (VRI)</strong> score.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-6 bg-white rounded-xl p-6 border border-warmborder shadow-sm space-y-6">
+                    <h3 class="text-lg font-bold text-branddark border-b border-stone-100 pb-3">Product Telemetry & Policy Controls</h3>
+                    
+                    <div>
+                        <div class="flex justify-between text-xs font-semibold text-branddark mb-1">
+                            <span>Goal Completion Rate (GCR)</span>
+                            <span id="slider-gcr-val" class="text-brandaccent font-bold">75%</span>
+                        </div>
+                        <input type="range" id="slider-gcr" min="10" max="100" value="75" oninput="updateMetricsSim()" class="w-full">
+                        <p class="text-[11px] text-brandmuted mt-0.5">% of initiated user sessions that achieve the primary explicit goal.</p>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between text-xs font-semibold text-branddark mb-1">
+                            <span>Deliberate Consumption Ratio</span>
+                            <span id="slider-dcr-val" class="text-brandaccent font-bold">60%</span>
+                        </div>
+                        <input type="range" id="slider-dcr" min="10" max="100" value="60" oninput="updateMetricsSim()" class="w-full">
+                        <p class="text-[11px] text-brandmuted mt-0.5">% of content/tools accessed via direct search or explicit intent vs. passive algorithmic feeds.</p>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between text-xs font-semibold text-branddark mb-1">
+                            <span>Cancellation Friction Score (CR Ratio)</span>
+                            <span id="slider-cr-val" class="text-brandaccent font-bold">85 / 100</span>
+                        </div>
+                        <input type="range" id="slider-cr" min="10" max="100" value="85" oninput="updateMetricsSim()" class="w-full">
+                        <p class="text-[11px] text-brandmuted mt-0.5">Ease of pausing, downgrading, or canceling without encountering dark patterns.</p>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between text-xs font-semibold text-branddark mb-1">
+                            <span>Notification Sanity & Frequency Control</span>
+                            <span id="slider-ns-val" class="text-brandaccent font-bold">80 / 100</span>
+                        </div>
+                        <input type="range" id="slider-ns" min="10" max="100" value="80" oninput="updateMetricsSim()" class="w-full">
+                        <p class="text-[11px] text-brandmuted mt-0.5">Adherence to scheduled batch delivery, quiet modes, and zero unprompted spam.</p>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-6 bg-white rounded-xl p-6 border border-warmborder shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between border-b border-stone-100 pb-3 mb-4">
+                            <h3 class="text-lg font-bold text-branddark">Calculated Value Realization Index (VRI)</h3>
+                            <span id="vri-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">
+                                Exemplary Alignment
+                            </span>
+                        </div>
+
+                        <div class="text-center py-4">
+                            <div id="vri-score-text" class="text-5xl font-extrabold text-branddark">76</div>
+                            <div class="text-xs font-medium text-brandmuted mt-1">Out of 100 Potential Agency Score</div>
+                        </div>
+
+                        <div class="chart-container mt-2">
+                            <canvas id="metricsChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div id="vri-feedback" class="mt-4 p-3 bg-stone-50 rounded-lg text-xs text-brandmuted border border-stone-200">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-audit" class="hidden space-y-8">
+            <div class="bg-white rounded-xl p-6 sm:p-8 border border-warmborder shadow-sm">
+                <div class="max-w-3xl">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-brandaccent">Self-Assessment Tool</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-branddark mt-1 mb-3">Dark Pattern & Friction Audit Checklist</h2>
+                    <p class="text-brandmuted text-sm sm:text-base leading-relaxed">
+                        Evaluate your product against manipulative UX patterns. Check each standard that your product currently meets to generate a compliance report and remediation roadmap.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-7 bg-white rounded-xl p-6 border border-warmborder shadow-sm space-y-4">
+                    <h3 class="text-lg font-bold text-branddark border-b border-stone-100 pb-3">Product Checklist</h3>
+
+                    <div class="space-y-3" id="audit-checklist-items">
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 bg-white rounded-xl p-6 border border-warmborder shadow-sm flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-branddark border-b border-stone-100 pb-3">Audit Results & Remediation</h3>
+                        
+                        <div class="my-6 text-center">
+                            <div id="audit-score-display" class="text-4xl font-extrabold text-branddark">0 / 8</div>
+                            <div class="text-xs text-brandmuted mt-1">Ethical Guardrails Verified</div>
+                        </div>
+
+                        <div id="audit-status-box" class="p-4 rounded-lg bg-stone-50 border border-stone-200 text-xs space-y-2">
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-stone-100">
+                        <h4 class="text-xs font-bold text-branddark uppercase tracking-wider mb-2">Immediate Implementation Steps</h4>
+                        <ol class="list-decimal list-inside text-xs text-brandmuted space-y-1.5">
+                            <li>Remove all multi-step cancellation flows ("roach motels").</li>
+                            <li>Realign growth team incentives away from total time-in-app.</li>
+                            <li>Introduce a explicit "You're all caught up" card on feeds.</li>
+                            <li>Implement granular telemetry and notification controls.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-white border-t border-warmborder py-6 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center text-xs text-brandmuted space-y-2 sm:space-y-0">
+            <div>
+                <strong>Intent-Empowerment Engagement Framework (IEEF)</strong> &bull; Operationalizing Ethical Product Design
+            </div>
+            <div>
+                Designed for Product Managers, UI/UX Architects & Growth Strategists
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const paradigmData = {
+            philosophy: {
+                title: "Core Philosophy & Objectives",
+                manipulative: "Exploit human cognitive biases (dopamine feedback loops, FOMO, loss aversion) to maximize time-on-app and ad impression depth.",
+                empowered: "Minimize time-to-value while maximizing goal completion efficiency and user autonomy.",
+                kpi: "Shift from 'Time Spent' to 'Time Well Spent'."
+            },
+            kpis: {
+                title: "Primary Performance KPIs",
+                manipulative: "Focuses on raw DAU/MAU ratios, session length, page views, and impulse click-through rates (CTR).",
+                empowered: "Tracks Goal Completion Rate (GCR), Value Realization Index (VRI), Deliberate Consumption Ratio, and low churn.",
+                kpi: "Replaces impression depth with task velocity."
+            },
+            notifications: {
+                title: "Notification & Messaging Strategy",
+                manipulative: "Algorithmic re-engagement triggers, ambiguous alerts, artificial countdown timers, and FOMO tactics.",
+                empowered: "User-scheduled, context-aware, actionable alerts delivered in batched, quiet summaries.",
+                kpi: "Zero unprompted push notifications without explicit intent."
+            },
+            choice: {
+                title: "Choice Architecture & Exits",
+                manipulative: "Friction-heavy cancellation ('roach motels'), pre-checked opt-ins, confusing wording, hidden unsubscribe buttons.",
+                empowered: "Zero-friction cancellation/downgrades, single-click unsubscribes, transparent telemetry controls.",
+                kpi: "High retention born from trust, not trapped contracts."
+            }
+        };
+
+        const principleStates = {
+            1: { activeManipulative: false },
+            2: { activeManipulative: false },
+            3: { activeManipulative: false },
+            4: { activeManipulative: false }
+        };
+
+        const principleDetails = {
+            1: {
+                manipulativeTitle: "⚠️ Manipulative Pattern: Attention Hijacking",
+                manipulativeDesc: "Uses autoplaying videos, persistent unread badges, and breaking alerts to force frequent task-switching and continuous context disruption.",
+                empoweredTitle: "✅ Intent-Empowered Alternative: Quiet States",
+                empoweredDesc: "Defaults to quiet modes. Suppresses unprompted popups, avoids disruptive overlays, and respects user focus intervals."
+            },
+            2: {
+                manipulativeTitle: "⚠️ Manipulative Pattern: Sludge & Obstacles",
+                manipulativeDesc: "Adds artificial steps when a user attempts to unsubscribe, pause membership, or request data deletion.",
+                empoweredTitle: "✅ Intent-Empowered Alternative: Protective Friction",
+                empoweredDesc: "Eliminates exit sludge while strategically placing friction to protect user intent—like double-confirming destructive edits or pausing impulse spending."
+            },
+            3: {
+                manipulativeTitle: "⚠️ Manipulative Pattern: Sneaky Coercion",
+                manipulativeDesc: "Employs double negatives, visual trickery, hidden checkboxes, and manipulative confirm-shaming ('No thanks, I hate saving money').",
+                empoweredTitle: "✅ Intent-Empowered Alternative: Clear Options",
+                empoweredDesc: "Provides plain language prompts, explicit opt-ins, equal visual weighting for accept/reject buttons, and one-click preferences."
+            },
+            4: {
+                manipulativeTitle: "⚠️ Manipulative Pattern: Infinite Loops",
+                manipulativeDesc: "Forces infinite scroll feeds, auto-playing next episodes, and perpetual recommendations to prevent the user from ever leaving.",
+                empoweredTitle: "✅ Intent-Empowered Alternative: Explicit Completion",
+                empoweredDesc: "Provides 'You are all caught up' markers, session summaries, and gentle reminders after prolonged continuous usage."
+            }
+        };
+
+        const stageData = {
+            1: {
+                title: "Stage 1: Intent Capture & Alignment",
+                question: "Key Question: 'What is the user explicitly trying to achieve right now?'",
+                mechanisms: [
+                    "Intent-driven onboarding questionnaires",
+                    "Daily or session goal-setting prompts",
+                    "Contextual state selectors (e.g., 'Deep Focus Mode' vs 'Explore Mode')"
+                ],
+                antipattern: "Assuming user goals solely from passive behavioral tracking without asking.",
+                designGuidance: "Give users a simple mechanism to signal their objective when entering the app. Use this intent signal to immediately dynamically filter out irrelevant UI clutter."
+            },
+            2: {
+                title: "Stage 2: Path Optimization & Guidance",
+                question: "Key Question: 'Are we eliminating every unnecessary step between the user and their goal?'",
+                mechanisms: [
+                    "Adaptive contextual interfaces that hide peripheral features",
+                    "Smart short-cuts and direct task jump links",
+                    "Proactive automation of repetitive secondary actions"
+                ],
+                antipattern: "Forcing users through multi-page promotional banners or upsell interstitials before accessing tools.",
+                designGuidance: "Construct direct pipelines to goal fulfillment. Treat user time as a non-renewable asset."
+            },
+            3: {
+                title: "Stage 3: Value Realization",
+                question: "Key Question: 'Has the user achieved their intent, and do they recognize the value created?'",
+                mechanisms: [
+                    "Clear, concise completion summary screens",
+                    "Quantified value stats (e.g., 'Saved 18 minutes on this workflow')",
+                    "Seamless data export and multi-platform sharing options"
+                ],
+                antipattern: "Immediately displaying invasive ad popups or secondary upsell modals the instant a task completes.",
+                designGuidance: "Acknowledge task accomplishment cleanly. Affirm user agency without forcing secondary engagement loops."
+            },
+            4: {
+                title: "Stage 4: Graceful Exit & Reflection",
+                question: "Key Question: 'Are we respecting the user's time by making it effortless to close the app?'",
+                mechanisms: [
+                    "Explicit 'You're all caught up' indicator feeds",
+                    "Digital wellbeing summaries and session duration caps",
+                    "Automated quiet-state triggers after task completion"
+                ],
+                antipattern: "Infinite scrolling feeds with hidden footers designed to prevent natural stopping points.",
+                designGuidance: "Encourage users to exit and return to their offline life once their intent is satisfied. This builds profound long-term brand equity."
+            }
+        };
+
+        const auditItems = [
+            { id: 'a1', label: "Zero multi-step cancellation barriers (Cancellation takes 1 click or tap)." },
+            { id: 'a2', label: "No confirm-shaming or manipulative copy on opt-out options." },
+            { id: 'a3', label: "Feeds feature clear 'You are all caught up' stopping points." },
+            { id: 'a4', label: "Notifications default to batched delivery or user-chosen schedules." },
+            { id: 'a5', label: "No auto-playing videos or media on mobile networks." },
+            { id: 'a6', label: "Privacy and telemetry settings are accessible in a single menu." },
+            { id: 'a7', label: "Protective friction exists for critical/destructive user actions." },
+            { id: 'a8', label: "Product teams are measured on Goal Completion rather than Time-in-App." }
+        ];
+
+        let trajectoryChart = null;
+        let metricsChart = null;
+
+        function initCharts() {
+            const ctx1 = document.getElementById('trajectoryChart').getContext('2d');
+            trajectoryChart = new Chart(ctx1, {
+                type: 'line',
+                data: {
+                    labels: ['M1', 'M3', 'M6', 'M9', 'M12', 'M15', 'M18', 'M21', 'M24'],
+                    datasets: [
+                        {
+                            label: 'Manipulative Model LTV',
+                            data: [35, 65, 80, 75, 62, 50, 42, 38, 30],
+                            borderColor: '#DC2626',
+                            backgroundColor: 'rgba(220, 38, 38, 0.05)',
+                            fill: true,
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Intent-Empowered LTV',
+                            data: [20, 35, 50, 62, 75, 88, 95, 105, 120],
+                            borderColor: '#2E6F40',
+                            backgroundColor: 'rgba(46, 111, 64, 0.08)',
+                            fill: true,
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.raw + ' pts';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            title: { display: true, text: 'Customer LTV & Brand Equity Index', font: { size: 11 } },
+                            grid: { color: '#F3F4F6' }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+
+            const ctx2 = document.getElementById('metricsChart').getContext('2d');
+            metricsChart = new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: ['Goal Completion', 'Deliberate Content', 'Cancellation Ease', 'Notification Control'],
+                    datasets: [{
+                        label: 'Current Score',
+                        data: [75, 60, 85, 80],
+                        backgroundColor: ['#2E6F40', '#3B82F6', '#D97706', '#10B981'],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { min: 0, max: 100, grid: { color: '#F3F4F6' } },
+                        x: {
+                            ticks: {
+                                callback: function(val, index) {
+                                    let label = this.getLabelForValue(index);
+                                    return label.length > 16 ? label.substring(0, 14) + '..' : label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function switchTab(tabId) {
+            const tabs = ['overview', 'principles', 'architecture', 'metrics', 'audit'];
+            tabs.forEach(t => {
+                const sec = document.getElementById(`section-${t}`);
+                const btn = document.getElementById(`tab-${t}`);
+                if (t === tabId) {
+                    sec.classList.remove('hidden');
+                    btn.classList.add('active');
+                } else {
+                    sec.classList.add('hidden');
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        function renderParadigmDetail(key) {
+            const data = paradigmData[key];
+            const buttons = ['philosophy', 'kpis', 'notifications', 'choice'];
+            buttons.forEach(b => {
+                const btn = document.getElementById(`pbtn-${b}`);
+                if (b === key) {
+                    btn.classList.add('bg-stone-50', 'border-brandaccent');
+                } else {
+                    btn.classList.remove('bg-stone-50', 'border-brandaccent');
+                }
+            });
+
+            const box = document.getElementById('paradigm-detail-box');
+            box.innerHTML = `
+                <h4 class="text-xs font-bold uppercase tracking-wider text-brandaccent mb-2">${data.title}</h4>
+                <div class="space-y-3 text-xs">
+                    <div>
+                        <span class="font-bold text-red-600">Manipulative Model:</span>
+                        <p class="text-brandmuted mt-0.5">${data.manipulative}</p>
+                    </div>
+                    <div>
+                        <span class="font-bold text-emerald-700">Intent-Empowered Model:</span>
+                        <p class="text-brandmuted mt-0.5">${data.empowered}</p>
+                    </div>
+                    <div class="pt-2 border-t border-emerald-200/60 font-semibold text-branddark">
+                        💡 Key Takeaway: ${data.kpi}
+                    </div>
+                </div>
+            `;
+        }
+
+        function togglePrinciple(id) {
+            principleStates[id].activeManipulative = !principleStates[id].activeManipulative;
+            renderPrincipleCard(id);
+        }
+
+        function renderPrincipleCard(id) {
+            const card = document.getElementById(`p${id}-card`);
+            const details = principleDetails[id];
+            const isManipulative = principleStates[id].activeManipulative;
+
+            if (isManipulative) {
+                card.className = "p-4 rounded-lg bg-red-50 border border-red-200 text-xs space-y-2";
+                card.innerHTML = `
+                    <div class="font-bold text-red-700">${details.manipulativeTitle}</div>
+                    <p class="text-red-900/80 leading-relaxed">${details.manipulativeDesc}</p>
+                `;
+            } else {
+                card.className = "p-4 rounded-lg bg-emerald-50 border border-emerald-200 text-xs space-y-2";
+                card.innerHTML = `
+                    <div class="font-bold text-emerald-800">${details.empoweredTitle}</div>
+                    <p class="text-emerald-900/80 leading-relaxed">${details.empoweredDesc}</p>
+                `;
+            }
+        }
+
+        function selectStage(stageNum) {
+            for (let i = 1; i <= 4; i++) {
+                const btn = document.getElementById(`stage-btn-${i}`);
+                if (i === stageNum) {
+                    btn.className = "p-4 rounded-xl border-2 border-brandaccent bg-emerald-50 text-left transition flex flex-col justify-between";
+                    btn.querySelector('span').className = "text-xs font-bold text-brandaccent";
+                } else {
+                    btn.className = "p-4 rounded-xl border-2 border-stone-200 bg-white hover:border-stone-300 text-left transition flex flex-col justify-between";
+                    btn.querySelector('span').className = "text-xs font-bold text-brandmuted";
+                }
+            }
+
+            const data = stageData[stageNum];
+            const display = document.getElementById('stage-content-display');
+            display.innerHTML = `
+                <div class="max-w-3xl space-y-4">
+                    <div class="flex items-center space-x-2">
+                        <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 font-bold rounded-full text-xs">Stage 0${stageNum} Detail</span>
+                        <h3 class="text-xl font-bold text-branddark">${data.title}</h3>
+                    </div>
+
+                    <div class="p-3 bg-stone-50 rounded-lg border-l-4 border-brandaccent text-xs font-semibold text-branddark">
+                        ${data.question}
+                    </div>
+
+                    <p class="text-xs text-brandmuted leading-relaxed">${data.designGuidance}</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                        <div class="p-4 rounded-lg bg-emerald-50/60 border border-emerald-200/80">
+                            <h4 class="text-xs font-bold text-emerald-900 uppercase tracking-wider mb-2">✦ Recommended UX Mechanisms</h4>
+                            <ul class="list-disc list-inside text-xs text-emerald-950 space-y-1">
+                                ${data.mechanisms.map(m => `<li>${m}</li>`).join('')}
+                            </ul>
+                        </div>
+
+                        <div class="p-4 rounded-lg bg-red-50/60 border border-red-200/80">
+                            <h4 class="text-xs font-bold text-red-900 uppercase tracking-wider mb-2">⚠️ Manipulative Anti-Pattern</h4>
+                            <p class="text-xs text-red-950 leading-relaxed">${data.antipattern}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function updateMetricsSim() {
+            const gcr = parseInt(document.getElementById('slider-gcr').value);
+            const dcr = parseInt(document.getElementById('slider-dcr').value);
+            const cr = parseInt(document.getElementById('slider-cr').value);
+            const ns = parseInt(document.getElementById('slider-ns').value);
+
+            document.getElementById('slider-gcr-val').innerText = gcr + '%';
+            document.getElementById('slider-dcr-val').innerText = dcr + '%';
+            document.getElementById('slider-cr-val').innerText = cr + ' / 100';
+            document.getElementById('slider-ns-val').innerText = ns + ' / 100';
+
+            const vri = Math.round((gcr * 0.35) + (dcr * 0.25) + (cr * 0.20) + (ns * 0.20));
+
+            document.getElementById('vri-score-text').innerText = vri;
+
+            const badge = document.getElementById('vri-badge');
+            const feedback = document.getElementById('vri-feedback');
+
+            if (vri >= 75) {
+                badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800";
+                badge.innerText = "Exemplary Alignment";
+                feedback.innerHTML = "<strong class='text-emerald-800'>High Agency Product:</strong> Your product strongly empowers user intent, fostering long-term trust, low churn, and high organic NPS.";
+            } else if (vri >= 50) {
+                badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800";
+                badge.innerText = "Moderate Friction Risk";
+                feedback.innerHTML = "<strong class='text-amber-800'>Moderate Agency:</strong> Some engagement loops or dark friction remain. Focus on simplifying exits and batching notifications.";
+            } else {
+                badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-red-100 text-red-800";
+                badge.innerText = "Manipulative Hazard";
+                feedback.innerHTML = "<strong class='text-red-800'>High Manipulation Risk:</strong> High reliance on attention traps and exit sludge. Expect rising user fatigue and brand churn.";
+            }
+
+            if (metricsChart) {
+                metricsChart.data.datasets[0].data = [gcr, dcr, cr, ns];
+                metricsChart.update();
+            }
+        }
+
+        function renderAuditChecklist() {
+            const container = document.getElementById('audit-checklist-items');
+            container.innerHTML = auditItems.map(item => `
+                <label class="flex items-start space-x-3 p-3 rounded-lg border border-stone-200 hover:bg-stone-50 cursor-pointer transition">
+                    <input type="checkbox" id="${item.id}" onchange="updateAuditScore()" class="mt-0.5 h-4 w-4 text-brandaccent rounded border-stone-300 focus:ring-brandaccent">
+                    <span class="text-xs font-medium text-branddark">${item.label}</span>
+                </label>
+            `).join('');
+            updateAuditScore();
+        }
+
+        function updateAuditScore() {
+            let checkedCount = 0;
+            auditItems.forEach(item => {
+                const el = document.getElementById(item.id);
+                if (el && el.checked) checkedCount++;
+            });
+
+            document.getElementById('audit-score-display').innerText = `${checkedCount} / ${auditItems.length}`;
+
+            const box = document.getElementById('audit-status-box');
+            if (checkedCount === 8) {
+                box.className = "p-4 rounded-lg bg-emerald-50 border border-emerald-200 text-xs space-y-2";
+                box.innerHTML = `
+                    <div class="font-bold text-emerald-800">🎉 Certified Ethical Architecture</div>
+                    <p class="text-emerald-900/80">Your product complies fully with the Intent-Empowerment Framework standards!</p>
+                `;
+            } else if (checkedCount >= 4) {
+                box.className = "p-4 rounded-lg bg-amber-50 border border-amber-200 text-xs space-y-2";
+                box.innerHTML = `
+                    <div class="font-bold text-amber-800">⚠️ Partial Implementation</div>
+                    <p class="text-amber-900/80">You have eliminated core manipulative patterns, but several friction traps or notification sludge items remain.</p>
+                `;
+            } else {
+                box.className = "p-4 rounded-lg bg-red-50 border border-red-200 text-xs space-y-2";
+                box.innerHTML = `
+                    <div class="font-bold text-red-800">🚨 High Dark Pattern Risk</div>
+                    <p class="text-red-900/80">Your application contains significant behavioral traps or cancellation barriers. Urgent remediation recommended.</p>
+                `;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initCharts();
+            renderParadigmDetail('philosophy');
+            for (let i = 1; i <= 4; i++) renderPrincipleCard(i);
+            selectStage(1);
+            updateMetricsSim();
+            renderAuditChecklist();
+        });
+    </script>
+</body>
+</html>
