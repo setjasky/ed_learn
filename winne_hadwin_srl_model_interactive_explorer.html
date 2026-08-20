@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winne & Hadwin SRL Model: Interactive Cognitive Architecture Explorer</title>
+    <!-- Tailwind CSS CDN and Configuration -->
+    <script>
+        window.tailwind = window.tailwind || {};
+        window.tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            700: '#0f766e',
+                            800: '#115e59',
+                            900: '#134e4a',
+                        },
+                        neutralbg: '#f8fafc',
+                        cardbg: '#ffffff',
+                    }
+                }
+            }
+        };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Embedded CSS for custom chart containers and UI tweaks */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 360px;
+            }
+        }
+        .tab-btn.active {
+            border-bottom-color: #0d9488;
+            color: #0d9488;
+            font-weight: 600;
+        }
+        /* Custom scrollbar for dense text areas */
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<!-- Chosen Palette: Warm Slate & Academic Teal - Grounded in slate-50 background, deep slate-800 typography, teal-600 accents, amber-500 feedback highlights, and emerald-600 standards. -->
+<!-- Application Structure Plan: The SPA is structured into five thematic interactive modules designed for deep pedagogical engagement rather than flat linear reading: 1) Executive Dashboard & Model Overview for high-level orientation; 2) Interactive Phase Explorer & Scenario Simulator enabling step-by-step trace walkthroughs comparing Naive vs Sophisticated learners; 3) COPES & SMART Architecture Inspector allowing multi-faceted exploration of cognitive components and operations; 4) Dynamic Feedback Loop Simulator illustrating real-time product-vs-standard discrepancies and micro/macro control; 5) Framework Comparison & EdTech/AI Integration Analyzer using Chart.js visualizations to diagnose AI scaffolding gaps. This structure prioritizes active exploration, systemic clarity, and practical educational diagnostic capabilities. -->
+<!-- Visualization & Content Choices:
+   1. AI Phase Distribution -> Donut Chart (Chart.js / Canvas) -> Interactive phase breakdown showing >70% AI concentration in Phase 3 -> Justification: Clearly displays the severe imbalance in current EdTech scaffolding.
+   2. Framework Dimensional Comparison -> Radar Chart (Chart.js / Canvas) -> Comparative metric evaluation of Winne/Hadwin vs Zimmerman vs Pintrich -> Justification: High-dimensional visual trade-off analysis between microanalytic precision and clinical macro-usability.
+   3. Interactive Phase Stepper -> Custom HTML/CSS with JS state manipulation -> Step through Phases 1-4 with persona dynamics -> Justification: Hands-on visualization of recursive non-linear SRL loops.
+   4. Feedback Loop Discrepancy Slider -> Interactive JS inputs & gauge visualization -> Adjust product quality vs target standard to trigger internal feedback & control actions -> Justification: Translates abstract IPT feedback theory into tangible real-time operational feedback loops.
+   Confirming NO SVG graphics used and NO Mermaid JS used. -->
+<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- Header / Navigation Banner -->
+    <header class="bg-slate-900 text-white sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <span class="text-2xl">🧠</span>
+                <div>
+                    <h1 class="text-lg font-bold leading-tight">Winne & Hadwin SRL Model</h1>
+                    <p class="text-xs text-slate-400">Metacognitive Cognitive Architecture & Information Processing</p>
+                </div>
+            </div>
+            <nav class="flex flex-wrap gap-2 text-xs sm:text-sm mt-2 sm:mt-0">
+                <a href="#overview" class="px-3 py-1.5 rounded hover:bg-slate-800 transition">Overview</a>
+                <a href="#phases" class="px-3 py-1.5 rounded hover:bg-slate-800 transition">Phase Stepper</a>
+                <a href="#copes-smart" class="px-3 py-1.5 rounded hover:bg-slate-800 transition">COPES & SMART</a>
+                <a href="#feedback" class="px-3 py-1.5 rounded hover:bg-slate-800 transition">Feedback Simulator</a>
+                <a href="#comparative" class="px-3 py-1.5 rounded hover:bg-slate-800 transition">Framework Comparison</a>
+                <a href="#ai-analyzer" class="px-3 py-1.5 rounded hover:bg-slate-800 transition">AI & Trace Analytics</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+
+        <!-- SECTION 1: EXECUTIVE DASHBOARD & OVERVIEW -->
+        <section id="overview" class="space-y-6">
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 md:p-8">
+                <div class="border-b border-slate-200 pb-4 mb-6">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-teal-600 bg-teal-50 px-2.5 py-1 rounded">Theoretical Overview</span>
+                    <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mt-2">Deconstructing Metacognitive Self-Regulated Learning</h2>
+                    <p class="text-slate-600 text-sm md:text-base mt-2">
+                        Philip H. Winne and Allyson F. Hadwin’s model conceptualizes studying as an inherent exercise in metacognitively governed information processing. Unlike holistic stage-based models, Winne and Hadwin provide a microanalytic, four-phase recursive framework governed by the **COPES** architecture (Conditions, Operations, Products, Evaluations, Standards) and powered by the **SMART** cognitive operational taxonomy.
+                    </p>
+                </div>
+
+                <!-- High Level Key Metric Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 flex items-start space-x-3">
+                        <div class="text-2xl p-2 bg-teal-100 rounded-lg text-teal-700">🔄</div>
+                        <div>
+                            <p class="text-xs font-medium text-slate-500 uppercase">Phases</p>
+                            <p class="text-xl font-bold text-slate-800">4 Weakly Sequenced</p>
+                            <p class="text-xs text-slate-500 mt-1">Recursive, non-linear progression from task definition to adaptation.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 flex items-start space-x-3">
+                        <div class="text-2xl p-2 bg-indigo-100 rounded-lg text-indigo-700">🧩</div>
+                        <div>
+                            <p class="text-xs font-medium text-slate-500 uppercase">Architecture</p>
+                            <p class="text-xl font-bold text-slate-800">COPES Blueprint</p>
+                            <p class="text-xs text-slate-500 mt-1">Conditions, Operations, Products, Evaluations & Standards.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 flex items-start space-x-3">
+                        <div class="text-2xl p-2 bg-amber-100 rounded-lg text-amber-700">⚡</div>
+                        <div>
+                            <p class="text-xs font-medium text-slate-500 uppercase">Operations</p>
+                            <p class="text-xl font-bold text-slate-800">SMART Taxonomy</p>
+                            <p class="text-xs text-slate-500 mt-1">Search, Monitor, Assemble, Rehearse, Translate routines.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 flex items-start space-x-3">
+                        <div class="text-2xl p-2 bg-rose-100 rounded-lg text-rose-700">🤖</div>
+                        <div>
+                            <p class="text-xs font-medium text-slate-500 uppercase">EdTech Gap</p>
+                            <p class="text-xl font-bold text-slate-800">&gt;70% AI in Phase 3</p>
+                            <p class="text-xs text-slate-500 mt-1">AI tools focus heavily on strategy execution over task analysis.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: INTERACTIVE 4-PHASE STEPPER & PERSONA SIMULATOR -->
+        <section id="phases" class="space-y-6">
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 md:p-8">
+                <div class="border-b border-slate-200 pb-4 mb-6">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-teal-600 bg-teal-50 px-2.5 py-1 rounded">Interactive Module 1</span>
+                    <h2 class="text-2xl font-bold text-slate-900 mt-1">The Four Weakly Sequenced Phases</h2>
+                    <p class="text-slate-600 text-sm mt-1">
+                        Self-regulation unfolds through four interconnected phases. Because learning is fundamentally recursive, monitoring discrepancies triggers backward or forward loops across phases. Explore each phase below or test how different learner epistemic profiles navigate the workflow.
+                    </p>
+                </div>
+
+                <!-- Persona Switcher -->
+                <div class="bg-slate-100 p-4 rounded-lg mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-lg">👤</span>
+                        <div>
+                            <p class="text-xs uppercase font-bold text-slate-500">Learner Persona Simulation</p>
+                            <p class="text-sm font-semibold text-slate-800" id="persona-title">Sophisticated Epistemic Learner</p>
+                        </div>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button onclick="setPersona('sophisticated')" id="btn-sophisticated" class="px-3 py-1.5 text-xs font-semibold rounded bg-teal-600 text-white shadow-sm">Sophisticated Epistemic</button>
+                        <button onclick="setPersona('naive')" id="btn-naive" class="px-3 py-1.5 text-xs font-semibold rounded bg-white text-slate-700 hover:bg-slate-200 border border-slate-300">Naïve Epistemic</button>
+                    </div>
+                </div>
+
+                <!-- Interactive Navigation Stepper Header -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-6">
+                    <button onclick="selectPhase(1)" id="phase-btn-1" class="phase-tab border-l-4 border-teal-600 bg-slate-50 p-3 text-left rounded-r shadow-sm transition hover:bg-teal-50">
+                        <p class="text-xs font-bold text-teal-700 uppercase">Phase 1</p>
+                        <p class="text-sm font-semibold text-slate-800">Task Definition</p>
+                    </button>
+                    <button onclick="selectPhase(2)" id="phase-btn-2" class="phase-tab border-l-4 border-transparent bg-slate-50 p-3 text-left rounded-r hover:bg-slate-100 transition">
+                        <p class="text-xs font-bold text-slate-500 uppercase">Phase 2</p>
+                        <p class="text-sm font-semibold text-slate-800">Goal Setting & Planning</p>
+                    </button>
+                    <button onclick="selectPhase(3)" id="phase-btn-3" class="phase-tab border-l-4 border-transparent bg-slate-50 p-3 text-left rounded-r hover:bg-slate-100 transition">
+                        <p class="text-xs font-bold text-slate-500 uppercase">Phase 3</p>
+                        <p class="text-sm font-semibold text-slate-800">Strategy Enactment</p>
+                    </button>
+                    <button onclick="selectPhase(4)" id="phase-btn-4" class="phase-tab border-l-4 border-transparent bg-slate-50 p-3 text-left rounded-r hover:bg-slate-100 transition">
+                        <p class="text-xs font-bold text-slate-500 uppercase">Phase 4</p>
+                        <p class="text-sm font-semibold text-slate-800">Metacognitive Adaptation</p>
+                    </button>
+                </div>
+
+                <!-- Phase Dynamic Content Display -->
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-2 space-y-4">
+                        <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+                            <h3 class="text-xl font-bold text-slate-900" id="phase-display-title">Phase 1: Task Definition</h3>
+                            <span class="text-xs font-mono bg-teal-100 text-teal-800 px-2.5 py-1 rounded-full font-semibold" id="phase-display-tag">Initial Cognitive Processing</span>
+                        </div>
+                        <p class="text-slate-700 text-sm leading-relaxed" id="phase-display-desc">
+                            In Phase 1, the learner processes available cues to construct an internal subjective mental model of the academic task. A crucial feature of Winne and Hadwin's model is isolating Task Definition as an explicit phase prior to planning; diagnostic learning failures often stem from misinterpreting rubric requirements rather than poor execution.
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                            <div class="bg-white p-4 rounded-lg border border-slate-200">
+                                <p class="text-xs font-bold text-indigo-600 uppercase">Primary Cognitive Inputs</p>
+                                <p class="text-xs text-slate-600 mt-1" id="phase-display-inputs">External task cues (rubrics, constraints) & Internal conditions (prior knowledge, beliefs).</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border border-slate-200">
+                                <p class="text-xs font-bold text-emerald-600 uppercase">Primary Cognitive Products</p>
+                                <p class="text-xs text-slate-600 mt-1" id="phase-display-products">Internal subjective task definition and preliminary success benchmarks.</p>
+                            </div>
+                        </div>
+
+                        <!-- Persona Specific Behavior Card -->
+                        <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 mt-4">
+                            <p class="text-xs font-bold text-amber-800 uppercase flex items-center gap-1">
+                                <span>🔬</span> Persona Simulation Trace Behavior
+                            </p>
+                            <p class="text-xs text-amber-900 mt-1 font-medium" id="persona-behavior-text">
+                                The Sophisticated Learner deeply analyzes instructional rubrics, checks domain knowledge gaps, and establishes multi-layered criteria (e.g., conceptual clarity + structural coherence) before setting goals.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic COPES Snapshot for Phase -->
+                    <div class="bg-white rounded-lg border border-slate-200 p-4 flex flex-col justify-between">
+                        <div>
+                            <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">COPES Operational Architecture</h4>
+                            <div class="space-y-2 text-xs">
+                                <div class="p-2 bg-slate-50 rounded border border-slate-100">
+                                    <span class="font-bold text-slate-700">Conditions (C):</span>
+                                    <p class="text-slate-600 text-[11px]" id="copes-c">Instructional rubric, background knowledge, epistemic stance.</p>
+                                </div>
+                                <div class="p-2 bg-slate-50 rounded border border-slate-100">
+                                    <span class="font-bold text-slate-700">Operations (O):</span>
+                                    <p class="text-slate-600 text-[11px]" id="copes-o">Searching memory, Monitoring comprehension, Translating cues.</p>
+                                </div>
+                                <div class="p-2 bg-slate-50 rounded border border-slate-100">
+                                    <span class="font-bold text-slate-700">Products (P):</span>
+                                    <p class="text-slate-600 text-[11px]" id="copes-p">Internal perception of task demands & effort required.</p>
+                                </div>
+                                <div class="p-2 bg-slate-50 rounded border border-slate-100">
+                                    <span class="font-bold text-slate-700">Evaluations & Standards (E/S):</span>
+                                    <p class="text-slate-600 text-[11px]" id="copes-es">Comparing perceived task rules against epistemic standards of completion.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-100 text-center">
+                            <button onclick="triggerPhaseFeedback()" class="w-full py-1.5 px-3 bg-slate-800 hover:bg-slate-900 text-white rounded text-xs font-medium transition">
+                                Simulate Metacognitive Loop 🔄
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: COPES ARCHITECTURE & SMART TAXONOMY DEEP DIVE -->
+        <section id="copes-smart" class="space-y-6">
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 md:p-8">
+                <div class="border-b border-slate-200 pb-4 mb-6">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-teal-600 bg-teal-50 px-2.5 py-1 rounded">Interactive Module 2</span>
+                    <h2 class="text-2xl font-bold text-slate-900 mt-1">COPES Cognitive Blueprint & SMART Operations</h2>
+                    <p class="text-slate-600 text-sm mt-1">
+                        Within each phase, cognitive events are governed by **COPES** (the structural framework) and executed via **SMART** (the elementary cognitive operational taxonomy). Click components below to examine their operational mechanics.
+                    </p>
+                </div>
+
+                <!-- Tab Buttons for Blueprint Toggle -->
+                <div class="flex border-b border-slate-200 mb-6">
+                    <button onclick="switchArchitectTab('copes')" id="tab-copes" class="tab-btn active px-4 py-2 text-sm font-semibold border-b-2 border-teal-600 text-teal-600 focus:outline-none">
+                        COPES Components Inspector
+                    </button>
+                    <button onclick="switchArchitectTab('smart')" id="tab-smart" class="tab-btn px-4 py-2 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-700 focus:outline-none">
+                        SMART Operations Taxonomy
+                    </button>
+                </div>
+
+                <!-- COPES VIEW -->
+                <div id="view-copes" class="space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+                        <button onclick="inspectCOPES('C')" id="copes-btn-C" class="copes-card bg-teal-50 border-2 border-teal-500 p-4 rounded-lg text-left hover:shadow-md transition">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xl font-black text-teal-700">C</span>
+                                <span class="text-xs bg-teal-200 text-teal-900 font-bold px-1.5 py-0.5 rounded">Input</span>
+                            </div>
+                            <p class="text-sm font-bold text-slate-800 mt-2">Conditions</p>
+                            <p class="text-xs text-slate-600 mt-1">Cognitive & Task context resources.</p>
+                        </button>
+
+                        <button onclick="inspectCOPES('O')" id="copes-btn-O" class="copes-card bg-slate-50 border-2 border-transparent p-4 rounded-lg text-left hover:bg-slate-100 transition">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xl font-black text-slate-700">O</span>
+                                <span class="text-xs bg-slate-200 text-slate-800 font-bold px-1.5 py-0.5 rounded">Process</span>
+                            </div>
+                            <p class="text-sm font-bold text-slate-800 mt-2">Operations</p>
+                            <p class="text-xs text-slate-600 mt-1">SMART cognitive routines.</p>
+                        </button>
+
+                        <button onclick="inspectCOPES('P')" id="copes-btn-P" class="copes-card bg-slate-50 border-2 border-transparent p-4 rounded-lg text-left hover:bg-slate-100 transition">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xl font-black text-slate-700">P</span>
+                                <span class="text-xs bg-emerald-200 text-emerald-900 font-bold px-1.5 py-0.5 rounded">Output</span>
+                            </div>
+                            <p class="text-sm font-bold text-slate-800 mt-2">Products</p>
+                            <p class="text-xs text-slate-600 mt-1">Cognitive artifacts & understanding.</p>
+                        </button>
+
+                        <button onclick="inspectCOPES('E')" id="copes-btn-E" class="copes-card bg-slate-50 border-2 border-transparent p-4 rounded-lg text-left hover:bg-slate-100 transition">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xl font-black text-slate-700">E</span>
+                                <span class="text-xs bg-amber-200 text-amber-900 font-bold px-1.5 py-0.5 rounded">Judgment</span>
+                            </div>
+                            <p class="text-sm font-bold text-slate-800 mt-2">Evaluations</p>
+                            <p class="text-xs text-slate-600 mt-1">Discrepancy monitoring checks.</p>
+                        </button>
+
+                        <button onclick="inspectCOPES('S')" id="copes-btn-S" class="copes-card bg-slate-50 border-2 border-transparent p-4 rounded-lg text-left hover:bg-slate-100 transition">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xl font-black text-slate-700">S</span>
+                                <span class="text-xs bg-indigo-200 text-indigo-900 font-bold px-1.5 py-0.5 rounded">Benchmark</span>
+                            </div>
+                            <p class="text-sm font-bold text-slate-800 mt-2">Standards</p>
+                            <p class="text-xs text-slate-600 mt-1">Target success metrics & profiles.</p>
+                        </button>
+                    </div>
+
+                    <!-- Inspector Detail Box -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-lg p-5">
+                        <div id="copes-detail-container" class="space-y-3">
+                            <h3 class="text-lg font-bold text-teal-800" id="copes-detail-title">Conditions (C) — Contextual Constraints & Internal Stores</h3>
+                            <p class="text-sm text-slate-700" id="copes-detail-desc">
+                                Conditions comprise the baseline information resources and environmental parameters available to the learner. They are split into **Cognitive Conditions** (internal: prior domain knowledge, motivation, anxiety, self-efficacy, epistemic beliefs) and **Task Conditions** (external: instructional prompts, rubrics, time availability, environmental noise).
+                            </p>
+                            <div class="bg-white p-3 rounded border border-slate-200">
+                                <p class="text-xs font-bold text-slate-500 uppercase">Academic Context Example</p>
+                                <p class="text-xs text-slate-700 mt-0.5" id="copes-detail-example">
+                                    A student starting a biology term paper has high prior knowledge of genetics (Cognitive Condition) but faces a tight 48-hour deadline and a strict 10-citation rubric limit (Task Condition).
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SMART VIEW -->
+                <div id="view-smart" class="hidden space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-5 gap-3">
+                        <button onclick="inspectSMART('S')" id="smart-btn-S" class="smart-card bg-teal-50 border-2 border-teal-500 p-3 rounded-lg text-left hover:shadow transition">
+                            <span class="text-xs font-bold text-teal-700 uppercase">Operation 1</span>
+                            <p class="text-base font-bold text-slate-800">Searching</p>
+                            <p class="text-[11px] text-slate-600 mt-1">Retrieval & scanning</p>
+                        </button>
+                        <button onclick="inspectSMART('M')" id="smart-btn-M" class="smart-card bg-slate-50 border-2 border-transparent p-3 rounded-lg text-left hover:bg-slate-100 transition">
+                            <span class="text-xs font-bold text-slate-500 uppercase">Operation 2</span>
+                            <p class="text-base font-bold text-slate-800">Monitoring</p>
+                            <p class="text-[11px] text-slate-600 mt-1">State tracking</p>
+                        </button>
+                        <button onclick="inspectSMART('A')" id="smart-btn-A" class="smart-card bg-slate-50 border-2 border-transparent p-3 rounded-lg text-left hover:bg-slate-100 transition">
+                            <span class="text-xs font-bold text-slate-500 uppercase">Operation 3</span>
+                            <p class="text-base font-bold text-slate-800">Assembling</p>
+                            <p class="text-[11px] text-slate-600 mt-1">Conceptual integration</p>
+                        </button>
+                        <button onclick="inspectSMART('R')" id="smart-btn-R" class="smart-card bg-slate-50 border-2 border-transparent p-3 rounded-lg text-left hover:bg-slate-100 transition">
+                            <span class="text-xs font-bold text-slate-500 uppercase">Operation 4</span>
+                            <p class="text-base font-bold text-slate-800">Rehearsing</p>
+                            <p class="text-[11px] text-slate-600 mt-1">Encoding & repetition</p>
+                        </button>
+                        <button onclick="inspectSMART('T')" id="smart-btn-T" class="smart-card bg-slate-50 border-2 border-transparent p-3 rounded-lg text-left hover:bg-slate-100 transition">
+                            <span class="text-xs font-bold text-slate-500 uppercase">Operation 5</span>
+                            <p class="text-base font-bold text-slate-800">Translating</p>
+                            <p class="text-[11px] text-slate-600 mt-1">Modality conversion</p>
+                        </button>
+                    </div>
+
+                    <!-- SMART Detail Card -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-lg p-5">
+                        <div id="smart-detail-container" class="space-y-3">
+                            <h3 class="text-lg font-bold text-teal-800" id="smart-detail-title">Searching (S) — Retrieval & Environmental Scanning</h3>
+                            <p class="text-sm text-slate-700" id="smart-detail-desc">
+                                Searching involves inspecting external sources (e.g., scanning a textbook index, searching online databases) or searching internal long-term memory stores for specific information nodes, key concepts, or procedural steps.
+                            </p>
+                            <div class="bg-white p-3 rounded border border-slate-200">
+                                <p class="text-xs font-bold text-slate-500 uppercase">Exemplar Execution in Learning</p>
+                                <p class="text-xs text-slate-700 mt-0.5" id="smart-detail-example">
+                                    Scanning a textbook chapter for bolded vocabulary words or retrieving a calculus formula from memory during an exam.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: DYNAMIC INTERNAL FEEDBACK LOOP SIMULATOR -->
+        <section id="feedback" class="space-y-6">
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 md:p-8">
+                <div class="border-b border-slate-200 pb-4 mb-6">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-teal-600 bg-teal-50 px-2.5 py-1 rounded">Interactive Module 3</span>
+                    <h2 class="text-2xl font-bold text-slate-900 mt-1">Internal Feedback & Recursive Regulatory Loop Simulator</h2>
+                    <p class="text-slate-600 text-sm mt-1">
+                        Grounded in Butler & Winne (1995), feedback is generated *internally* when metacognitive monitoring compares generated **Products (P)** against established **Standards (S)**. Adjust the sliders below to simulate how monitoring triggers object-level or meta-level adaptation.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <!-- Controls -->
+                    <div class="lg:col-span-5 space-y-6 bg-slate-50 p-5 rounded-xl border border-slate-200">
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <label class="text-xs font-bold text-slate-700 uppercase">Target Standard Metric (S)</label>
+                                <span class="text-xs font-mono font-bold text-teal-700" id="val-standard">85%</span>
+                            </div>
+                            <input type="range" id="slider-standard" min="50" max="100" value="85" oninput="updateFeedbackSim()" class="w-full accent-teal-600">
+                            <p class="text-[11px] text-slate-500 mt-0.5">Required depth/accuracy threshold set in Phase 2.</p>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <label class="text-xs font-bold text-slate-700 uppercase">Generated Product Quality (P)</label>
+                                <span class="text-xs font-mono font-bold text-indigo-700" id="val-product">60%</span>
+                            </div>
+                            <input type="range" id="slider-product" min="30" max="100" value="60" oninput="updateFeedbackSim()" class="w-full accent-indigo-600">
+                            <p class="text-[11px] text-slate-500 mt-0.5">Actual cognitive product achieved via SMART operations.</p>
+                        </div>
+
+                        <div>
+                            <label class="text-xs font-bold text-slate-700 uppercase block mb-1">Epistemic Stance Benchmark</label>
+                            <select id="select-epistemic" onchange="updateFeedbackSim()" class="w-full bg-white border border-slate-300 rounded px-3 py-1.5 text-xs text-slate-800 font-medium focus:outline-none focus:border-teal-500">
+                                <option value="sophisticated">Sophisticated (Detects subtle conceptual gaps)</option>
+                                <option value="naive">Naïve (Satisfied with surface memorization)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Simulator Visualization Output -->
+                    <div class="lg:col-span-7 bg-white rounded-xl border border-slate-200 p-6 flex flex-col justify-between space-y-6">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Evaluation Diagnostic Output</span>
+                            <span id="feedback-badge" class="px-3 py-1 text-xs font-bold rounded-full bg-rose-100 text-rose-800">
+                                Negative Feedback Detected
+                            </span>
+                        </div>
+
+                        <!-- Progress Gap Visualizer -->
+                        <div class="space-y-3">
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold mb-1">
+                                    <span>Target Standard (S)</span>
+                                    <span id="bar-val-s">85%</span>
+                                </div>
+                                <div class="w-full bg-slate-100 rounded-full h-3">
+                                    <div id="bar-s" class="bg-teal-600 h-3 rounded-full transition-all duration-300" style="width: 85%;"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold mb-1">
+                                    <span>Cognitive Product (P)</span>
+                                    <span id="bar-val-p">60%</span>
+                                </div>
+                                <div class="w-full bg-slate-100 rounded-full h-3">
+                                    <div id="bar-p" class="bg-indigo-600 h-3 rounded-full transition-all duration-300" style="width: 60%;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Dynamic Explanation Box -->
+                        <div id="feedback-action-box" class="bg-rose-50 border border-rose-200 rounded-lg p-4">
+                            <h4 class="text-sm font-bold text-rose-900 flex items-center gap-2" id="feedback-action-title">
+                                🚨 Discrepancy: Discrepancy Impulses Metacognitive Control
+                            </h4>
+                            <p class="text-xs text-rose-800 mt-1 leading-relaxed" id="feedback-action-desc">
+                                Generated product (60%) falls short of target standard (85%). Monitoring registers a negative internal feedback signal. The learner must execute **Object-Level Control** (e.g., switching tactics from Rehearsing to Assembling) or **Meta-Level Control** (revising standards or task definition).
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: COMPARATIVE ANALYSIS WITH OTHER SRL FRAMEWORKS -->
+        <section id="comparative" class="space-y-6">
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 md:p-8">
+                <div class="border-b border-slate-200 pb-4 mb-6">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-teal-600 bg-teal-50 px-2.5 py-1 rounded">Interactive Module 4</span>
+                    <h2 class="text-2xl font-bold text-slate-900 mt-1">Comparative Framework Analysis</h2>
+                    <p class="text-slate-600 text-sm mt-1">
+                        Evaluating Winne & Hadwin (1998) alongside Barry Zimmerman (2000) and Paul Pintrich (2000). While Zimmerman highlights social cognitive cycles and Pintrich details regulatory areas, Winne & Hadwin offer unparalleled microanalytic granularity for trace-based research.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <!-- Radar Chart Container -->
+                    <div class="lg:col-span-5 flex flex-col justify-center">
+                        <h3 class="text-sm font-bold text-slate-800 mb-2 text-center">Framework Dimensional Profiles</h3>
+                        <div class="chart-container">
+                            <canvas id="radarChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Comparison Matrix -->
+                    <div class="lg:col-span-7 overflow-x-auto">
+                        <table class="w-full text-left text-xs text-slate-700 border-collapse">
+                            <thead>
+                                <tr class="bg-slate-100 border-b border-slate-200 text-slate-800">
+                                    <th class="p-3 font-bold">Metric</th>
+                                    <th class="p-3 font-bold text-teal-700">Winne & Hadwin (1998)</th>
+                                    <th class="p-3 font-bold text-indigo-700">Zimmerman (2000)</th>
+                                    <th class="p-3 font-bold text-slate-600">Pintrich (2000)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200">
+                                <tr>
+                                    <td class="p-3 font-bold bg-slate-50">Theoretical Base</td>
+                                    <td class="p-3">Information Processing Theory (IPT) & Cognitive Architecture</td>
+                                    <td class="p-3">Social Cognitive Theory (Triadic Reciprocity)</td>
+                                    <td class="p-3">Integrated Cognitive & Social-Cognitive</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-bold bg-slate-50">Structural Focus</td>
+                                    <td class="p-3">Microanalytic; fine-grained event operations</td>
+                                    <td class="p-3">Macroanalytic; 3 cyclical phases (Forethought, etc.)</td>
+                                    <td class="p-3">4 Regulatory Phases x 4 Areas Matrix</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-bold bg-slate-50">Task Analysis Separation</td>
+                                    <td class="p-3 font-semibold text-teal-700">Explicit Phase 1 (Task Definition isolated from Goals)</td>
+                                    <td class="p-3">Subsumed within Forethought phase</td>
+                                    <td class="p-3">Integrated into preparatory phase</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-bold bg-slate-50">Context & Motivation</td>
+                                    <td class="p-3">Subsumed as Conditions within COPES</td>
+                                    <td class="p-3">Reciprocal triadic environment factors</td>
+                                    <td class="p-3">Explicit, parallel areas of regulation</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-bold bg-slate-50">Primary Measurement</td>
+                                    <td class="p-3 font-semibold text-teal-700">Real-time digital trace logs (gStudy/nStudy)</td>
+                                    <td class="p-3">Microanalytic interviews & self-reports</td>
+                                    <td class="p-3">Self-report survey scales (MSLQ)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: EDTECH, AI INTEGRATION & TRACE ANALYTICS -->
+        <section id="ai-analyzer" class="space-y-6">
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 md:p-8">
+                <div class="border-b border-slate-200 pb-4 mb-6">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-teal-600 bg-teal-50 px-2.5 py-1 rounded">Interactive Module 5</span>
+                    <h2 class="text-2xl font-bold text-slate-900 mt-1">Educational Technology, Trace Data & AI Scaffolding Analyzer</h2>
+                    <p class="text-slate-600 text-sm mt-1">
+                        Winne's framework pioneered time-stamped **trace data** (gStudy/nStudy). Analyzing modern AI educational software reveals a critical imbalance: AI tools heavily automate Phase 3 strategy execution while neglecting Phase 1 task definition and Phase 4 reflection.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <!-- Chart Column -->
+                    <div class="lg:col-span-5 flex flex-col items-center">
+                        <h3 class="text-sm font-bold text-slate-800 mb-2 text-center">AI Tool Concentration Across SRL Phases</h3>
+                        <div class="chart-container">
+                            <canvas id="aiDoughnutChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- AI Evaluator Interactive Tool -->
+                    <div class="lg:col-span-7 bg-slate-50 p-6 rounded-xl border border-slate-200 space-y-4">
+                        <h3 class="text-base font-bold text-slate-900">Interactive AI Scaffolding Diagnostic Tool</h3>
+                        <p class="text-xs text-slate-600">Select a common AI feature to analyze its impact on student metacognition through the Winne & Hadwin framework:</p>
+
+                        <select id="ai-tool-select" onchange="evaluateAIFeature()" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-xs font-medium text-slate-800 focus:outline-none focus:border-teal-500">
+                            <option value="code-eval">Intelligent Code Evaluator / Immediate Math Solver (Phase 3)</option>
+                            <option value="prompt-parser">GenAI Task Rubric Decoder & Prompt Parser (Phase 1)</option>
+                            <option value="planner">Automated Study Schedule Generator (Phase 2)</option>
+                            <option value="dashboard">Longitudinal Strategy Utility Reflection Dashboard (Phase 4)</option>
+                        </select>
+
+                        <div id="ai-diagnostic-result" class="bg-white p-4 rounded-lg border border-slate-200 space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs font-bold uppercase text-amber-600" id="ai-diag-phase">Target: Phase 3 (Strategy Enactment)</span>
+                                <span class="text-xs bg-rose-100 text-rose-800 font-bold px-2 py-0.5 rounded" id="ai-diag-risk">Risk: High Cognitive Over-reliance</span>
+                            </div>
+                            <h4 class="text-sm font-bold text-slate-800" id="ai-diag-title">Automated Problem Solver</h4>
+                            <p class="text-xs text-slate-600 leading-relaxed" id="ai-diag-desc">
+                                Over 70% of current AI platforms target immediate problem-solving. While improving short-term performance, these tools risk acting as cognitive crutches that execute SMART operations (e.g., Translating/Assembling) *for* the student rather than scaffolding their internal monitoring.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-6 border-t border-slate-800 mt-12 text-center text-xs">
+        <div class="max-w-7xl mx-auto px-4">
+            <p>Winne & Hadwin SRL Model Interactive Cognitive Architecture Explorer</p>
+            <p class="mt-1 text-slate-500">Based on canonical theoretical research: Winne & Hadwin (1998), Butler & Winne (1995), Winne (2001, 2011).</p>
+        </div>
+    </footer>
+
+    <!-- Application JavaScript Logic -->
+    <script>
+        // DATA STORES FOR INTERACTIVE ELEMENTS
+
+        // 1. Phases Data
+        const phasesData = {
+            1: {
+                title: "Phase 1: Task Definition",
+                tag: "Initial Cognitive Processing",
+                desc: "In Phase 1, the learner processes available external cues and internal cognitive stores to construct an internal subjective mental representation of what the academic task requires. Separating Task Definition from Goal Setting allows diagnosing whether student failure stems from poor effort or fundamental task misinterpretation.",
+                inputs: "External task cues (rubrics, constraints) & Internal conditions (prior knowledge, self-efficacy, epistemic beliefs).",
+                products: "Internal subjective task definition and preliminary success criteria metrics.",
+                personaSophisticated: "The Sophisticated Learner meticulously checks rubric expectations, identifies gaps in background knowledge, and sets multi-dimensional quality metrics before planning.",
+                personaNaive: "The Naïve Learner skims the title, assumes simple memorization is sufficient, and skips thorough task analysis.",
+                c: "Instructional directives, time limit, prior topic knowledge, epistemic stance.",
+                o: "Searching long-term memory, Monitoring cue comprehension, Translating text prompts.",
+                p: "Subjective task representation & perceived difficulty profile.",
+                es: "Comparing perceived task rules against epistemic standards of completion."
+            },
+            2: {
+                title: "Phase 2: Goal Setting & Planning",
+                tag: "Tactical Mapping & Standards",
+                desc: "Once a subjective task definition is established, the learner formulates target goals and selects specific study tactics (e.g., concept mapping, flashcards, re-reading). Goals in this framework are multi-faceted profiles of standards that define expected accuracy, depth, and timeline.",
+                inputs: "Phase 1 Task Definition, personal achievement standards, self-efficacy, time constraints.",
+                products: "Target goal profile, selected cognitive tactics, and step-by-step strategy deployment plan.",
+                personaSophisticated: "Formulates specific, multi-layered standards (e.g., 'synthesize 3 perspectives in notes') and selects deep integration tactics.",
+                personaNaive: "Sets superficial goals (e.g., 'read chapter 4 in 20 minutes') with no tactical depth.",
+                c: "Phase 1 product, knowledge of study strategy utility, available study tools.",
+                o: "Searching strategy repertoire, Assembling operational sequence, Monitoring feasibility.",
+                p: "Goal standards profile & chosen tactical plan.",
+                es: "Evaluating plan alignment against personal standards of effort."
+            },
+            3: {
+                title: "Phase 3: Studying Tactics / Strategy Enactment",
+                tag: "Operational Execution",
+                desc: "Phase 3 is the operational core where planned tactics are executed. Information processing operations (SMART schema) directly manipulate domain content to produce tangible or mental cognitive products, such as notes, solved equations, or visual diagrams.",
+                inputs: "Phase 2 strategy plan, selected study tactics, domain instructional materials.",
+                products: "Domain cognitive products (e.g., graphic organizers, summaries, solved problems, mental concepts).",
+                personaSophisticated: "Deploys active SMART operations (Assembling ideas, Translating tables to text) and continually monitors comprehension.",
+                personaNaive: "Engages in passive Rehearsing (rote highlighting or passive re-reading) without checking comprehension.",
+                c: "Selected tactics, working memory capacity, domain content artifacts.",
+                o: "Searching, Monitoring execution, Assembling concepts, Rehearsing terms, Translating visual data.",
+                p: "Generated notes, summary diagrams, internal cognitive understanding.",
+                es: "Real-time monitoring comparisons between evolving product and goal standards."
+            },
+            4: {
+                title: "Phase 4: Metacognitive Adaptation",
+                tag: "Macro-Level Adaptation",
+                desc: "Phase 4 involves post-hoc, macro-level evaluations across study episodes. The learner reviews overall success to make permanent adjustments to their future cognitive conditions, updating strategy utility beliefs, self-efficacy, or task analysis habits.",
+                inputs: "Accumulated evaluations across Phases 1-3 and external feedback (e.g., grades, instructor comments).",
+                products: "Updated cognitive conditions, revised epistemic beliefs, modified long-term strategy routines.",
+                personaSophisticated: "Reflects deeply on strategy efficacy; if exam performance fell short, updates strategy beliefs and alters future Phase 1 & 2 routines.",
+                personaNaive: "Attributes poor outcomes to external bad luck or lack of innate ability, failing to adapt future study tactics.",
+                c: "Accumulated evaluation records, external performance feedback.",
+                o: "Searching historical logs, Assembling cross-phase trends, Monitoring long-term efficiency.",
+                p: "Permanently updated strategy beliefs and modified future cognitive conditions.",
+                es: "Evaluating overarching learning efficiency against long-term academic growth standards."
+            }
+        };
+
+        // 2. COPES Data
+        const copesData = {
+            'C': {
+                title: "Conditions (C) — Contextual Parameters & Memory Stores",
+                desc: "Conditions comprise the baseline information resources and parameters available during learning. They are split into Cognitive Conditions (internal: prior knowledge, motivation, anxiety, self-efficacy, epistemic beliefs) and Task Conditions (external: instructional prompts, rubrics, time availability, environmental noise).",
+                example: "A student writing a biology paper has high genetics knowledge (Cognitive Condition) but faces a 48-hour deadline and a 10-citation rubric requirement (Task Condition)."
+            },
+            'O': {
+                title: "Operations (O) — Cognitive Information Processing",
+                desc: "Operations represent the active cognitive procedures deployed by the learner to manipulate information. Winne formalizes these through the SMART schema: Searching, Monitoring, Assembling, Rehearsing, and Translating.",
+                example: "Translating a textbook narrative into a comparative matrix table during Phase 3 study."
+            },
+            'P': {
+                title: "Products (P) — Information Outputs & Artifacts",
+                desc: "Products are the cognitive outcomes, mental representations, or physical artifacts generated when operations manipulate conditions within any phase.",
+                example: "A completed concept map, an internal subjective task definition, or a solved math formula."
+            },
+            'E': {
+                title: "Evaluations (E) — Internal Metacognitive Judgments",
+                desc: "Evaluations are judgments formed by comparing currently generated Products against established Standards. Discrepancies generate negative internal feedback signals.",
+                example: "Identifying that a draft essay covers only 2 of 4 required rubric themes."
+            },
+            'S': {
+                title: "Standards (S) — Benchmark Reference Criteria",
+                desc: "Standards are the target reference criteria or benchmark profiles set by the learner against which products are continuously monitored.",
+                example: "A target goal to score 90%+ on practice quizzes or complete notes with zero conceptual gaps."
+            }
+        };
+
+        // 3. SMART Data
+        const smartData = {
+            'S': {
+                title: "Searching (S) — Information Retrieval",
+                desc: "Scanning external environments or long-term memory stores to locate relevant information nodes or procedural steps.",
+                example: "Scanning a textbook index for key terms or retrieving a calculus formula from memory."
+            },
+            'M': {
+                title: "Monitoring (M) — State Tracking & Verification",
+                desc: "Tracking ongoing cognitive events, checking processing speed, and assessing progress during task execution.",
+                example: "Checking whether current reading speed allows complete coverage of the assigned chapter before class."
+            },
+            'A': {
+                title: "Assembling (A) — Structural Integration",
+                desc: "Linking discrete information nodes together to construct organized, interconnected conceptual structures.",
+                example: "Constructing a mind map connecting historical causes to geopolitical outcomes."
+            },
+            'R': {
+                title: "Rehearsing (R) — Memory Encoding & Repetition",
+                desc: "Repeating or practicing information to maintain working memory traces or facilitate long-term memory consolidation.",
+                example: "Rote recitation of flashcard terminology or practicing mathematical procedural steps."
+            },
+            'T': {
+                title: "Translating (T) — Representation Conversion",
+                desc: "Transforming information from one format, modality, or linguistic structure into another.",
+                example: "Converting a complex word problem into an algebraic equation or abstract text into a visual flowchart."
+            }
+        };
+
+        // STATE VARIABLES
+        let currentPersona = 'sophisticated';
+        let currentPhase = 1;
+
+        // INTERACTION HANDLERS
+
+        // Persona Switcher
+        function setPersona(persona) {
+            currentPersona = persona;
+            document.getElementById('btn-sophisticated').className = persona === 'sophisticated' 
+                ? 'px-3 py-1.5 text-xs font-semibold rounded bg-teal-600 text-white shadow-sm' 
+                : 'px-3 py-1.5 text-xs font-semibold rounded bg-white text-slate-700 hover:bg-slate-200 border border-slate-300';
+            document.getElementById('btn-naive').className = persona === 'naive' 
+                ? 'px-3 py-1.5 text-xs font-semibold rounded bg-teal-600 text-white shadow-sm' 
+                : 'px-3 py-1.5 text-xs font-semibold rounded bg-white text-slate-700 hover:bg-slate-200 border border-slate-300';
+            
+            document.getElementById('persona-title').innerText = persona === 'sophisticated' 
+                ? 'Sophisticated Epistemic Learner' 
+                : 'Naïve Epistemic Learner';
+
+            selectPhase(currentPhase);
+            updateFeedbackSim();
+        }
+
+        // Select Phase Stepper
+        function selectPhase(phaseNum) {
+            currentPhase = phaseNum;
+            const data = phasesData[phaseNum];
+
+            // Update Stepper Button Styles
+            for (let i = 1; i <= 4; i++) {
+                const btn = document.getElementById(`phase-btn-${i}`);
+                if (i === phaseNum) {
+                    btn.className = "phase-tab border-l-4 border-teal-600 bg-teal-50/50 p-3 text-left rounded-r shadow-sm transition";
+                    btn.querySelector('p:first-child').className = "text-xs font-bold text-teal-700 uppercase";
+                } else {
+                    btn.className = "phase-tab border-l-4 border-transparent bg-slate-50 p-3 text-left rounded-r hover:bg-slate-100 transition";
+                    btn.querySelector('p:first-child').className = "text-xs font-bold text-slate-500 uppercase";
+                }
+            }
+
+            // Update Dynamic Display Fields
+            document.getElementById('phase-display-title').innerText = data.title;
+            document.getElementById('phase-display-tag').innerText = data.tag;
+            document.getElementById('phase-display-desc').innerText = data.desc;
+            document.getElementById('phase-display-inputs').innerText = data.inputs;
+            document.getElementById('phase-display-products').innerText = data.products;
+
+            // Persona specific text
+            document.getElementById('persona-behavior-text').innerText = currentPersona === 'sophisticated' 
+                ? data.personaSophisticated 
+                : data.personaNaive;
+
+            // COPES box
+            document.getElementById('copes-c').innerText = data.c;
+            document.getElementById('copes-o').innerText = data.o;
+            document.getElementById('copes-p').innerText = data.p;
+            document.getElementById('copes-es').innerText = data.es;
+        }
+
+        function triggerPhaseFeedback() {
+            alert(`Simulating Metacognitive Loop for ${phasesData[currentPhase].title}:\n\nMonitoring compares current Products against target Standards. If a gap is detected, recursive feedback initiates Object-Level (Micro) strategy shifts or Meta-Level (Macro) condition updates!`);
+        }
+
+        // Architecture Inspector Tab Switcher
+        function switchArchitectTab(tab) {
+            if (tab === 'copes') {
+                document.getElementById('tab-copes').className = "tab-btn active px-4 py-2 text-sm font-semibold border-b-2 border-teal-600 text-teal-600 focus:outline-none";
+                document.getElementById('tab-smart').className = "tab-btn px-4 py-2 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-700 focus:outline-none";
+                document.getElementById('view-copes').classList.remove('hidden');
+                document.getElementById('view-smart').classList.add('hidden');
+            } else {
+                document.getElementById('tab-smart').className = "tab-btn active px-4 py-2 text-sm font-semibold border-b-2 border-teal-600 text-teal-600 focus:outline-none";
+                document.getElementById('tab-copes').className = "tab-btn px-4 py-2 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-700 focus:outline-none";
+                document.getElementById('view-smart').classList.remove('hidden');
+                document.getElementById('view-copes').classList.add('hidden');
+            }
+        }
+
+        function inspectCOPES(key) {
+            const data = copesData[key];
+            const keys = ['C', 'O', 'P', 'E', 'S'];
+            keys.forEach(k => {
+                const btn = document.getElementById(`copes-btn-${k}`);
+                if (k === key) {
+                    btn.className = "copes-card bg-teal-50 border-2 border-teal-500 p-4 rounded-lg text-left hover:shadow-md transition";
+                } else {
+                    btn.className = "copes-card bg-slate-50 border-2 border-transparent p-4 rounded-lg text-left hover:bg-slate-100 transition";
+                }
+            });
+
+            document.getElementById('copes-detail-title').innerText = data.title;
+            document.getElementById('copes-detail-desc').innerText = data.desc;
+            document.getElementById('copes-detail-example').innerText = data.example;
+        }
+
+        function inspectSMART(key) {
+            const data = smartData[key];
+            const keys = ['S', 'M', 'A', 'R', 'T'];
+            keys.forEach(k => {
+                const btn = document.getElementById(`smart-btn-${k}`);
+                if (k === key) {
+                    btn.className = "smart-card bg-teal-50 border-2 border-teal-500 p-3 rounded-lg text-left hover:shadow transition";
+                } else {
+                    btn.className = "smart-card bg-slate-50 border-2 border-transparent p-3 rounded-lg text-left hover:bg-slate-100 transition";
+                }
+            });
+
+            document.getElementById('smart-detail-title').innerText = data.title;
+            document.getElementById('smart-detail-desc').innerText = data.desc;
+            document.getElementById('smart-detail-example').innerText = data.example;
+        }
+
+        // Feedback Loop Simulator Logic
+        function updateFeedbackSim() {
+            const standard = parseInt(document.getElementById('slider-standard').value);
+            const product = parseInt(document.getElementById('slider-product').value);
+            const stance = document.getElementById('select-epistemic').value;
+
+            document.getElementById('val-standard').innerText = `${standard}%`;
+            document.getElementById('val-product').innerText = `${product}%`;
+
+            document.getElementById('bar-s').style.width = `${standard}%`;
+            document.getElementById('bar-p').style.width = `${product}%`;
+            document.getElementById('bar-val-s').innerText = `${standard}%`;
+            document.getElementById('bar-val-p').innerText = `${product}%`;
+
+            const badge = document.getElementById('feedback-badge');
+            const actionBox = document.getElementById('feedback-action-box');
+            const actionTitle = document.getElementById('feedback-action-title');
+            const actionDesc = document.getElementById('feedback-action-desc');
+
+            const diff = standard - product;
+
+            if (diff <= 0) {
+                // Match or Exceed
+                badge.className = "px-3 py-1 text-xs font-bold rounded-full bg-emerald-100 text-emerald-800";
+                badge.innerText = "Positive Internal Feedback";
+
+                actionBox.className = "bg-emerald-50 border border-emerald-200 rounded-lg p-4";
+                actionTitle.className = "text-sm font-bold text-emerald-900 flex items-center gap-2";
+                actionTitle.innerText = "✅ Goal Achieved: Confirmation Signal Registered";
+                actionDesc.innerText = stance === 'naive'
+                    ? "Product meets or exceeds target standard. The naïve learner stops processing immediately, satisfied with superficial completion."
+                    : "Product meets initial standard. The sophisticated learner confirms tactical success and may voluntarily raise standards for deeper conceptual mastery.";
+            } else if (stance === 'naive' && diff < 15) {
+                // Naive learner premature termination
+                badge.className = "px-3 py-1 text-xs font-bold rounded-full bg-amber-100 text-amber-800";
+                badge.innerText = "Premature Confirmation (Naïve Bias)";
+
+                actionBox.className = "bg-amber-50 border border-amber-200 rounded-lg p-4";
+                actionTitle.className = "text-sm font-bold text-amber-900 flex items-center gap-2";
+                actionTitle.innerText = "⚠️ False Match: Naïve Epistemic Termination";
+                actionDesc.innerText = `Though a ${diff}% gap exists, the naïve learner's shallow monitoring routines fail to detect deep conceptual deficiencies. They register false positive feedback and prematurely terminate study effort.`;
+            } else {
+                // Negative Feedback Discrepancy
+                badge.className = "px-3 py-1 text-xs font-bold rounded-full bg-rose-100 text-rose-800";
+                badge.innerText = `Discrepancy Detected (-${diff}%)`;
+
+                actionBox.className = "bg-rose-50 border border-rose-200 rounded-lg p-4";
+                actionTitle.className = "text-sm font-bold text-rose-900 flex items-center gap-2";
+                actionTitle.innerText = "🚨 Negative Internal Feedback: Triggers Regulatory Control";
+                actionDesc.innerText = `Product (${product}%) falls short of Target Standard (${standard}%). Monitoring triggers an imperative for control: 1) Object-Level Control (shift from Rehearsing to Assembling/Translating in Phase 3), or 2) Meta-Level Control (re-evaluating Phase 1 Task Definition or Phase 2 Goals).`;
+            }
+        }
+
+        // AI Diagnostic Evaluator Tool
+        function evaluateAIFeature() {
+            const val = document.getElementById('ai-tool-select').value;
+            const phase = document.getElementById('ai-diag-phase');
+            const risk = document.getElementById('ai-diag-risk');
+            const title = document.getElementById('ai-diag-title');
+            const desc = document.getElementById('ai-diag-desc');
+
+            if (val === 'code-eval') {
+                phase.innerText = "Target: Phase 3 (Strategy Enactment)";
+                phase.className = "text-xs font-bold uppercase text-amber-600";
+                risk.innerText = "Risk: High Cognitive Over-reliance";
+                risk.className = "text-xs bg-rose-100 text-rose-800 font-bold px-2 py-0.5 rounded";
+                title.innerText = "Intelligent Code Evaluator / Immediate Math Solver";
+                desc.innerText = "Over 70% of current educational AI tools focus on immediate solution execution in Phase 3. While offering rapid error correction, these tools frequently perform SMART operations (Translating/Assembling) on behalf of the student, serving as cognitive crutches rather than metacognitive scaffolds.";
+            } else if (val === 'prompt-parser') {
+                phase.innerText = "Target: Phase 1 (Task Definition)";
+                phase.className = "text-xs font-bold uppercase text-teal-600";
+                risk.innerText = "Opportunity: High Metacognitive Impact";
+                risk.className = "text-xs bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded";
+                title.innerText = "GenAI Rubric Decoder & Task Clarifier";
+                desc.innerText = "Phase 1 is heavily underrepresented in current EdTech (<5%). AI tools that help students analyze rubric expectations, decompose prompts, and identify domain knowledge gaps help prevent fundamental task misinterpretation prior to goal setting.";
+            } else if (val === 'planner') {
+                phase.innerText = "Target: Phase 2 (Goal Setting & Planning)";
+                phase.className = "text-xs font-bold uppercase text-indigo-600";
+                risk.innerText = "Status: Moderate Scaffolding Support";
+                risk.className = "text-xs bg-indigo-100 text-indigo-800 font-bold px-2 py-0.5 rounded";
+                title.innerText = "Automated Study Schedule & Tactical Planner";
+                desc.innerText = "AI planners assist in structuring deadlines and breaking tasks into steps. However, their efficacy depends heavily on user epistemic beliefs—learners must actively internalize the planned standards rather than passively following schedule alerts.";
+            } else if (val === 'dashboard') {
+                phase.innerText = "Target: Phase 4 (Metacognitive Adaptation)";
+                phase.className = "text-xs font-bold uppercase text-purple-600";
+                risk.innerText = "Critical Gap: Highly Needed";
+                risk.className = "text-xs bg-purple-100 text-purple-800 font-bold px-2 py-0.5 rounded";
+                title.innerText = "Longitudinal Strategy Reflection Dashboard";
+                desc.innerText = "Phase 4 AI tools remain critically rare (~5%). Effective trace-driven dashboards visualize historical study tactic efficiency across multiple exam cycles, encouraging students to update long-term strategy beliefs and cognitive conditions.";
+            }
+        }
+
+        // CHART.JS INITIALIZATIONS
+        window.addEventListener('DOMContentLoaded', () => {
+            // 1. Radar Chart: Comparative Framework Dimensions
+            const ctxRadar = document.getElementById('radarChart').getContext('2d');
+            new Chart(ctxRadar, {
+                type: 'radar',
+                data: {
+                    labels: [
+                        ['Microanalytic', 'Granularity'],
+                        ['Trace Data', 'Precision'],
+                        ['Clinical / Macro', 'Usability'],
+                        ['Context/Motivation', 'Integration'],
+                        ['Task Analysis', 'Isolation']
+                    ],
+                    datasets: [
+                        {
+                            label: 'Winne & Hadwin (1998)',
+                            data: [95, 95, 60, 70, 95],
+                            backgroundColor: 'rgba(13, 148, 136, 0.2)',
+                            borderColor: '#0d9488',
+                            pointBackgroundColor: '#0d9488',
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Zimmerman (2000)',
+                            data: [65, 50, 95, 90, 60],
+                            backgroundColor: 'rgba(79, 70, 229, 0.2)',
+                            borderColor: '#4f46e5',
+                            pointBackgroundColor: '#4f46e5',
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Pintrich (2000)',
+                            data: [75, 60, 85, 95, 70],
+                            backgroundColor: 'rgba(100, 116, 139, 0.2)',
+                            borderColor: '#64748b',
+                            pointBackgroundColor: '#64748b',
+                            borderWidth: 2
+                        }
+                    ]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#e2e8f0' },
+                            grid: { color: '#e2e8f0' },
+                            pointLabels: {
+                                font: { size: 10, weight: 'bold' },
+                                color: '#334155'
+                            },
+                            ticks: { display: false, max: 100 }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { boxWidth: 12, font: { size: 11 } }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.raw + '/100';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 2. Doughnut Chart: AI Distribution Across SRL Phases
+            const ctxDoughnut = document.getElementById('aiDoughnutChart').getContext('2d');
+            new Chart(ctxDoughnut, {
+                type: 'doughnut',
+                data: {
+                    labels: [
+                        'Phase 1: Task Definition (~5%)',
+                        'Phase 2: Planning (~15%)',
+                        'Phase 3: Strategy Enactment (>70%)',
+                        'Phase 4: Adaptation (~5%)'
+                    ],
+                    datasets: [{
+                        data: [5, 15, 72, 8],
+                        backgroundColor: [
+                            '#0d9488', // Teal
+                            '#6366f1', // Indigo
+                            '#f43f5e', // Rose / Alert
+                            '#a855f7'  // Purple
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { boxWidth: 12, font: { size: 10 } }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ' ' + context.label + ': ' + context.raw + '% AI Market Share';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Initial simulation state
+            updateFeedbackSim();
+        });
+    </script>
+</body>
+</html>
