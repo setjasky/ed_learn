@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Website Hub</title>
+    
+    <style>
+        :root {
+            --bg-color: #f4f7f6;
+            --text-main: #333333;
+            --text-muted: #666666;
+            --card-bg: #ffffff;
+            --accent-color: #3498db;
+            --accent-hover: #2980b9;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.2rem;
+        }
+
+        header p {
+            margin: 6px 0;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Controls Section */
+        .controls-bar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+            max-width: 850px;
+            margin-bottom: 20px;
+        }
+
+        .toggle-group {
+            display: inline-flex;
+            background-color: #e2e8f0;
+            padding: 4px;
+            border-radius: 10px;
+            gap: 4px;
+        }
+
+        .toggle-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            color: #475569;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 7px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .toggle-btn:hover {
+            color: #0f172a;
+        }
+
+        .toggle-btn.active {
+            background-color: #ffffff;
+            color: var(--accent-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+        }
+
+        .toggle-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        /* Nav Container & Cards Layout */
+        .nav-container {
+            width: 100%;
+            max-width: 850px;
+            transition: all 0.3s ease;
+        }
+
+        /* Standard Card Style */
+        .nav-card {
+            background: var(--card-bg);
+            padding: 22px 24px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #2c3e50;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            border: 2px solid transparent;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent-color);
+        }
+
+        .nav-card h2 {
+            margin: 0 0 8px 0;
+            font-size: 1.25rem;
+            color: #1e293b;
+        }
+
+        .nav-card .desc {
+            margin: 0 0 8px 0;
+            color: #475569;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .nav-card .sub-note {
+            margin: auto 0 0 0;
+            color: #64748b;
+            font-size: 0.85rem;
+            font-style: italic;
+        }
+
+        /* --- Grid Mode --- */
+        .nav-container.view-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .nav-container.view-grid .nav-card {
+            text-align: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        /* --- List Mode --- */
+        .nav-container.view-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .nav-container.view-list .nav-card {
+            text-align: left;
+            align-items: flex-start;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-container.view-list .card-content {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex: 1;
+        }
+
+        .nav-container.view-list .card-meta {
+            text-align: right;
+            padding-left: 20px;
+            min-width: 180px;
+        }
+
+        .nav-container.view-list .nav-card h2 {
+            margin-bottom: 2px;
+        }
+
+        .nav-container.view-list .nav-card .sub-note {
+            margin-top: 0;
+        }
+
+        /* Mobile responsiveness for List view */
+        @media (max-width: 640px) {
+            .nav-container.view-list .nav-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-container.view-list .card-meta {
+                text-align: left;
+                padding-left: 0;
+                margin-top: 8px;
+            }
+
+            .controls-bar {
+                justify-content: center;
+            }
+        }
+
+        footer {
+            margin-top: auto;
+            padding-top: 40px;
+            padding-bottom: 20px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>👋 Welcome to My Website 👋</h1>
+        <p>This is some projects related or byproducts from my PhD Research <img src="https://flagcdn.com/48x36/my.png" srcset="https://flagcdn.com/48x36/my.png 2x" width="24" height="18" alt="Malaysia" style="vertical-align: middle; border-radius: 2px;"></p>
+        <p>Select a page below to explore my work:</p>
+    </header>
+
+    <div class="controls-bar">
+        <div class="toggle-group" role="tablist" aria-label="View Layout Options">
+            <button id="gridBtn" class="toggle-btn active" onclick="setViewMode('grid')" aria-label="Grid View">
+                <svg viewBox="0 0 24 24">
+                    <path d="M4 4h4v4H4V4zm6 0h4v4h-4V4zm6 0h4v4h-4V4zM4 10h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4zM4 16h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4z"/>
+                </svg>
+                Grid
+            </button>
+            <button id="listBtn" class="toggle-btn" onclick="setViewMode('list')" aria-label="List View">
+                <svg viewBox="0 0 24 24">
+                    <path d="M4 6h16v2H4V6zm0 5h16v2H4v-2zm0 5h16v2H4v-2z"/>
+                </svg>
+                List
+            </button>
+        </div>
+    </div>
+
+    <main id="navContainer" class="nav-container view-grid">
+
+       <a href="lp_accuracy.html" class="nav-card">
+            <div class="card-content">
+                <h2>🗃️ LP Benchmark</h2>
+                <p class="desc">Learning Performance Benchmark Accuracy</p>
+            </div>
+            <div class="card-meta">
+                <p class="sub-note">~ 1st 🥇 LP resume for LR ~</p>
+            </div>
+       </a>
+
+       <a href="la_dash.html" class="nav-card">
+            <div class="card-content">
+                <h2>🗃️ LA Dashboard</h2>
+                <p class="desc">Learning Analytics Dashboard</p>
+            </div>
+            <div class="card-meta">
+                <p class="sub-note">~ 2nd 🥈 LP resume for LR ~</p>
+            </div>
+        </a>
+
+        <a href="spa_infographic.html" class="nav-card">
+            <div class="card-content">
+                <h2>🗃️ Global Analytics</h2>
+                <p class="desc">Global Analytics Brief Infographic</p>
+            </div>
+            <div class="card-meta">
+                <p class="sub-note">~ 3rd 🥉 LP resume for LR ~</p>
+            </div>
+        </a>
+        
+        <a href="empowering_intent_framework.html" class="nav-card">
+            <div class="card-content">
+                <h2>🔥 Empowering Intent Framework</h2>
+                <p class="desc">Shifting Product Success from Attention Capture to Agency Amplification!</p>
+            </div>
+            <div class="card-meta"></div>
+        </a>
+        
+        <a href="felder_silverman_learning_style_model_infographic.html" class="nav-card">
+            <div class="card-content">
+                <h2>📁 Felder-Silverman Learning Style Model</h2>
+                <p class="desc">FSLSM Theoretical Framework</p>
+            </div>
+            <div class="card-meta"></div>
+        </a>
+
+        <a href="lms_framework_architecture_explorer.html" class="nav-card">
+            <div class="card-content">
+                <h2>🔥 Architecture Framework for Next-Gen LMS</h2>
+                <p class="desc">Transitioning traditional administrative LMS platforms into high-performance, student-centric learning engines</p>
+            </div>
+            <div class="card-meta"></div>
+        </a>
+        
+        <a href="winne_hadwin_srl_model_interactive_explorer.html" class="nav-card">
+            <div class="card-content">
+                <h2>🖇️ Winne & Hadwin SRL Model</h2>
+                <p class="desc">Winne and Hadwin provide a microanalytic, 4-phase recursive framework governed by the <strong>COPES</strong> and powered by the <strong>SMART</strong> cognitive operational taxonomy.</p>
+            </div>
+            <div class="card-meta"></div>
+        </a>
+            
+        <a href="ethical_nudging_in_lms_design.html" class="nav-card">
+            <div class="card-content">
+                <h2>📁 Ethical Nudge Architecture</h2>
+                <p class="desc">Architectural Foundations of Ethical Digital Nudging LMS</p>
+            </div>
+            <div class="card-meta"></div>
+        </a>
+        
+        <a href="self_regulated_learning_framework_analysis.html" class="nav-card">
+            <div class="card-content">
+                <h2>🖇️ SRL Theoretical Framework Matrix</h2>
+                <p class="desc">Comparative Analysis: Zimmerman vs. Pintrich vs. Winne & Hadwin</p>
+            </div>
+            <div class="card-meta"></div>
+        </a>
+        
+        <a href="contact.html" class="nav-card">
+            <div class="card-content">
+                <h2>🕵🏼‍♂️ upcoming</h2>
+                <p class="desc">New project following...</p>
+            </div>
+            <div class="card-meta"></div>
+        </a>
+
+    </main>
+
+    <footer>
+        <p>ytmursityo ©️ 2026</p>
+    </footer>
+
+    <script>
+        function setViewMode(mode) {
+            const container = document.getElementById('navContainer');
+            const gridBtn = document.getElementById('gridBtn');
+            const listBtn = document.getElementById('listBtn');
+
+            if (mode === 'list') {
+                container.classList.remove('view-grid');
+                container.classList.add('view-list');
+                
+                listBtn.classList.add('active');
+                gridBtn.classList.remove('active');
+            } else {
+                container.classList.remove('view-list');
+                container.classList.add('view-grid');
+                
+                gridBtn.classList.add('active');
+                listBtn.classList.remove('active');
+            }
+
+            // Save preference to localStorage
+            try {
+                localStorage.setItem('hub_view_mode', mode);
+            } catch (e) {
+                // Storage unavailable/blocked
+            }
+        }
+
+        // Initialize saved mode on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            try {
+                const savedMode = localStorage.getItem('hub_view_mode');
+                if (savedMode === 'list' || savedMode === 'grid') {
+                    setViewMode(savedMode);
+                }
+            } catch (e) {
+                // Storage unavailable
+            }
+        });
+    </script>
+</body>
+</html>
