@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Agentic AI Paradigm: Interactive Technical & Governance Report</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#2563eb',
+                            600: '#1d4ed8',
+                            700: '#1e40af',
+                            900: '#0f172a',
+                        },
+                        accent: {
+                            50: '#f0fdf4',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                        },
+                        amber: {
+                            50: '#fffbeb',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        },
+                        rose: {
+                            50: '#fff1f2',
+                            500: '#f43f5e',
+                            600: '#e11d48',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 380px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 360px;
+            }
+        }
+        .tab-btn.active {
+            border-bottom-color: #2563eb;
+            color: #1d4ed8;
+            background-color: #ffffff;
+            font-weight: 600;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+        .mono-code {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        /* Custom scrollbar for clean internal panels */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col">
+
+<!-- Chosen Palette: Warm Stone & Indigo/Teal Slate - Serene, minimal, modern executive technical theme -->
+<!-- Application Structure Plan: The application is structured into an Interactive Executive Dashboard with 6 core domain modules: 1. Autonomy Taxonomy Explorer (navigating L0-L5 roles, risks, legal liability), 2. Unified Architecture Simulator (deconstructing Phi, M, P, T modules with an interactive state-loop visualizer), 3. Protocol & MCP Matrix (exploring JSON-RPC progressive disclosure vs RAG/Function calling with token economy simulation), 4. Multi-Agent Framework Topologies (comparing LangGraph, CrewAI, AutoGen, OpenAI SDK across state & control metrics), 5. SWE-bench Empirical Benchmarking (interactive dataset saturation vs Pro enterprise drop visualizer), and 6. OWASP Security & Governance Risk Matrix (ASI01-ASI10 threat filter and defense audit calculator). This structure translates the complex technical report into actionable, interactive decision-support views for system architects and enterprise leaders. -->
+<!-- Visualization & Content Choices: 
+1. Autonomy Spectrum: Interactive Step Selector -> Goal: Calibrate operational agency -> Canvas/HTML dynamic cards with live liability mapping.
+2. Architecture Loop: Interactive Node Graph & Execution Flow -> Goal: Explain state loop -> HTML/CSS interactive flow with active state highlights.
+3. MCP vs RAG vs Function Calling: Interactive Feature Matrix & Token Cost Calculator -> Goal: Demonstrate progressive disclosure advantage -> Dynamic Chart.js Bar Chart showing token usage scaling with tool count.
+4. Multi-Agent Framework Matrix: Filterable Radar Chart & Comparison Matrix -> Goal: Compare orchestration paradigms -> Chart.js Radar chart comparing Determinism, Prototyping Speed, Dynamic Flexibility, and Low Overhead.
+5. SWE-bench Gap: Dynamic Grouped Bar Chart -> Goal: Contrast Verified vs Pro score drop -> Interactive Chart.js chart with model selector.
+6. OWASP ASI Top 10: Interactive Threat Grid & Risk Auditor -> Goal: Explore security vulnerabilities -> Interactive HTML cards with search, filter by risk level, and mitigation inspector.
+Confirming NO SVG graphics used and NO Mermaid JS used. -->
+<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <!-- Header / Banner -->
+    <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+                <span class="bg-blue-600 text-white p-2 rounded-lg text-xl font-bold font-mono">AI</span>
+                <div>
+                    <h1 class="text-lg md:text-xl font-bold tracking-tight text-white">The Agentic AI Paradigm</h1>
+                    <p class="text-xs text-slate-400">Technical Architectures, Autonomy Taxonomies, Protocols & Security</p>
+                </div>
+            </div>
+            <!-- Quick Stat Counters -->
+            <div class="flex items-center gap-4 text-xs">
+                <div class="bg-slate-800/80 px-3 py-1.5 rounded-md border border-slate-700 text-center">
+                    <span class="block font-bold text-blue-400 text-sm">40%</span>
+                    <span class="text-slate-400">Apps Agentic by 2026</span>
+                </div>
+                <div class="bg-slate-800/80 px-3 py-1.5 rounded-md border border-slate-700 text-center">
+                    <span class="block font-bold text-amber-400 text-sm">20-35%</span>
+                    <span class="text-slate-400">SWE-bench Pro Drop</span>
+                </div>
+                <div class="bg-slate-800/80 px-3 py-1.5 rounded-md border border-slate-700 text-center">
+                    <span class="block font-bold text-emerald-400 text-sm">OWASP 10</span>
+                    <span class="text-slate-400">ASI Security Vectors</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Navigation Bar -->
+        <nav class="bg-slate-800/90 border-t border-slate-700/60 overflow-x-auto">
+            <div class="max-w-7xl mx-auto flex whitespace-nowrap px-4 text-sm font-medium text-slate-300">
+                <button onclick="switchTab('tab-autonomy')" id="btn-tab-autonomy" class="tab-btn active px-4 py-3 border-b-2 border-transparent hover:text-white transition-colors">
+                    🎯 Autonomy Spectrum
+                </button>
+                <button onclick="switchTab('tab-architecture')" id="btn-tab-architecture" class="tab-btn px-4 py-3 border-b-2 border-transparent hover:text-white transition-colors">
+                    🏗️ System Architecture
+                </button>
+                <button onclick="switchTab('tab-mcp')" id="btn-tab-mcp" class="tab-btn px-4 py-3 border-b-2 border-transparent hover:text-white transition-colors">
+                    🔌 MCP Protocol Standard
+                </button>
+                <button onclick="switchTab('tab-frameworks')" id="btn-tab-frameworks" class="tab-btn px-4 py-3 border-b-2 border-transparent hover:text-white transition-colors">
+                    🔀 Multi-Agent Topologies
+                </button>
+                <button onclick="switchTab('tab-benchmarks')" id="btn-tab-benchmarks" class="tab-btn px-4 py-3 border-b-2 border-transparent hover:text-white transition-colors">
+                    📊 SWE-bench Metrics
+                </button>
+                <button onclick="switchTab('tab-security')" id="btn-tab-security" class="tab-btn px-4 py-3 border-b-2 border-transparent hover:text-white transition-colors">
+                    🛡️ OWASP Security Framework
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+        <!-- ================= SECTION 1: AUTONOMY SPECTRUM ================= -->
+        <section id="tab-autonomy" class="tab-content block space-y-6">
+            <!-- Section Intro Context -->
+            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                <h2 class="text-xl font-bold text-slate-900 mb-2">Taxonomies & Calibration of Agent Autonomy</h2>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Agentic AI shifts foundation models from passive conversational interfaces into active execution engines. Defining autonomy requires separating cognitive capacity from delegated operational authority. As systems ascend from Level 0 (No Autonomy) to Level 5 (Full Autonomy), the human operational role transitions from direct executor to post-execution auditor, fundamentally shifting legal accountability from end-users to system developers and integrators.
+                </p>
+            </div>
+
+            <!-- Interactive Spectrum Explorer -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Level Selection Sidebar -->
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-3">
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Select Autonomy Tier</h3>
+                    <div class="space-y-2">
+                        <button onclick="selectAutonomyLevel(0)" id="auto-btn-0" class="auto-level-btn w-full text-left p-3 rounded-lg border border-slate-200 hover:border-blue-300 hover:bg-slate-50 transition flex items-center justify-between">
+                            <div>
+                                <span class="text-xs font-mono font-bold text-slate-500 block">LEVEL 0</span>
+                                <span class="text-sm font-semibold text-slate-800">No Autonomy</span>
+                            </div>
+                            <span class="text-xs px-2 py-1 bg-slate-100 text-slate-600 rounded">Informational</span>
+                        </button>
+                        <button onclick="selectAutonomyLevel(1)" id="auto-btn-1" class="auto-level-btn w-full text-left p-3 rounded-lg border border-slate-200 hover:border-blue-300 hover:bg-slate-50 transition flex items-center justify-between">
+                            <div>
+                                <span class="text-xs font-mono font-bold text-blue-600 block">LEVEL 1</span>
+                                <span class="text-sm font-semibold text-slate-800">Assisted Operator</span>
+                            </div>
+                            <span class="text-xs px-2 py-1 bg-blue-50 text-blue-700 rounded">Step-by-Step</span>
+                        </button>
+                        <button onclick="selectAutonomyLevel(2)" id="auto-btn-2" class="auto-level-btn w-full text-left p-3 rounded-lg border border-slate-200 hover:border-blue-300 hover:bg-slate-50 transition flex items-center justify-between">
+                            <div>
+                                <span class="text-xs font-mono font-bold text-indigo-600 block">LEVEL 2</span>
+                                <span class="text-sm font-semibold text-slate-800">Supervised Collaborator</span>
+                            </div>
+                            <span class="text-xs px-2 py-1 bg-indigo-50 text-indigo-700 rounded">Plan Approval</span>
+                        </button>
+                        <button onclick="selectAutonomyLevel(3)" id="auto-btn-3" class="auto-level-btn w-full text-left p-3 rounded-lg border border-slate-200 hover:border-blue-300 hover:bg-slate-50 transition flex items-center justify-between">
+                            <div>
+                                <span class="text-xs font-mono font-bold text-emerald-600 block">LEVEL 3</span>
+                                <span class="text-sm font-semibold text-slate-800">Conditional Consultant</span>
+                            </div>
+                            <span class="text-xs px-2 py-1 bg-emerald-50 text-emerald-700 rounded">Exception Gated</span>
+                        </button>
+                        <button onclick="selectAutonomyLevel(4)" id="auto-btn-4" class="auto-level-btn w-full text-left p-3 rounded-lg border border-slate-200 hover:border-blue-300 hover:bg-slate-50 transition flex items-center justify-between">
+                            <div>
+                                <span class="text-xs font-mono font-bold text-amber-600 block">LEVEL 4</span>
+                                <span class="text-sm font-semibold text-slate-800">High Approver</span>
+                            </div>
+                            <span class="text-xs px-2 py-1 bg-amber-50 text-amber-700 rounded">Executive Validation</span>
+                        </button>
+                        <button onclick="selectAutonomyLevel(5)" id="auto-btn-5" class="auto-level-btn w-full text-left p-3 rounded-lg border border-slate-200 hover:border-blue-300 hover:bg-slate-50 transition flex items-center justify-between">
+                            <div>
+                                <span class="text-xs font-mono font-bold text-rose-600 block">LEVEL 5</span>
+                                <span class="text-sm font-semibold text-slate-800">Full Observer</span>
+                            </div>
+                            <span class="text-xs px-2 py-1 bg-rose-50 text-rose-700 rounded">Unrestricted</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Selected Level Breakdown Panel -->
+                <div class="lg:col-span-2 bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between space-y-6">
+                    <div>
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-4 mb-4">
+                            <div>
+                                <span id="auto-detail-badge" class="text-xs font-mono font-bold px-2.5 py-1 bg-blue-100 text-blue-800 rounded-full">LEVEL 1</span>
+                                <h3 id="auto-detail-title" class="text-xl font-bold text-slate-900 mt-1">Assisted Workflow Operator</h3>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-xs text-slate-400 block">Primary User Role</span>
+                                <span id="auto-detail-role" class="text-sm font-semibold text-slate-700">Executing Decision-Maker</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            <div class="bg-slate-50 p-4 rounded-lg border border-slate-100">
+                                <span class="text-xs font-semibold text-slate-500 uppercase block mb-1">Planning Responsibility</span>
+                                <p id="auto-detail-planning" class="text-sm text-slate-800 font-medium">Human User retains long-term strategy; agent assists with short-term context.</p>
+                            </div>
+                            <div class="bg-slate-50 p-4 rounded-lg border border-slate-100">
+                                <span class="text-xs font-semibold text-slate-500 uppercase block mb-1">Tool Execution Authority</span>
+                                <p id="auto-detail-authority" class="text-sm text-slate-800 font-medium">Step-by-Step Explicit Human Approval for each tool invocation.</p>
+                            </div>
+                        </div>
+
+                        <!-- Liability & Legal Structure -->
+                        <div class="bg-amber-50/60 p-4 rounded-lg border border-amber-200/80 mb-4">
+                            <h4 class="text-xs font-bold text-amber-800 uppercase tracking-wider mb-1">Legal Liability & Risk Distribution</h4>
+                            <p id="auto-detail-liability" class="text-sm text-amber-900 leading-relaxed">
+                                Primary risk remains with the Human User / Operator. The agent serves strictly as an instrumentality under traditional tort law.
+                            </p>
+                        </div>
+
+                        <!-- Enterprise Real-World Deployment Example -->
+                        <div class="bg-blue-50/50 p-4 rounded-lg border border-blue-100">
+                            <h4 class="text-xs font-bold text-blue-800 uppercase tracking-wider mb-1">Enterprise Deployment Context</h4>
+                            <p id="auto-detail-example" class="text-sm text-slate-700">
+                                Coding assistants suggesting autocomplete lines or simple refactoring steps requiring developer keypress acceptance.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Autonomy Calibrator Widget -->
+                    <div class="pt-4 border-t border-slate-100">
+                        <h4 class="text-xs font-bold text-slate-500 uppercase mb-2">Autonomy Level Calibration Matrix</h4>
+                        <div class="grid grid-cols-3 gap-2 text-center text-xs">
+                            <div class="p-2 rounded bg-slate-100">
+                                <span class="block font-semibold text-slate-600">Task Stakes</span>
+                                <span id="auto-meta-stakes" class="font-mono text-slate-800">Low to Moderate</span>
+                            </div>
+                            <div class="p-2 rounded bg-slate-100">
+                                <span class="block font-semibold text-slate-600">Reversibility</span>
+                                <span id="auto-meta-reversibility" class="font-mono text-slate-800">High (Undoable)</span>
+                            </div>
+                            <div class="p-2 rounded bg-slate-100">
+                                <span class="block font-semibold text-slate-600">Uncertainty</span>
+                                <span id="auto-meta-uncertainty" class="font-mono text-slate-800">Low (Bounded)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 2: SYSTEM ARCHITECTURE ================= -->
+        <section id="tab-architecture" class="tab-content hidden space-y-6">
+            <!-- Section Intro Context -->
+            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                <h2 class="text-xl font-bold text-slate-900 mb-2">Unified Agentic Systems Architecture</h2>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    A robust agentic system operates as a synchronized mathematical tuple: <span class="mono-code font-semibold text-blue-600">Agent = f(Φ, M, P, T)</span>. Rather than executing single-turn prompt inference, the agent continuously loops sensory perception (<span class="mono-code">Φ</span>), persistent multi-tier memory (<span class="mono-code">M</span>), context-aware planning (<span class="mono-code">P</span>), and sandboxed tool execution (<span class="mono-code">T</span>).
+                </p>
+            </div>
+
+            <!-- Tuple Module Visualizer -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div onclick="highlightArchModule('phi')" id="card-arch-phi" class="arch-card bg-white p-4 rounded-xl border-2 border-blue-500 shadow-sm cursor-pointer hover:shadow-md transition">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-mono font-bold px-2 py-0.5 bg-blue-100 text-blue-800 rounded">Φ</span>
+                        <span class="text-xs text-slate-400">Layer 1</span>
+                    </div>
+                    <h3 class="font-bold text-slate-800 text-sm">Perception Subsystem</h3>
+                    <p class="text-xs text-slate-500 mt-1">Grounded input processing (Screenshots, DOM, APIs, 3D point clouds).</p>
+                </div>
+                <div onclick="highlightArchModule('m')" id="card-arch-m" class="arch-card bg-white p-4 rounded-xl border border-slate-200 shadow-sm cursor-pointer hover:shadow-md transition">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-mono font-bold px-2 py-0.5 bg-indigo-100 text-indigo-800 rounded">M</span>
+                        <span class="text-xs text-slate-400">Layer 2</span>
+                    </div>
+                    <h3 class="font-bold text-slate-800 text-sm">Cognitive Memory</h3>
+                    <p class="text-xs text-slate-500 mt-1">Working, Episodic (Mem0), Semantic (A-MEM), and Procedural templates.</p>
+                </div>
+                <div onclick="highlightArchModule('p')" id="card-arch-p" class="arch-card bg-white p-4 rounded-xl border border-slate-200 shadow-sm cursor-pointer hover:shadow-md transition">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-mono font-bold px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded">P</span>
+                        <span class="text-xs text-slate-400">Layer 3</span>
+                    </div>
+                    <h3 class="font-bold text-slate-800 text-sm">Planning & Context</h3>
+                    <p class="text-xs text-slate-500 mt-1">Goal decomposition, sub-agent delegation, and token altitude management.</p>
+                </div>
+                <div onclick="highlightArchModule('t')" id="card-arch-t" class="arch-card bg-white p-4 rounded-xl border border-slate-200 shadow-sm cursor-pointer hover:shadow-md transition">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-mono font-bold px-2 py-0.5 bg-amber-100 text-amber-800 rounded">T</span>
+                        <span class="text-xs text-slate-400">Layer 4</span>
+                    </div>
+                    <h3 class="font-bold text-slate-800 text-sm">Tool Execution Space</h3>
+                    <p class="text-xs text-slate-500 mt-1">Sandboxed runtimes, API wrappers, and dynamic code generation.</p>
+                </div>
+            </div>
+
+            <!-- Deep Dive + Interactive Execution Loop Simulator -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Module Detail Box -->
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <span id="arch-detail-symbol" class="text-lg font-mono font-bold px-3 py-1 bg-blue-100 text-blue-800 rounded-lg">Φ</span>
+                        <h3 id="arch-detail-title" class="text-lg font-bold text-slate-900">Perception Subsystem (Multimodal Grounding)</h3>
+                    </div>
+                    <div class="space-y-4 text-sm text-slate-600">
+                        <p id="arch-detail-body" class="leading-relaxed">
+                            Converts heterogeneous external environments into structured machine-readable state tokens. Modern agent perception transcends pure text, integrating Multimodal LLMs (MLLMs) to achieve visual grounding across digital and physical interfaces.
+                        </p>
+                        <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 space-y-2">
+                            <span class="text-xs font-bold text-slate-700 uppercase block">Key Architectural Implementations:</span>
+                            <ul id="arch-detail-bullets" class="list-disc list-inside space-y-1 text-xs text-slate-700">
+                                <li><strong>WebVoyager:</strong> CLIP-based visual encoders mapping browser screenshots to dynamic coordinate matrices.</li>
+                                <li><strong>SeeAct:</strong> Hybrid DOM-tree parsing paired with visual cross-attention to resolve UI ambiguity.</li>
+                                <li><strong>3D-LLM / Magma:</strong> Dense point clouds and continuous streaming video for spatial/proprioceptive tasks.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dynamic Control Loop Simulator -->
+                <div class="bg-slate-900 text-white p-6 rounded-xl border border-slate-800 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-bold text-base text-slate-200 flex items-center gap-2">
+                                <span>⚡</span> Autonomous Execution Loop Simulator
+                            </h3>
+                            <span id="sim-status" class="text-xs font-mono px-2 py-1 bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 rounded">READY</span>
+                        </div>
+
+                        <!-- Step visual indicators -->
+                        <div class="grid grid-cols-4 gap-2 mb-6">
+                            <div id="sim-step-phi" class="p-2 rounded text-center text-xs font-mono bg-slate-800 text-slate-400 border border-slate-700">
+                                1. Ground Φ
+                            </div>
+                            <div id="sim-step-m" class="p-2 rounded text-center text-xs font-mono bg-slate-800 text-slate-400 border border-slate-700">
+                                2. Recall M
+                            </div>
+                            <div id="sim-step-p" class="p-2 rounded text-center text-xs font-mono bg-slate-800 text-slate-400 border border-slate-700">
+                                3. Plan P
+                            </div>
+                            <div id="sim-step-t" class="p-2 rounded text-center text-xs font-mono bg-slate-800 text-slate-400 border border-slate-700">
+                                4. Tool T
+                            </div>
+                        </div>
+
+                        <!-- Terminal Log Display -->
+                        <div class="bg-black/80 rounded-lg p-4 font-mono text-xs text-emerald-400 h-40 overflow-y-auto space-y-1.5 border border-slate-800">
+                            <div class="text-slate-500">// Execution Log Initialized. Click 'Run Loop Step' to simulate agent execution cycles.</div>
+                            <div id="sim-log"></div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 flex gap-3">
+                        <button onclick="advanceSimStep()" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold py-2.5 px-4 rounded-lg transition">
+                            Run Step Cycle
+                        </button>
+                        <button onclick="resetSim()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold py-2.5 px-4 rounded-lg transition border border-slate-700">
+                            Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 3: MODEL CONTEXT PROTOCOL (MCP) ================= -->
+        <section id="tab-mcp" class="tab-content hidden space-y-6">
+            <!-- Section Intro Context -->
+            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                <h2 class="text-xl font-bold text-slate-900 mb-2">Protocol Standardization: Model Context Protocol (MCP)</h2>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Connecting agents to enterprise data traditionally required custom connectors, creating an unsustainable <span class="mono-code font-bold">N × M</span> scaling complexity. Donated to the Linux Foundation’s Agentic AI Foundation (AAIF), MCP replaces legacy point-to-point integrations with a standard JSON-RPC 2.0 message layer (mimicking LSP). MCP solves prompt bloat through progressive code-discovery interfaces rather than pre-loading full API schemas into the context window.
+                </p>
+            </div>
+
+            <!-- Architectural Comparison Matrix -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Comparison Cards -->
+                <div class="lg:col-span-2 bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                    <div class="p-4 bg-slate-50 border-b border-slate-200 font-bold text-slate-800 text-sm flex justify-between items-center">
+                        <span>Integration Paradigm Comparison</span>
+                        <span class="text-xs text-slate-500 font-normal">JSON-RPC 2.0 Standard</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-xs text-left">
+                            <thead class="bg-slate-100 text-slate-700 font-semibold border-b border-slate-200">
+                                <tr>
+                                    <th class="p-3">Feature Dimension</th>
+                                    <th class="p-3">Traditional Function Calling</th>
+                                    <th class="p-3">Retrieval-Augmented (RAG)</th>
+                                    <th class="p-3 bg-blue-50/50 text-blue-900">Model Context Protocol (MCP)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 text-slate-600">
+                                <tr>
+                                    <td class="p-3 font-semibold text-slate-800">Primary Goal</td>
+                                    <td class="p-3">Direct vendor API calls</td>
+                                    <td class="p-3">Passive text injection</td>
+                                    <td class="p-3 bg-blue-50/30 font-semibold text-blue-900">Universal 2-way context & tools</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-slate-800">Complexity</td>
+                                    <td class="p-3 text-rose-600 font-mono">N × M connectors</td>
+                                    <td class="p-3 text-amber-600 font-mono">Fragmented vector DBs</td>
+                                    <td class="p-3 bg-blue-50/30 text-emerald-700 font-mono font-bold">1 × N unified protocol</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-slate-800">Context Impact</td>
+                                    <td class="p-3">High (Upfront schema bloat)</td>
+                                    <td class="p-3">Variable (Top-k chunks)</td>
+                                    <td class="p-3 bg-blue-50/30 text-blue-900 font-semibold">Minimal (Progressive discovery)</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-slate-800">Data Security</td>
+                                    <td class="p-3">Raw payload into LLM</td>
+                                    <td class="p-3">Text chunks in prompt</td>
+                                    <td class="p-3 bg-blue-50/30 text-emerald-700 font-semibold">Sandboxed filtering; PII stays out</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold text-slate-800">Execution Transport</td>
+                                    <td class="p-3">Stateful HTTP client wrappers</td>
+                                    <td class="p-3">Static, read-only queries</td>
+                                    <td class="p-3 bg-blue-50/30 text-blue-900 font-mono">Stateful JSON-RPC 2.0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Token Economy Simulator Chart -->
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-bold text-slate-800 text-sm mb-1">Token Economy & Prompt Scaling</h3>
+                        <p class="text-xs text-slate-500 mb-4">Compare context window token overhead as total accessible tools scale.</p>
+                        
+                        <!-- Interactive Tool Count Slider -->
+                        <div class="space-y-2 mb-4 bg-slate-50 p-3 rounded-lg border border-slate-100">
+                            <div class="flex justify-between text-xs">
+                                <span class="font-semibold text-slate-700">Connected Enterprise Tools:</span>
+                                <span id="tool-count-val" class="font-mono font-bold text-blue-600">50 Tools</span>
+                            </div>
+                            <input type="range" id="tool-slider" min="10" max="250" value="50" oninput="updateTokenChart(this.value)" class="w-full accent-blue-600 cursor-pointer">
+                        </div>
+
+                        <!-- Chart Container -->
+                        <div class="chart-container">
+                            <canvas id="mcpTokenChart"></canvas>
+                        </div>
+                    </div>
+                    <span class="text-[11px] text-slate-400 text-center block mt-2">MCP code discovery keeps prompt overhead constant regardless of total API catalog size.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 4: MULTI-AGENT FRAMEWORKS ================= -->
+        <section id="tab-frameworks" class="tab-content hidden space-y-6">
+            <!-- Section Intro Context -->
+            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                <h2 class="text-xl font-bold text-slate-900 mb-2">Multi-Agent Framework Landscape & Orchestration</h2>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Single-agent execution loops degrade over extended horizons. Modern orchestration frameworks divide labor across specialized sub-agents. Architectures fall into four major paradigms: Graph-based state machines (LangGraph), Role-based teams (CrewAI), Conversation-driven chat (AutoGen/AG2), and Direct handoff SDKs (OpenAI Agents SDK / Google ADK).
+                </p>
+            </div>
+
+            <!-- Framework Comparison & Radar Visualizer -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Framework Feature Matrix Table -->
+                <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 space-y-4">
+                    <h3 class="font-bold text-slate-800 text-sm">Paradigm Trade-Off Matrix</h3>
+                    
+                    <div class="space-y-3">
+                        <div onclick="selectFramework('langgraph')" id="fw-card-langgraph" class="fw-card p-3 rounded-lg border-2 border-blue-500 bg-blue-50/30 cursor-pointer transition">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <span class="text-sm font-bold text-slate-900">LangGraph</span>
+                                    <span class="text-xs text-blue-700 bg-blue-100 px-2 py-0.5 rounded ml-2 font-mono">Graph State Machine</span>
+                                </div>
+                                <span class="text-xs font-semibold text-emerald-600">High Determinism</span>
+                            </div>
+                            <p class="text-xs text-slate-600 mt-1">Explicit cyclic graphs with persistent state objects. Prevents infinite conversational loops and guarantees auditability.</p>
+                        </div>
+
+                        <div onclick="selectFramework('crewai')" id="fw-card-crewai" class="fw-card p-3 rounded-lg border border-slate-200 bg-white hover:border-slate-300 cursor-pointer transition">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <span class="text-sm font-bold text-slate-900">CrewAI</span>
+                                    <span class="text-xs text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded ml-2 font-mono">Role-Based Teams</span>
+                                </div>
+                                <span class="text-xs font-semibold text-blue-600">Fast Prototyping</span>
+                            </div>
+                            <p class="text-xs text-slate-600 mt-1">Organized around organizational backstories, goals, and delegated roles. Intuitive human team metaphor.</p>
+                        </div>
+
+                        <div onclick="selectFramework('autogen')" id="fw-card-autogen" class="fw-card p-3 rounded-lg border border-slate-200 bg-white hover:border-slate-300 cursor-pointer transition">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <span class="text-sm font-bold text-slate-900">AutoGen (AG2)</span>
+                                    <span class="text-xs text-purple-700 bg-purple-100 px-2 py-0.5 rounded ml-2 font-mono">Conversational Multi-Agent</span>
+                                </div>
+                                <span class="text-xs font-semibold text-amber-600">High Dynamic Flexibility</span>
+                            </div>
+                            <p class="text-xs text-slate-600 mt-1">Multi-party conversational threads. Excellent for unstructured problem solving but susceptible to goal drift.</p>
+                        </div>
+
+                        <div onclick="selectFramework('sdk')" id="fw-card-sdk" class="fw-card p-3 rounded-lg border border-slate-200 bg-white hover:border-slate-300 cursor-pointer transition">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <span class="text-sm font-bold text-slate-900">OpenAI Agents SDK / ADK</span>
+                                    <span class="text-xs text-slate-700 bg-slate-100 px-2 py-0.5 rounded ml-2 font-mono">Direct Handoff SDK</span>
+                                </div>
+                                <span class="text-xs font-semibold text-slate-600">Minimal Overhead</span>
+                            </div>
+                            <p class="text-xs text-slate-600 mt-1">Lightweight context handoff primitives without dynamic central state graphs. Low latency execution footprint.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Architectural Metrics Radar Chart -->
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-bold text-slate-800 text-sm">Architectural Metrics Evaluation</h3>
+                            <span id="fw-radar-label" class="text-xs font-mono font-bold text-blue-600">LangGraph Profile</span>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="fwRadarChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="bg-slate-50 p-3 rounded-lg border border-slate-100 text-xs text-slate-600 mt-2">
+                        <strong class="text-slate-700">Deployment Guidance:</strong> Use <em>LangGraph</em> for regulated financial/healthcare workflows requiring exact fault recovery; use <em>CrewAI/SDKs</em> for rapid customer-facing automation.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 5: EMPIRICAL BENCHMARKS ================= -->
+        <section id="tab-benchmarks" class="tab-content hidden space-y-6">
+            <!-- Section Intro Context -->
+            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                <h2 class="text-xl font-bold text-slate-900 mb-2">Empirical Capability Benchmarking: SWE-bench Evolution</h2>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Evaluating agentic capability requires repository-level navigation and multi-file debugging. While frontier models reached >90% performance on public <em>SWE-bench Verified</em> datasets, independent audits revealed dataset contamination and a 32.5% verifier error rate. The contamination-resistant <strong>SWE-bench Pro</strong> benchmark—utilizing unseen private commercial repositories—reveals a severe <strong>20 to 35 percentage point performance gap</strong>, highlighting the difference between benchmark memorization and genuine enterprise generalization.
+                </p>
+            </div>
+
+            <!-- Grouped Bar Chart Visualizer -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Benchmark Chart -->
+                <div class="lg:col-span-2 bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-4 gap-2">
+                            <div>
+                                <h3 class="font-bold text-slate-800 text-sm">Frontier Model Score Discrepancy</h3>
+                                <p class="text-xs text-slate-500">SWE-bench Verified (Public/Contaminated) vs. SWE-bench Pro (Private/Unseen)</p>
+                            </div>
+                            <span class="text-xs font-mono font-bold px-2.5 py-1 bg-amber-100 text-amber-800 rounded">
+                                Contamination Gap: ~25% Drop
+                            </span>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="sweBenchChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="text-[11px] text-slate-400 mt-2 text-center">
+                        Data source: Empirical benchmark audits across public vs private commercial codebase distributions.
+                    </div>
+                </div>
+
+                <!-- Metric Insights Panel -->
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-4 flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-bold text-slate-800 text-sm border-b border-slate-100 pb-2">Key Benchmark Findings</h3>
+                        <div class="space-y-3 mt-3 text-xs text-slate-600">
+                            <div class="p-3 bg-rose-50/60 rounded-lg border border-rose-100">
+                                <span class="font-bold text-rose-800 block mb-1">1. Verifier Harness Flaws</span>
+                                <p>Public evaluation harnesses suffered up to 32.5% verifier error rates where incorrect patches were accepted due to loose test assertions.</p>
+                            </div>
+
+                            <div class="p-3 bg-amber-50/60 rounded-lg border border-amber-100">
+                                <span class="font-bold text-amber-800 block mb-1">2. Commit History Memorization</span>
+                                <p>Models pre-trained on public GitHub commits memorized fixes directly, creating inflated score saturation on Verified tasks.</p>
+                            </div>
+
+                            <div class="p-3 bg-blue-50/60 rounded-lg border border-blue-100">
+                                <span class="font-bold text-blue-800 block mb-1">3. Open-Weight Capability</span>
+                                <p>Models like GLM-5.2 (62.1% Pro) and Kimi K3 (58% Pro) offer privacy-isolated enterprise deployment with strong generalization performance.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-3 bg-slate-100 rounded-lg text-slate-700 text-xs">
+                        <strong>Takeaway:</strong> Enterprise evaluations must use internal, private codebases rather than public leaderboards to assess true agent deployment readiness.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 6: OWASP SECURITY FRAMEWORK ================= -->
+        <section id="tab-security" class="tab-content hidden space-y-6">
+            <!-- Section Intro Context -->
+            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                <h2 class="text-xl font-bold text-slate-900 mb-2">Threat Vectors & Governance: OWASP Agentic Security</h2>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Autonomous agents break standard cybersecurity models. Organizations must transition from the <em>Principle of Least Privilege</em> (data access boundaries) to the <strong>Principle of Least Agency</strong> (restricting dynamic operational freedoms). The OWASP Top 10 for Agentic Applications (ASI01-ASI10) establishes a taxonomy for managing vulnerabilities in non-deterministic systems.
+                </p>
+            </div>
+
+            <!-- Threat Filter + OWASP Matrix -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Interactive Threat Selector Grid -->
+                <div class="lg:col-span-2 bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-100 pb-3">
+                        <h3 class="font-bold text-slate-800 text-sm">OWASP Top 10 Agentic Risks (ASI 2026)</h3>
+                        <!-- Risk Severity Filter -->
+                        <div class="flex gap-1 text-xs">
+                            <button onclick="filterSecurity('all')" class="sec-filter-btn px-2.5 py-1 bg-slate-800 text-white rounded font-medium">All</button>
+                            <button onclick="filterSecurity('critical')" class="sec-filter-btn px-2.5 py-1 bg-slate-100 text-slate-600 hover:bg-slate-200 rounded font-medium">Critical</button>
+                            <button onclick="filterSecurity('high')" class="sec-filter-btn px-2.5 py-1 bg-slate-100 text-slate-600 hover:bg-slate-200 rounded font-medium">High</button>
+                        </div>
+                    </div>
+
+                    <!-- Threat Cards Grid -->
+                    <div id="owasp-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[460px] overflow-y-auto pr-1">
+                        <!-- Cards injected via JS -->
+                    </div>
+                </div>
+
+                <!-- Threat Deep Dive & Governance Readiness Auditor -->
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-4 flex flex-col justify-between">
+                    <div>
+                        <div class="border-b border-slate-100 pb-3">
+                            <span id="sec-detail-id" class="text-xs font-mono font-bold px-2 py-0.5 bg-rose-100 text-rose-800 rounded">ASI01:2026</span>
+                            <h3 id="sec-detail-name" class="font-bold text-slate-900 text-base mt-1">Agent Goal Hijack</h3>
+                        </div>
+
+                        <div class="space-y-3 mt-3 text-xs">
+                            <div>
+                                <span class="font-bold text-slate-500 uppercase block mb-1">Core Attack Vector:</span>
+                                <p id="sec-detail-vector" class="text-slate-700 bg-slate-50 p-2.5 rounded border border-slate-100">
+                                    Indirect prompt injection embedded in retrieved content (emails, tickets, or repos) overriding agent system prompt goals.
+                                </p>
+                            </div>
+
+                            <div>
+                                <span class="font-bold text-emerald-700 uppercase block mb-1">Primary Defense Paradigm:</span>
+                                <p id="sec-detail-mitigation" class="text-slate-800 bg-emerald-50/60 p-2.5 rounded border border-emerald-100 font-medium">
+                                    Strict instruction isolation; mandatory out-of-band confirmation for sensitive sub-goal modifications.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Governance Auditor Checklist -->
+                    <div class="bg-slate-900 text-white p-4 rounded-xl space-y-2 border border-slate-800">
+                        <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider">Defense-in-Depth Governance Audit</h4>
+                        <div class="space-y-1.5 text-xs">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="checkbox" checked class="rounded accent-blue-500 text-blue-600 focus:ring-0">
+                                <span>Managed Non-Human Identities (NHI)</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="checkbox" checked class="rounded accent-blue-500 text-blue-600 focus:ring-0">
+                                <span>Container Sandboxing (Deny Egress)</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="checkbox" class="rounded accent-blue-500 text-blue-600 focus:ring-0">
+                                <span>Universal Out-of-Band Consent Login</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="checkbox" checked class="rounded accent-blue-500 text-blue-600 focus:ring-0">
+                                <span>Automated Token Circuit Breakers</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 text-xs py-4 border-t border-slate-800 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div>
+                <span class="font-semibold text-slate-200">Agentic AI Technical & Governance Dashboard</span> | Source Research & Analysis
+            </div>
+            <div class="text-slate-500 font-mono">
+                Single-Page Interactive Architecture Report
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Data Stores & Dynamic Logic -->
+    <script>
+        // Global State Management
+        let currentTab = 'tab-autonomy';
+        let mcpChartInstance = null;
+        let fwRadarChartInstance = null;
+        let sweBenchChartInstance = null;
+
+        // Data Store: Autonomy Tiers
+        const autonomyData = [
+            {
+                level: 0,
+                title: "Informational Assistant",
+                role: "Executing Decision-Maker",
+                planning: "Human User retains total control over planning, decomposition, and decision-making.",
+                authority: "None (Informational text/code output only). Zero direct execution capability.",
+                liability: "Primary liability rests exclusively with Human User / Operator.",
+                example: "Basic chat interfaces or static Q&A search tools returning informational text.",
+                stakes: "Low",
+                reversibility: "N/A",
+                uncertainty: "Deterministic"
+            },
+            {
+                level: 1,
+                title: "Assisted Workflow Operator",
+                role: "Workflow Operator",
+                planning: "Human User plans sequence; agent provides contextual assistance for short subtasks.",
+                authority: "Step-by-Step Explicit Human Approval required for every single tool invocation.",
+                liability: "Primary liability remains with Human User / Operator under instrumentality doctrine.",
+                example: "IDE code completion assistants requiring developer keystroke acceptance per line.",
+                stakes: "Low-Moderate",
+                reversibility: "High",
+                uncertainty: "Bounded"
+            },
+            {
+                level: 2,
+                title: "Supervised Collaborator",
+                role: "Plan Collaborator",
+                planning: "Shared responsibility. Agent co-develops multi-step plan; user validates overall plan scope.",
+                authority: "Autonomous batch execution strictly within pre-approved multi-step plan boundaries.",
+                liability: "Shared responsibility between User and System Integrator based on plan review duty.",
+                example: "Automated batch refactoring scripts executing across a branch after user approves plan.",
+                stakes: "Moderate",
+                reversibility: "Moderate",
+                uncertainty: "Medium"
+            },
+            {
+                level: 3,
+                title: "Conditional Consultant",
+                role: "Technical Consultant",
+                planning: "Agent formulates strategy independently across designated domain boundary.",
+                authority: "Autonomous execution within domain; pauses to seek human guidance on preference ambiguity.",
+                liability: "Shift toward Developer & Integrator if failure stems from inadequate guardrails.",
+                example: "Automated customer support agent issuing refunds up to $100, escalating higher amounts.",
+                stakes: "Moderate-High",
+                reversibility: "Partial",
+                uncertainty: "Dynamic"
+            },
+            {
+                level: 4,
+                title: "High Approver",
+                role: "Executive Approver",
+                planning: "Agent plans and executes long-horizon strategies end-to-end.",
+                authority: "End-to-end execution; presents finalized synthesized outputs to human for executive validation.",
+                liability: "Developer & Platform Provider hold primary standard-of-care and product liability.",
+                example: "Autonomous software engineer generating a complete feature PR with passed test suites.",
+                stakes: "High",
+                reversibility: "Low",
+                uncertainty: "High"
+            },
+            {
+                level: 5,
+                title: "Full System Observer",
+                role: "System Observer",
+                planning: "Agent handles sensing, planning, tool usage, and adaptation without human oversight.",
+                authority: "Fully unrestricted autonomous execution across open environments.",
+                liability: "System Provider & Developer bear strict liability and principal-agent accountability.",
+                example: "Autonomous algorithmic trading agents or continuous cloud architecture auto-repair agents.",
+                stakes: "Critical",
+                reversibility: "Irreversible",
+                uncertainty: "Open-World"
+            }
+        ];
+
+        // Data Store: Architecture Modules
+        const archData = {
+            phi: {
+                symbol: "Φ",
+                title: "Perception Subsystem (Multimodal Grounding)",
+                body: "Perception abstracts raw environmental signals (digital visual interfaces, DOM elements, streaming audio, point clouds) into machine-readable state tokens suitable for model reasoning.",
+                bullets: [
+                    "<strong>WebVoyager:</strong> CLIP visual encoders processing raw browser screenshots into coordinate matrices.",
+                    "<strong>SeeAct:</strong> Combines visual cross-attention with HTML DOM tree hierarchies to resolve UI element ambiguity.",
+                    "<strong>3D-LLM / Magma:</strong> Spatial 3D point cloud and continuous video processing for proprioceptive agent loops."
+                ]
+            },
+            m: {
+                symbol: "M",
+                title: "Cognitive Memory Architecture",
+                body: "Extends context beyond volatile working windows by mimicking human memory structures across four distinct operational tiers.",
+                bullets: [
+                    "<strong>Working Memory:</strong> Active context window managed via compaction and sliding-window scratchpads.",
+                    "<strong>Episodic Memory:</strong> Time-stamped event sequences (MemGPT, Mem0) using vector search to prevent repeated errors.",
+                    "<strong>Semantic Memory:</strong> Knowledge graphs (A-MEM) dynamically structuring user facts and domain rules.",
+                    "<strong>Procedural Memory:</strong> Library of verified code templates and tool-chaining subroutines."
+                ]
+            },
+            p: {
+                symbol: "P",
+                title: "Planning & Context Engine",
+                body: "Deconstructs high-level objectives into actionable execution graphs while optimizing context token altitude to avoid reasoning contamination.",
+                bullets: [
+                    "<strong>Context Altitude:</strong> Balancing hyper-rigid procedural prompts against vague directional goals.",
+                    "<strong>Sub-Agent Hierarchy:</strong> Orchestrator agent delegating discrete subtasks to isolated sub-agents.",
+                    "<strong>Self-Reflection:</strong> Evaluating intermediate step execution and generating dynamic mid-course corrections."
+                ]
+            },
+            t: {
+                symbol: "T",
+                title: "Tool Execution Space",
+                body: "The physical and digital execution boundary where agents call external microservices, run generated scripts, and mutate environment state.",
+                bullets: [
+                    "<strong>Code Execution Sandboxes:</strong> Isolated containers executing Python/TypeScript scripts dynamically.",
+                    "<strong>API Integrations:</strong> Structured REST/GraphQL calls gated by authentication wrappers.",
+                    "<strong>Physical/Digital Actuators:</strong> GUI mouse-click actions, shell commands, or IoT controls."
+                ]
+            }
+        };
+
+        // Data Store: OWASP ASI Security Top 10
+        const owaspData = [
+            {
+                id: "ASI01:2026",
+                name: "Agent Goal Hijack",
+                severity: "critical",
+                vector: "Indirect prompt injection embedded in retrieved content (emails, tickets, web pages) overriding system goals.",
+                mitigation: "Strict instruction/data separation; mandatory out-of-band confirmation for sensitive objective edits."
+            },
+            {
+                id: "ASI02:2026",
+                name: "Tool Misuse & Exploitation",
+                severity: "critical",
+                vector: "Chaining safe individual tools into unsafe sequences (e.g. read DB -> drop table) triggering destruction.",
+                mitigation: "Least-agency tool scoping; runtime schema validation and parameter constraints."
+            },
+            {
+                id: "ASI03:2026",
+                name: "Identity & Privilege Abuse",
+                severity: "critical",
+                vector: "Issuing long-lived broad credentials or shared tokens to agents, allowing hijacked agents to act as privileged insiders.",
+                mitigation: "Managed Non-Human Identity (NHI); short-lived, ephemeral task-scoped execution tokens."
+            },
+            {
+                id: "ASI04:2026",
+                name: "Supply Chain Compromise",
+                severity: "high",
+                vector: "Malicious third-party MCP servers, prompt templates, or unverified tool packages injected into agent workflows.",
+                mitigation: "AI Bill of Materials (AIBOM); cryptographically signed MCP server components."
+            },
+            {
+                id: "ASI05:2026",
+                name: "Unexpected Code Execution",
+                severity: "critical",
+                vector: "Unsandboxed shell calls allowing agents to execute arbitrary attacker-controlled code payloads.",
+                mitigation: "Isolated container runtimes with deny-by-default network egress policies."
+            },
+            {
+                id: "ASI06:2026",
+                name: "Memory & Context Poisoning",
+                severity: "high",
+                vector: "Planting malicious statements into long-term vector stores to corrupt future reasoning cycles permanently.",
+                mitigation: "Validated memory write authorization; ephemeral context default unless verified."
+            },
+            {
+                id: "ASI07:2026",
+                name: "Insecure Inter-Agent Comm",
+                severity: "high",
+                vector: "Spoofed or unauthenticated handoff payloads between sub-agents in multi-agent topologies.",
+                mitigation: "Mutual TLS (mTLS) authentication and cryptographically signed payload contracts."
+            },
+            {
+                id: "ASI08:2026",
+                name: "Cascading Agent Failures",
+                severity: "high",
+                vector: "Error propagation across automated sub-agents triggering runaway token burn or resource exhaustion.",
+                mitigation: "Automated execution circuit breakers; rate limits and strict domain boundaries."
+            },
+            {
+                id: "ASI09:2026",
+                name: "Human-Agent Trust Abuse",
+                severity: "high",
+                vector: "Anthropomorphic chat tactics persuading human users to click approval buttons without inspecting risk.",
+                mitigation: "Universal Out-of-Band Consent screens that decouple approval UI from interactive chat threads."
+            },
+            {
+                id: "ASI10:2026",
+                name: "Rogue Agents",
+                severity: "high",
+                vector: "Goal drift leading agents to optimize secondary metrics improperly without feedback constraints.",
+                mitigation: "Behavioral baseline monitoring and hardwired immutable kill-switch triggers."
+            }
+        ];
+
+        // Multi-Agent Framework Profiles
+        const fwProfiles = {
+            langgraph: {
+                name: "LangGraph Profile",
+                data: [95, 45, 60, 95, 85] // Determinism, Prototyping, Flexibility, Auditability, Overhead Efficiency
+            },
+            crewai: {
+                name: "CrewAI Profile",
+                data: [50, 90, 75, 55, 70]
+            },
+            autogen: {
+                name: "AutoGen (AG2) Profile",
+                data: [35, 75, 95, 40, 50]
+            },
+            sdk: {
+                name: "OpenAI SDK Profile",
+                data: [65, 85, 70, 60, 95]
+            }
+        };
+
+        // Navigation Switcher
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById(tabId).classList.remove('hidden');
+            document.getElementById('btn-' + tabId).classList.add('active');
+            currentTab = tabId;
+
+            // Re-render charts on tab switch to handle canvas dimensions
+            if (tabId === 'tab-mcp' && !mcpChartInstance) initMcpChart();
+            if (tabId === 'tab-frameworks' && !fwRadarChartInstance) initFwRadarChart();
+            if (tabId === 'tab-benchmarks' && !sweBenchChartInstance) initSweBenchChart();
+        }
+
+        // Section 1: Autonomy Selection
+        function selectAutonomyLevel(level) {
+            const data = autonomyData[level];
+            
+            // Highlight button
+            document.querySelectorAll('.auto-level-btn').forEach(btn => {
+                btn.classList.remove('border-blue-500', 'bg-blue-50/50');
+            });
+            document.getElementById(`auto-btn-${level}`).classList.add('border-blue-500', 'bg-blue-50/50');
+
+            // Populate details
+            document.getElementById('auto-detail-badge').innerText = `LEVEL ${data.level}`;
+            document.getElementById('auto-detail-title').innerText = data.title;
+            document.getElementById('auto-detail-role').innerText = data.role;
+            document.getElementById('auto-detail-planning').innerText = data.planning;
+            document.getElementById('auto-detail-authority').innerText = data.authority;
+            document.getElementById('auto-detail-liability').innerText = data.liability;
+            document.getElementById('auto-detail-example').innerText = data.example;
+
+            document.getElementById('auto-meta-stakes').innerText = data.stakes;
+            document.getElementById('auto-meta-reversibility').innerText = data.reversibility;
+            document.getElementById('auto-meta-uncertainty').innerText = data.uncertainty;
+        }
+
+        // Section 2: System Architecture Selection
+        function highlightArchModule(modKey) {
+            const data = archData[modKey];
+
+            document.querySelectorAll('.arch-card').forEach(card => {
+                card.classList.remove('border-2', 'border-blue-500');
+                card.classList.add('border', 'border-slate-200');
+            });
+            document.getElementById(`card-arch-${modKey}`).classList.remove('border-slate-200');
+            document.getElementById(`card-arch-${modKey}`).classList.add('border-2', 'border-blue-500');
+
+            document.getElementById('arch-detail-symbol').innerText = data.symbol;
+            document.getElementById('arch-detail-title').innerText = data.title;
+            document.getElementById('arch-detail-body').innerText = data.body;
+
+            const listEl = document.getElementById('arch-detail-bullets');
+            listEl.innerHTML = data.bullets.map(b => `<li>${b}</li>`).join('');
+        }
+
+        // Section 2: Simulator Logic
+        let simStep = 0;
+        const simSteps = [
+            { id: "sim-step-phi", text: "1. GROUND Φ: Ingested screen coordinate matrix [x:420, y:810] & DOM element tree." },
+            { id: "sim-step-m", text: "2. RECALL M: Vector search retrieved Mem0 past fix history (Similarity 0.92)." },
+            { id: "sim-step-p", text: "3. PLAN P: Sub-agent generated 3-step patch execution graph. Token altitude optimal." },
+            { id: "sim-step-t", text: "4. TOOL T: Executed isolated Python sandbox test suite. Status: PASS (0 errors)." }
+        ];
+
+        function advanceSimStep() {
+            if (simStep >= simSteps.length) {
+                simStep = 0;
+                document.getElementById('sim-log').innerHTML = '';
+            }
+
+            // Reset step highlights
+            simSteps.forEach(s => {
+                const el = document.getElementById(s.id);
+                el.classList.remove('bg-blue-600', 'text-white', 'border-blue-400');
+                el.classList.add('bg-slate-800', 'text-slate-400');
+            });
+
+            const current = simSteps[simStep];
+            const stepEl = document.getElementById(current.id);
+            stepEl.classList.remove('bg-slate-800', 'text-slate-400');
+            stepEl.classList.add('bg-blue-600', 'text-white', 'border-blue-400');
+
+            const logEl = document.getElementById('sim-log');
+            logEl.innerHTML += `<div class="py-0.5"><span class="text-slate-500">[T+${simStep+1}s]</span> ${current.text}</div>`;
+            logEl.scrollTop = logEl.scrollHeight;
+
+            document.getElementById('sim-status').innerText = `STEP ${simStep+1} ACTIVE`;
+
+            simStep++;
+        }
+
+        function resetSim() {
+            simStep = 0;
+            document.getElementById('sim-log').innerHTML = '<div class="text-slate-500">// Execution Log Reset. Ready.</div>';
+            simSteps.forEach(s => {
+                const el = document.getElementById(s.id);
+                el.classList.remove('bg-blue-600', 'text-white', 'border-blue-400');
+                el.classList.add('bg-slate-800', 'text-slate-400');
+            });
+            document.getElementById('sim-status').innerText = 'READY';
+        }
+
+        // Section 3: MCP Token Chart
+        function initMcpChart() {
+            const ctx = document.getElementById('mcpTokenChart').getContext('2d');
+            mcpChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Traditional Upfront Schemas', 'MCP Progressive Discovery'],
+                    datasets: [{
+                        label: 'Prompt Token Overhead (Tokens)',
+                        data: [45000, 3200],
+                        backgroundColor: ['#f43f5e', '#2563eb'],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ` Token Count: ${context.raw.toLocaleString()} tokens`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'Tokens Consumed', font: { size: 11 } }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateTokenChart(toolCount) {
+            document.getElementById('tool-count-val').innerText = `${toolCount} Tools`;
+            if (mcpChartInstance) {
+                // Traditional upfront scales linearly (~900 tokens per full JSON schema)
+                const traditionalTokens = toolCount * 900;
+                // MCP progressive discovery stays nearly flat (~3000 tokens for file directory + targeted interface read)
+                const mcpTokens = 2500 + Math.round(toolCount * 15);
+
+                mcpChartInstance.data.datasets[0].data = [traditionalTokens, mcpTokens];
+                mcpChartInstance.update();
+            }
+        }
+
+        // Section 4: Framework Selection & Radar Chart
+        function initFwRadarChart() {
+            const ctx = document.getElementById('fwRadarChart').getContext('2d');
+            fwRadarChartInstance = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Determinism', 'Prototyping Speed', 'Dynamic Flexibility', 'Auditability', 'Context Efficiency'],
+                    datasets: [{
+                        label: 'LangGraph Profile',
+                        data: fwProfiles.langgraph.data,
+                        backgroundColor: 'rgba(37, 99, 235, 0.2)',
+                        borderColor: '#2563eb',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#2563eb'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            min: 0,
+                            max: 100,
+                            ticks: { display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
+        function selectFramework(key) {
+            document.querySelectorAll('.fw-card').forEach(c => {
+                c.classList.remove('border-2', 'border-blue-500', 'bg-blue-50/30');
+                c.classList.add('border-slate-200', 'bg-white');
+            });
+
+            const card = document.getElementById(`fw-card-${key}`);
+            card.classList.remove('border-slate-200', 'bg-white');
+            card.classList.add('border-2', 'border-blue-500', 'bg-blue-50/30');
+
+            const profile = fwProfiles[key];
+            document.getElementById('fw-radar-label').innerText = profile.name;
+
+            if (fwRadarChartInstance) {
+                fwRadarChartInstance.data.datasets[0].label = profile.name;
+                fwRadarChartInstance.data.datasets[0].data = profile.data;
+                fwRadarChartInstance.update();
+            }
+        }
+
+        // Section 5: SWE-bench Empirical Gap Chart
+        function initSweBenchChart() {
+            const ctx = document.getElementById('sweBenchChart').getContext('2d');
+            sweBenchChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Claude Opus 5', 'GPT-5.6 Sol', 'Claude Fable 5', 'GLM-5.2 (Open)', 'Kimi K3 (Open)'],
+                    datasets: [
+                        {
+                            label: 'SWE-bench Verified (Public Dataset)',
+                            data: [96.0, 96.2, 95.0, 78.7, 93.4],
+                            backgroundColor: '#2563eb',
+                            borderRadius: 4
+                        },
+                        {
+                            label: 'SWE-bench Pro (Private Enterprise Repos)',
+                            data: [69.2, 61.5, 80.0, 62.1, 58.0],
+                            backgroundColor: '#f59e0b',
+                            borderRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'top', labels: { font: { size: 11 } } },
+                        tooltip: {
+                            callbacks: {
+                                label: function(c) {
+                                    return ` ${c.dataset.label}: ${c.raw}% resolved`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: { display: true, text: 'Issue Resolution Rate (%)', font: { size: 11 } }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Section 6: Security Grid & Filter
+        function renderSecurityGrid(filter = 'all') {
+            const grid = document.getElementById('owasp-grid');
+            grid.innerHTML = '';
+
+            const filtered = owaspData.filter(d => filter === 'all' || d.severity === filter);
+
+            filtered.forEach(d => {
+                const badgeColor = d.severity === 'critical' ? 'bg-rose-100 text-rose-800' : 'bg-amber-100 text-amber-800';
+                
+                const card = document.createElement('div');
+                card.className = "p-3 rounded-lg border border-slate-200 bg-white hover:border-slate-300 cursor-pointer transition flex flex-col justify-between";
+                card.onclick = () => selectSecurityItem(d.id);
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="text-[11px] font-mono font-bold text-slate-500">${d.id}</span>
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded uppercase ${badgeColor}">${d.severity}</span>
+                        </div>
+                        <h4 class="font-bold text-slate-800 text-xs">${d.name}</h4>
+                    </div>
+                    <span class="text-[11px] text-blue-600 mt-2 block font-medium">Inspect Threat & Mitigation &rarr;</span>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterSecurity(severity) {
+            document.querySelectorAll('.sec-filter-btn').forEach(b => {
+                b.classList.remove('bg-slate-800', 'text-white');
+                b.classList.add('bg-slate-100', 'text-slate-600');
+            });
+            event.target.classList.remove('bg-slate-100', 'text-slate-600');
+            event.target.classList.add('bg-slate-800', 'text-white');
+
+            renderSecurityGrid(severity);
+        }
+
+        function selectSecurityItem(id) {
+            const item = owaspData.find(d => d.id === id);
+            if (!item) return;
+
+            document.getElementById('sec-detail-id').innerText = item.id;
+            document.getElementById('sec-detail-name').innerText = item.name;
+            document.getElementById('sec-detail-vector').innerText = item.vector;
+            document.getElementById('sec-detail-mitigation').innerText = item.mitigation;
+        }
+
+        // Initialization on Load
+        window.addEventListener('DOMContentLoaded', () => {
+            selectAutonomyLevel(1);
+            highlightArchModule('phi');
+            renderSecurityGrid('all');
+            selectSecurityItem('ASI01:2026');
+        });
+    </script>
+</body>
+</html>

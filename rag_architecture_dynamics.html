@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retrieval-Augmented Generation (RAG) Architecture Explorer</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#fbf8f5',
+                            100: '#f6f0ea',
+                            200: '#ebdcd0',
+                            500: '#b87d4b',
+                            600: '#9e6234',
+                            800: '#533219',
+                            900: '#2d1a0d',
+                        },
+                        slate: {
+                            850: '#172033'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 380px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800 font-sans antialiased selection:bg-amber-200 selection:text-stone-900">
+
+    <!-- Chosen Palette: Slate & Warm Amber Neutrals -->
+    <!-- Application Structure Plan: The application is structured as an interactive analytical dashboard designed to systematically guide the user from high-level paradigm evolution (Naive -> Agentic) into deep mechanics (Retrieval, GraphRAG, Decoding-Level Math), concluding with interactive trade-off radar charts. This non-linear exploration allows both high-level decision makers and ML engineers to probe architectural dynamics, math formulations, and systemic trade-offs effortlessly. -->
+    <!-- Visualization & Content Choices:
+        1. Paradigm Matrix (HTML/CSS Tabs & Dynamic Panels) - To intuitively compare System 1 vs System 2 workflows, topology, and latency profiles.
+        2. HyDE & Logit Fusion Simulators (Vanilla JS + Chart.js Canvas) - To transform complex equations (e.g. FKE logit interpolation and HyDE vector mapping) into tangible, real-time parameters without SVG dependencies.
+        3. GraphRAG Pipeline Stepper (Interactive HTML Grid) - To clarify the multi-stage Leiden partitioning and Map-Reduce aggregation pipeline.
+        4. Systemic Radar Chart (Chart.js Canvas) - To visualize multi-dimensional trade-offs between precision, latency, indexing cost, and global sensemaking.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <!-- Navigation Bar -->
+    <header class="sticky top-0 z-50 bg-stone-900/95 backdrop-blur text-stone-200 border-b border-stone-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+            <div class="flex items-center space-x-3">
+                <span class="text-amber-500 font-bold text-xl tracking-tight">RAG Systems Lab</span>
+                <span class="hidden sm:inline-block text-xs bg-stone-800 text-stone-400 px-2 py-1 rounded border border-stone-700">Architectural & Empirical Analysis</span>
+            </div>
+            <nav class="hidden md:flex space-x-6 text-sm font-medium">
+                <a href="#paradigms" class="hover:text-amber-400 transition">Paradigms</a>
+                <a href="#retrieval" class="hover:text-amber-400 transition">Retrieval & Alignment</a>
+                <a href="#graphrag" class="hover:text-amber-400 transition">GraphRAG</a>
+                <a href="#decoding" class="hover:text-amber-400 transition">Decoding & Math</a>
+                <a href="#tradeoffs" class="hover:text-amber-400 transition">Trade-Off Matrix</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-16">
+
+        <!-- Hero Section -->
+        <section class="bg-gradient-to-br from-stone-900 via-stone-850 to-stone-900 text-white rounded-2xl p-6 md:p-10 shadow-xl border border-stone-800">
+            <div class="max-w-3xl">
+                <div class="inline-flex items-center space-x-2 bg-amber-500/10 text-amber-400 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider mb-4 border border-amber-500/20">
+                    <span>Research Insights Dashboard</span>
+                </div>
+                <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-stone-100 leading-tight">
+                    Architectural Paradigms, Optimization Frontiers & Dynamics in RAG
+                </h1>
+                <p class="mt-4 text-stone-300 text-base sm:text-lg leading-relaxed">
+                    Explore the evolution of Retrieval-Augmented Generation from static linear pipelines to autonomous agentic loops, fine-grained decoding interventions, and hierarchical graph sensemaking.
+                </p>
+                <div class="mt-6 flex flex-wrap gap-4 text-xs text-stone-400">
+                    <div class="flex items-center space-x-2 bg-stone-800/80 px-3 py-2 rounded-lg border border-stone-700">
+                        <span class="text-amber-400 font-bold">4</span>
+                        <span>Paradigms Evaluated</span>
+                    </div>
+                    <div class="flex items-center space-x-2 bg-stone-800/80 px-3 py-2 rounded-lg border border-stone-700">
+                        <span class="text-amber-400 font-bold">5</span>
+                        <span>Retrieval Paradigms</span>
+                    </div>
+                    <div class="flex items-center space-x-2 bg-stone-800/80 px-3 py-2 rounded-lg border border-stone-700">
+                        <span class="text-amber-400 font-bold">Logit</span>
+                        <span>Decoding Fusion Math</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 1: Paradigmatic Progression -->
+        <section id="paradigms" class="space-y-6">
+            <div class="border-b border-stone-200 pb-4">
+                <h2 class="text-2xl font-bold text-stone-900">1. Paradigmatic Progression</h2>
+                <p class="mt-2 text-stone-600">
+                    RAG systems have evolved from linear "retrieve-then-generate" routines into dynamic, multi-path decision architectures. Use the interactive switcher below to analyze each architectural topology, its cognitive framework, error recovery mechanism, and performance profile.
+                </p>
+            </div>
+
+            <!-- Paradigm Selector Tabs -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <button onclick="selectParadigm('naive')" id="tab-naive" class="paradigm-tab p-4 rounded-xl border border-stone-200 bg-white text-left shadow-sm hover:border-amber-500 transition focus:outline-none">
+                    <span class="block text-xs font-semibold text-stone-400 uppercase">Phase I</span>
+                    <span class="text-lg font-bold text-stone-800">Naive RAG</span>
+                </button>
+                <button onclick="selectParadigm('advanced')" id="tab-advanced" class="paradigm-tab p-4 rounded-xl border border-stone-200 bg-white text-left shadow-sm hover:border-amber-500 transition focus:outline-none">
+                    <span class="block text-xs font-semibold text-stone-400 uppercase">Phase II</span>
+                    <span class="text-lg font-bold text-stone-800">Advanced RAG</span>
+                </button>
+                <button onclick="selectParadigm('modular')" id="tab-modular" class="paradigm-tab p-4 rounded-xl border border-stone-200 bg-white text-left shadow-sm hover:border-amber-500 transition focus:outline-none">
+                    <span class="block text-xs font-semibold text-stone-400 uppercase">Phase III</span>
+                    <span class="text-lg font-bold text-stone-800">Modular RAG</span>
+                </button>
+                <button onclick="selectParadigm('agentic')" id="tab-agentic" class="paradigm-tab p-4 rounded-xl border border-stone-200 bg-white text-left shadow-sm hover:border-amber-500 transition focus:outline-none">
+                    <span class="block text-xs font-semibold text-stone-400 uppercase">Phase IV</span>
+                    <span class="text-lg font-bold text-stone-800">Agentic RAG</span>
+                </button>
+            </div>
+
+            <!-- Active Paradigm View Panel -->
+            <div id="paradigm-display" class="bg-white rounded-xl border border-stone-200 p-6 shadow-sm space-y-6">
+                <!-- JavaScript dynamic content population -->
+            </div>
+
+            <!-- Architectural Comparison Matrix -->
+            <div class="mt-8 bg-stone-900 text-stone-200 rounded-xl p-6 border border-stone-800 overflow-x-auto">
+                <h3 class="text-lg font-bold text-stone-100 mb-4">Paradigm Comparative Matrix</h3>
+                <table class="w-full text-sm text-left border-collapse">
+                    <thead>
+                        <tr class="border-b border-stone-800 text-stone-400 text-xs uppercase tracking-wider">
+                            <th class="py-3 px-4">Feature</th>
+                            <th class="py-3 px-4">Naive RAG</th>
+                            <th class="py-3 px-4">Advanced RAG</th>
+                            <th class="py-3 px-4">Modular RAG</th>
+                            <th class="py-3 px-4 text-amber-400">Agentic RAG</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-stone-800 text-stone-300">
+                        <tr>
+                            <td class="py-3 px-4 font-semibold text-stone-100">Pipeline Topology</td>
+                            <td class="py-3 px-4">Static, sequential linear flow</td>
+                            <td class="py-3 px-4">Linear with pre/post-processing nodes</td>
+                            <td class="py-3 px-4">Dynamic graph execution (DAGs)</td>
+                            <td class="py-3 px-4 text-stone-100">Autonomous multi-turn iterative loop</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-semibold text-stone-100">Retrieval Control</td>
+                            <td class="py-3 px-4">Single-pass query matching</td>
+                            <td class="py-3 px-4">Multi-query expansion & re-ranking</td>
+                            <td class="py-3 px-4">Reconfigurable operator routing</td>
+                            <td class="py-3 px-4 text-stone-100">Dynamic tool selection & policy</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-semibold text-stone-100">Cognitive Analogy</td>
+                            <td class="py-3 px-4">Fixed pattern matching</td>
+                            <td class="py-3 px-4">Heuristic feature alignment</td>
+                            <td class="py-3 px-4">System 1: Fast rule-based execution</td>
+                            <td class="py-3 px-4 text-stone-100">System 2: Deliberative reasoning</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-semibold text-stone-100">Error Recovery</td>
+                            <td class="py-3 px-4">None (error propagation)</td>
+                            <td class="py-3 px-4">Passive noise filtering</td>
+                            <td class="py-3 px-4">Structural fallback paths</td>
+                            <td class="py-3 px-4 text-stone-100">Active self-reflection & web fallback</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-semibold text-stone-100">Latency Profile</td>
+                            <td class="py-3 px-4 text-green-400 font-mono">Low, predictable</td>
+                            <td class="py-3 px-4 text-emerald-400 font-mono">Moderate overhead</td>
+                            <td class="py-3 px-4 text-yellow-400 font-mono">Variable topology</td>
+                            <td class="py-3 px-4 text-amber-400 font-mono">High, multi-turn bounded</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Section 2: Retrieval Mechanisms & Noise Mitigation -->
+        <section id="retrieval" class="space-y-6">
+            <div class="border-b border-stone-200 pb-4">
+                <h2 class="text-2xl font-bold text-stone-900">2. Retrieval Mechanisms & Noise Mitigation</h2>
+                <p class="mt-2 text-stone-600">
+                    Precision retrieval requires bridging the semantic and structural gap between user queries and stored assets. Learn how non-vector search, Hypothetical Document Embeddings (HyDE), and Relevance-Aware (REAR) filtering optimize evidence selection.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Method Selection Card -->
+                <div class="bg-white rounded-xl border border-stone-200 p-6 shadow-sm space-y-4">
+                    <h3 class="text-lg font-bold text-stone-900 border-b border-stone-100 pb-2">Retrieval Methodologies Spectrum</h3>
+                    
+                    <div class="space-y-3">
+                        <label class="block text-xs font-semibold text-stone-500 uppercase">Select Search Paradigm:</label>
+                        <select id="retrieval-select" onchange="updateRetrievalDetails()" class="w-full bg-stone-50 border border-stone-300 rounded-lg p-2.5 text-stone-800 focus:ring-2 focus:ring-amber-500 font-medium text-sm">
+                            <option value="dense">Dense Search (Bi-Encoder Vector Similarity)</option>
+                            <option value="sparse">Sparse Search (BM25 Lexical Matching)</option>
+                            <option value="hyde">HyDE (Hypothetical Document Embeddings)</option>
+                            <option value="generative">Generative Retrieval (Parametric DocIDs)</option>
+                            <option value="rear">REAR Framework (Bi-Granularity Noise Filtering)</option>
+                        </select>
+                    </div>
+
+                    <div id="retrieval-details" class="p-4 bg-stone-50 rounded-lg border border-stone-200 text-sm space-y-3">
+                        <!-- Dynamic Populated -->
+                    </div>
+                </div>
+
+                <!-- Interactive HyDE Simulator Widget -->
+                <div class="bg-stone-900 text-stone-100 rounded-xl p-6 shadow-sm border border-stone-800 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between border-b border-stone-800 pb-3 mb-4">
+                            <h3 class="text-lg font-bold text-amber-400">HyDE Query Transformation Demo</h3>
+                            <span class="text-xs bg-amber-500/20 text-amber-300 px-2.5 py-1 rounded font-mono">Document-to-Document Match</span>
+                        </div>
+                        <p class="text-xs text-stone-400 mb-4">
+                            HyDE maps concise user queries into full hypothetical target documents via LLM synthesis prior to vector calculation:
+                        </p>
+                        
+                        <div class="space-y-3 font-mono text-xs">
+                            <div class="bg-stone-800 p-3 rounded border border-stone-700">
+                                <span class="text-stone-400 block mb-1 uppercase font-sans text-[10px] tracking-wider">Step 1: Input Query (q)</span>
+                                <span class="text-amber-300">"How does context compression affect LLM hallucination?"</span>
+                            </div>
+
+                            <div class="text-center text-stone-500 font-bold">↓ Generates Synthetic Hypo Document</div>
+
+                            <div class="bg-stone-800/90 p-3 rounded border border-stone-700">
+                                <span class="text-stone-400 block mb-1 uppercase font-sans text-[10px] tracking-wider">Step 2: LLM Synthetic Output (x_hypo)</span>
+                                <span class="text-stone-300 italic">"Context compression prunes irrelevant noise from long prompts before insertion. By eliminating non-essential tokens, it prevents the lost-in-the-middle effect and aligns attention weights with factual evidence, drastically reducing ungrounded hallucinations..."</span>
+                            </div>
+
+                            <div class="bg-stone-950 p-3 rounded border border-stone-800 text-emerald-400 font-mono">
+                                <span class="text-stone-500 block mb-1 uppercase font-sans text-[10px] tracking-wider">Step 3: Vector Embedding Transformation</span>
+                                v_hypo = Encoder( LLM(q) )
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pt-3 border-t border-stone-800 text-xs text-stone-400">
+                        <strong class="text-stone-200">Outcome:</strong> Replaces query-to-doc asymmetry with aligned document-to-document nearest neighbor search.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Graph-Based Representation & GraphRAG -->
+        <section id="graphrag" class="space-y-6">
+            <div class="border-b border-stone-200 pb-4">
+                <h2 class="text-2xl font-bold text-stone-900">3. Graph-Based Knowledge Representation & GraphRAG</h2>
+                <p class="mt-2 text-stone-600">
+                    Standard vector RAG excels at localized point lookups but struggles with corpus-wide global sensemaking queries. Microsoft's GraphRAG builds entity-relationship networks partitioned by the Leiden algorithm, followed by hierarchical community summarization.
+                </p>
+            </div>
+
+            <!-- 5-Stage Indexing Workflow Interactive Stepper -->
+            <div class="bg-white rounded-xl border border-stone-200 p-6 shadow-sm space-y-6">
+                <h3 class="text-lg font-bold text-stone-900">GraphRAG 5-Stage Indexing & Map-Reduce Pipeline</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-3">
+                    <button onclick="setGraphStage(1)" id="gstage-1" class="gstage-btn p-3 rounded-lg border text-left text-xs font-semibold transition bg-amber-500 text-white border-amber-600">
+                        1. Chunking & Extraction
+                    </button>
+                    <button onclick="setGraphStage(2)" id="gstage-2" class="gstage-btn p-3 rounded-lg border text-left text-xs font-semibold transition bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100">
+                        2. Graph Partitioning
+                    </button>
+                    <button onclick="setGraphStage(3)" id="gstage-3" class="gstage-btn p-3 rounded-lg border text-left text-xs font-semibold transition bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100">
+                        3. Community Summaries
+                    </button>
+                    <button onclick="setGraphStage(4)" id="gstage-4" class="gstage-btn p-3 rounded-lg border text-left text-xs font-semibold transition bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100">
+                        4. Map Step (Parallel)
+                    </button>
+                    <button onclick="setGraphStage(5)" id="gstage-5" class="gstage-btn p-3 rounded-lg border text-left text-xs font-semibold transition bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100">
+                        5. Reduce Synthesis
+                    </button>
+                </div>
+
+                <!-- Stage Detail View -->
+                <div id="graph-stage-detail" class="bg-stone-50 rounded-lg p-5 border border-stone-200 text-sm space-y-2">
+                    <!-- Dynamic Populated -->
+                </div>
+            </div>
+
+            <!-- Vector RAG vs GraphRAG Benchmark & Biases -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-stone-900 text-stone-200 p-6 rounded-xl border border-stone-800 space-y-4">
+                    <h4 class="text-amber-400 font-bold text-base">Methodological Evaluation Biases</h4>
+                    <p class="text-xs text-stone-300 leading-relaxed">
+                        Independent audits reveal systemic biases in LLM-as-a-judge setups commonly used to benchmark GraphRAG against standard Vector RAG:
+                    </p>
+                    <div class="space-y-3 text-xs">
+                        <div class="bg-stone-800 p-3 rounded border border-stone-700">
+                            <span class="text-amber-300 font-bold block mb-1">Position Bias (>30% Win-Rate Swings)</span>
+                            Swapping the presentation sequence of competing candidate answers in evaluator prompts causes win-rate swings exceeding 30%.
+                        </div>
+                        <div class="bg-stone-800 p-3 rounded border border-stone-700">
+                            <span class="text-amber-300 font-bold block mb-1">Length & Verbosity Bias</span>
+                            LLM evaluators systematically favor longer, multi-claim responses regardless of factual density, penalizing concise vector RAG outputs.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-stone-200 flex flex-col justify-between">
+                    <div>
+                        <h4 class="text-stone-900 font-bold text-base mb-2">Cost & Indexing Comparison</h4>
+                        <p class="text-xs text-stone-600 mb-4">
+                            GraphRAG provides superior performance for corpus summarization (72%-83% win rate), but incurs massive pre-computational costs.
+                        </p>
+                        <div class="space-y-3 font-mono text-xs">
+                            <div>
+                                <div class="flex justify-between text-stone-700 mb-1">
+                                    <span>Vector Indexing Cost</span>
+                                    <span class="text-emerald-600 font-bold">O(N) - Very Low</span>
+                                </div>
+                                <div class="w-full bg-stone-200 h-2 rounded-full overflow-hidden">
+                                    <div class="bg-emerald-500 h-2 w-[15%]"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-stone-700 mb-1">
+                                    <span>GraphRAG Indexing Cost</span>
+                                    <span class="text-rose-600 font-bold">Extremely High (Thousands of LLM Calls)</span>
+                                </div>
+                                <div class="w-full bg-stone-200 h-2 rounded-full overflow-hidden">
+                                    <div class="bg-rose-500 h-2 w-[95%]"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-stone-700 mb-1">
+                                    <span>LazyGraphRAG Optimization</span>
+                                    <span class="text-amber-600 font-bold">~0.1% Indexing Cost (Deferred)</span>
+                                </div>
+                                <div class="w-full bg-stone-200 h-2 rounded-full overflow-hidden">
+                                    <div class="bg-amber-500 h-2 w-[25%]"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Decoding-Level Interventions (FKE) -->
+        <section id="decoding" class="space-y-6">
+            <div class="border-b border-stone-200 pb-4">
+                <h2 class="text-2xl font-bold text-stone-900">4. Decoding-Level Interventions & Probabilistic Fusion</h2>
+                <p class="mt-2 text-stone-600">
+                    Rather than simply concatenating passages into input prompts, fine-grained decoding interventions modify token output distributions in real time within the model logit space.
+                </p>
+            </div>
+
+            <!-- Mathematical Formulation & Interactive Logit Simulator -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                
+                <!-- Math Formulations Card -->
+                <div class="bg-white rounded-xl border border-stone-200 p-6 shadow-sm space-y-4">
+                    <h3 class="text-lg font-bold text-stone-900 border-b border-stone-100 pb-2">Fine-Grained Knowledge Enhancement (FKE)</h3>
+                    <p class="text-xs text-stone-600 leading-relaxed">
+                        FKE generates logit vectors for both document context ($z_{d,t}$) and sentence context ($z_{s,t}$), truncates them over a top-K vocabulary $V'$, and interpolates scaled softmax distributions via fusion weight $\alpha$:
+                    </p>
+
+                    <div class="bg-stone-900 text-stone-100 p-4 rounded-lg font-mono text-xs space-y-3 border border-stone-800">
+                        <div class="text-amber-400">
+                            z_{d,t} = θ(x_d, y_{&lt;t}), &nbsp; z_{s,t} = θ(x_s, y_{&lt;t})
+                        </div>
+                        <div class="text-stone-400 border-t border-stone-800 pt-2">
+                            # Temperature Scaled Softmax Fusion Formula:
+                        </div>
+                        <div class="text-emerald-400 text-[11px] leading-relaxed overflow-x-auto">
+                            p_θ(y_t) = [ softmax( z̃_{d,t} / τ_d ) + α · softmax( z̃_{s,t} / τ_s ) ] / (1 + α)
+                        </div>
+                    </div>
+                    
+                    <ul class="list-disc list-inside text-xs text-stone-600 space-y-1">
+                        <li><strong class="text-stone-800">τ_d, τ_s:</strong> Temperature parameters controlling output entropy.</li>
+                        <li><strong class="text-stone-800">α (Alpha):</strong> Fusion weight balancing document vs. sentence context constraint.</li>
+                        <li><strong class="text-stone-800">Agreement Token Filtering:</strong> Token sampling $y_t \sim p_\theta(y_t)$ suppresses ungrounded tail tokens.</li>
+                    </ul>
+                </div>
+
+                <!-- Interactive Logit Simulator -->
+                <div class="bg-stone-900 text-stone-100 rounded-xl p-6 shadow-sm border border-stone-800 space-y-4">
+                    <div class="flex justify-between items-center border-b border-stone-800 pb-2">
+                        <h3 class="text-lg font-bold text-amber-400">FKE Logit Fusion Simulator</h3>
+                        <span class="text-xs text-stone-400 font-mono">Live Probability Output</span>
+                    </div>
+
+                    <!-- Sliders -->
+                    <div class="space-y-3 text-xs">
+                        <div>
+                            <div class="flex justify-between text-stone-300 mb-1">
+                                <label for="alpha-slider">Fusion Weight (α): <span id="alpha-val" class="text-amber-400 font-bold">0.50</span></label>
+                            </div>
+                            <input id="alpha-slider" type="range" min="0" max="1" step="0.05" value="0.50" oninput="updateLogitSimulation()" class="w-full accent-amber-500 cursor-pointer">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label for="taud-slider" class="block text-stone-300 mb-1">Doc Temp (τ_d): <span id="taud-val" class="text-amber-400 font-bold">1.0</span></label>
+                                <input id="taud-slider" type="range" min="0.2" max="2.0" step="0.1" value="1.0" oninput="updateLogitSimulation()" class="w-full accent-amber-500 cursor-pointer">
+                            </div>
+                            <div>
+                                <label for="taus-slider" class="block text-stone-300 mb-1">Sentence Temp (τ_s): <span id="taus-val" class="text-amber-400 font-bold">1.0</span></label>
+                                <input id="taus-slider" type="range" min="0.2" max="2.0" step="0.1" value="1.0" oninput="updateLogitSimulation()" class="w-full accent-amber-500 cursor-pointer">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chart Canvas -->
+                    <div class="chart-container !h-52">
+                        <canvas id="logitChart"></canvas>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Section 5: Benchmarking Paradigms, Robustness & Trade-Offs -->
+        <section id="tradeoffs" class="space-y-6">
+            <div class="border-b border-stone-200 pb-4">
+                <h2 class="text-2xl font-bold text-stone-900">5. Systemic Trade-Off Matrix & Robustness Frontiers</h2>
+                <p class="mt-2 text-stone-600">
+                    System designers must balance competing priorities across retrieval precision, generation flexibility, computational cost, and systemic resilience.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <!-- Radar Chart Container -->
+                <div class="bg-white rounded-xl border border-stone-200 p-6 shadow-sm flex flex-col items-center">
+                    <h3 class="text-base font-bold text-stone-900 mb-2 self-start">Architectural Trade-Off Profile</h3>
+                    <p class="text-xs text-stone-500 mb-4 self-start">Multi-dimensional benchmark across key operational vectors:</p>
+                    
+                    <div class="chart-container">
+                        <canvas id="tradeoffRadarChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Robustness Frontiers Info Cards -->
+                <div class="space-y-4">
+                    <div class="bg-white rounded-xl border border-stone-200 p-5 shadow-sm space-y-2">
+                        <div class="flex items-center space-x-2 text-amber-600 font-bold text-sm">
+                            <span>⚡</span>
+                            <h4>Retrieval Noise Interference</h4>
+                        </div>
+                        <p class="text-xs text-stone-600 leading-relaxed">
+                            Irrelevant or noisy context degrades factual grounding. Systems like REAR apply bi-granularity filtering to condition generators to selectively ignore context noise.
+                        </p>
+                    </div>
+
+                    <div class="bg-white rounded-xl border border-stone-200 p-5 shadow-sm space-y-2">
+                        <div class="flex items-center space-x-2 text-indigo-600 font-bold text-sm">
+                            <span>🧠</span>
+                            <h4>Memory Conflict Resolution</h4>
+                        </div>
+                        <p class="text-xs text-stone-600 leading-relaxed">
+                            When retrieved evidence contradicts pre-trained parametric knowledge, unaligned models default to internal bias. Active agentic reflection enforces context override.
+                        </p>
+                    </div>
+
+                    <div class="bg-white rounded-xl border border-stone-200 p-5 shadow-sm space-y-2">
+                        <div class="flex items-center space-x-2 text-rose-600 font-bold text-sm">
+                            <span>🛡️</span>
+                            <h4>Adversarial Context Poisoning</h4>
+                        </div>
+                        <p class="text-xs text-stone-600 leading-relaxed">
+                            Maliciously injected document context can manipulate LLM predictions. Robust pipelines implement pre-generation validation and relevance filtering networks.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-stone-900 text-stone-400 border-t border-stone-800 py-8 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs space-y-2">
+            <p>Retrieval-Augmented Generation (RAG) Architecture & Dynamics Analysis</p>
+            <p class="text-stone-500">Built with Vanilla JS, Tailwind CSS, & Chart.js — Single Page Interactive System</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // --- Data Store ---
+        const paradigmData = {
+            naive: {
+                title: "Naive RAG (Phase I)",
+                topology: "Static, single-pass retrieve-then-generate pipeline.",
+                retrieval: "Direct cosine semantic vector similarity lookup for top-K chunks.",
+                cognitive: "Fixed pattern matching with zero adaptation or self-correction.",
+                error: "None. Direct error propagation. No context filtering or rewrite loop.",
+                latency: "Low & predictable latency (~200ms - 500ms).",
+                detail: "Naive RAG encounters severe operational bottlenecks due to shallow query understanding, high retrieval noise, and semantic gap asymmetry between short queries and detailed document passages."
+            },
+            advanced: {
+                title: "Advanced RAG (Phase II)",
+                topology: "Linear pipeline supplemented with targeted Pre-Retrieval and Post-Retrieval nodes.",
+                retrieval: "Hybrid search engines combining sparse (BM25) and dense bi-encoders, followed by neural re-rankers.",
+                cognitive: "Heuristic feature alignment and structural contextual compression.",
+                error: "Passive noise reduction via re-ranking and context pruning.",
+                latency: "Moderate latency overhead (~500ms - 1.2s).",
+                detail: "Introduces query expansion, sub-query decomposition, and neural re-ranking to prune irrelevant passages and eliminate the 'lost-in-the-middle' phenomenon."
+            },
+            modular: {
+                title: "Modular RAG (Phase III)",
+                topology: "Reconfigurable 3-tier architecture (Modules, Sub-modules, Operators) executing dynamic DAGs.",
+                retrieval: "Multi-path dynamic routing across standard text vector stores, code indices, and knowledge graphs.",
+                cognitive: "System 1: Fast, rule-based execution graphs optimized for predictable task distributions.",
+                error: "Structural fallback paths and conditional branching execution.",
+                latency: "Variable latency profile depending on graph complexity (~800ms - 2.5s).",
+                detail: "Breaks away from the rigid linear constraint, allowing dynamic routing, iterative loops, and parallel retrieval paths tailored to specific domain requirements."
+            },
+            agentic: {
+                title: "Agentic RAG (Phase IV)",
+                topology: "Autonomous multi-turn iterative reasoning loop controlled by an LLM agent.",
+                retrieval: "Dynamic tool selection, adaptive search policy, and web search intervention.",
+                cognitive: "System 2: Deliberative reasoning, autonomous planning, and self-reflection.",
+                error: "Active self-reflection (Self-RAG) and dynamic external search interventions (CRAG).",
+                latency: "High, variable multi-turn latency (~2s - 10s+).",
+                detail: "Deploys special reflection tokens to continuously evaluate whether retrieval is required, whether retrieved context is factually grounded, and self-corrects reasoning errors during inference."
+            }
+        };
+
+        const retrievalData = {
+            dense: {
+                mechanism: "Deep bi-encoder projection into shared latent vector spaces.",
+                alignment: "Inner-product or cosine distance calculation over dense embeddings.",
+                strengths: "Captures broad implicit concepts, semantics, and synonyms.",
+                complexity: "O(N · D) or O(log N) with HNSW indexing."
+            },
+            sparse: {
+                mechanism: "Inverted index lexical matching based on term occurrence (BM25).",
+                alignment: "TF-IDF weighting and exact keyword overlap metrics.",
+                strengths: "High precision for exact string matches, serial numbers, and domain codes.",
+                complexity: "O(K · L) where K is query token length."
+            },
+            hyde: {
+                mechanism: "LLM synthesis of a hypothetical answer document prior to embedding.",
+                alignment: "Transforms query-to-document match into document-to-document match.",
+                strengths: "Bridges the semantic gap asymmetry of raw short queries.",
+                complexity: "High (incurs full LLM generation call before search)."
+            },
+            generative: {
+                mechanism: "Parametric sequence-to-sequence model directly generates target DocIDs.",
+                alignment: "Direct parametric lookup mapping query to DocID tokens.",
+                strengths: "No external vector database overhead; high interpretability.",
+                complexity: "O(M) where M is DocID token length."
+            },
+            rear: {
+                mechanism: "Bi-granularity relevance assessment module with noise-resistant training.",
+                alignment: "Sentence and document-level score fusion prior to prompt creation.",
+                strengths: "Exceptional resilience against context noise and hallucinations.",
+                complexity: "Moderate (requires extra assessment pass)."
+            }
+        };
+
+        const graphStages = {
+            1: {
+                title: "Stage 1: Text Chunking & Entity/Claim Extraction",
+                desc: "Documents are split into text chunks. An LLM extracts domain entities (nodes), relationships (edges), and factual claims (covariates) using multi-pass self-reflection gleaning."
+            },
+            2: {
+                title: "Stage 2: Weighted Graph Construction & Leiden Partitioning",
+                desc: "Extracted entities are compiled into a weighted property graph. The Leiden community detection algorithm recursively partitions nodes into a multi-scale hierarchy of topological clusters."
+            },
+            3: {
+                title: "Stage 3: Hierarchical Community Summarization",
+                desc: "LLMs pre-generate natural language summaries for every community across all levels of the Leiden hierarchy, forming a bottom-up summary tree of the entire dataset."
+            },
+            4: {
+                title: "Stage 4: Parallel Map Step over Community Summaries",
+                desc: "Global queries target a specific hierarchy level. Intermediate answers and helpfulness scores (0-100) are generated in parallel across community summaries. Unhelpful scores (0) are dropped."
+            },
+            5: {
+                title: "Stage 5: Reduce Step Final Synthesis",
+                desc: "Valid intermediate responses are ranked by helpfulness score, loaded into the LLM context window up to token limits, and synthesized into a final global response."
+            }
+        };
+
+        // Logit Chart Logic Variables
+        let logitChartInstance = null;
+        const candidateTokens = ["Transformer", "Vector", "Database", "Retrieval", "Embedding"];
+        const docLogits = [4.2, 3.8, 2.1, 1.5, 0.5];
+        const sentLogits = [1.5, 2.0, 4.5, 3.9, 0.8];
+
+        // --- Event Handlers & Dynamic Updates ---
+
+        function selectParadigm(key) {
+            const data = paradigmData[key];
+            
+            // Highlight Tab
+            document.querySelectorAll('.paradigm-tab').forEach(tab => {
+                tab.classList.remove('border-amber-500', 'ring-2', 'ring-amber-500/20');
+            });
+            document.getElementById(`tab-${key}`).classList.add('border-amber-500', 'ring-2', 'ring-amber-500/20');
+
+            // Render Content
+            const display = document.getElementById('paradigm-display');
+            display.innerHTML = `
+                <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-stone-100 pb-4 gap-2">
+                    <h3 class="text-xl font-bold text-stone-900">${data.title}</h3>
+                    <span class="text-xs px-3 py-1 bg-amber-100 text-amber-800 font-semibold rounded-full w-fit">${data.latency}</span>
+                </div>
+                <p class="text-sm text-stone-700 leading-relaxed">${data.detail}</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                    <div class="bg-stone-50 p-3 rounded-lg border border-stone-200">
+                        <strong class="text-stone-900 block mb-1">Operational Topology:</strong>
+                        <span class="text-stone-600">${data.topology}</span>
+                    </div>
+                    <div class="bg-stone-50 p-3 rounded-lg border border-stone-200">
+                        <strong class="text-stone-900 block mb-1">Retrieval Mechanism:</strong>
+                        <span class="text-stone-600">${data.retrieval}</span>
+                    </div>
+                    <div class="bg-stone-50 p-3 rounded-lg border border-stone-200">
+                        <strong class="text-stone-900 block mb-1">Cognitive Analogy:</strong>
+                        <span class="text-stone-600">${data.cognitive}</span>
+                    </div>
+                    <div class="bg-stone-50 p-3 rounded-lg border border-stone-200">
+                        <strong class="text-stone-900 block mb-1">Error Recovery Strategy:</strong>
+                        <span class="text-stone-600">${data.error}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function updateRetrievalDetails() {
+            const selectedKey = document.getElementById('retrieval-select').value;
+            const item = retrievalData[selectedKey];
+            const container = document.getElementById('retrieval-details');
+
+            container.innerHTML = `
+                <div>
+                    <strong class="text-stone-900 block">Primary Underlying Mechanism:</strong>
+                    <span class="text-stone-600">${item.mechanism}</span>
+                </div>
+                <div>
+                    <strong class="text-stone-900 block">Query-Document Alignment Strategy:</strong>
+                    <span class="text-stone-600">${item.alignment}</span>
+                </div>
+                <div>
+                    <strong class="text-stone-900 block">Primary Strengths:</strong>
+                    <span class="text-emerald-700 font-medium">${item.strengths}</span>
+                </div>
+                <div>
+                    <strong class="text-stone-900 block">Computational Complexity:</strong>
+                    <span class="font-mono text-xs text-stone-500">${item.complexity}</span>
+                </div>
+            `;
+        }
+
+        function setGraphStage(stageNum) {
+            document.querySelectorAll('.gstage-btn').forEach((btn, idx) => {
+                if (idx + 1 === stageNum) {
+                    btn.className = "gstage-btn p-3 rounded-lg border text-left text-xs font-semibold transition bg-amber-500 text-white border-amber-600";
+                } else {
+                    btn.className = "gstage-btn p-3 rounded-lg border text-left text-xs font-semibold transition bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100";
+                }
+            });
+
+            const stage = graphStages[stageNum];
+            document.getElementById('graph-stage-detail').innerHTML = `
+                <h4 class="font-bold text-stone-900 text-sm mb-1">${stage.title}</h4>
+                <p class="text-xs text-stone-600 leading-relaxed">${stage.desc}</p>
+            `;
+        }
+
+        // --- Logit Math Helper Functions ---
+        function softmax(logits, temp) {
+            const scaled = logits.map(l => l / temp);
+            const maxL = Math.max(...scaled);
+            const exps = scaled.map(l => Math.exp(l - maxL));
+            const sumExp = exps.reduce((a, b) => a + b, 0);
+            return exps.map(e => e / sumExp);
+        }
+
+        function updateLogitSimulation() {
+            const alpha = parseFloat(document.getElementById('alpha-slider').value);
+            const tau_d = parseFloat(document.getElementById('taud-slider').value);
+            const tau_s = parseFloat(document.getElementById('taus-slider').value);
+
+            document.getElementById('alpha-val').innerText = alpha.toFixed(2);
+            document.getElementById('taud-val').innerText = tau_d.toFixed(1);
+            document.getElementById('taus-val').innerText = tau_s.toFixed(1);
+
+            const p_d = softmax(docLogits, tau_d);
+            const p_s = softmax(sentLogits, tau_s);
+
+            const fusedProbs = candidateTokens.map((_, i) => {
+                return (p_d[i] + alpha * p_s[i]) / (1 + alpha);
+            });
+
+            if (logitChartInstance) {
+                logitChartInstance.data.datasets[0].data = fusedProbs.map(v => (v * 100).toFixed(1));
+                logitChartInstance.update();
+            }
+        }
+
+        function initLogitChart() {
+            const ctx = document.getElementById('logitChart').getContext('2d');
+            logitChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: candidateTokens,
+                    datasets: [{
+                        label: 'Token Output Probability (%)',
+                        data: [0, 0, 0, 0, 0],
+                        backgroundColor: '#f59e0b',
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: (ctx) => `${ctx.raw}% probability`
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: { color: '#a8a29e', font: { size: 10 } },
+                            grid: { color: '#292524' }
+                        },
+                        x: {
+                            ticks: { color: '#d6d3d1', font: { size: 11 } },
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+
+            updateLogitSimulation();
+        }
+
+        function initRadarChart() {
+            const ctx = document.getElementById('tradeoffRadarChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Retrieval Precision', 'Global Sensemaking', 'Indexing Low Cost', 'Low Latency', 'Noise Resilience'],
+                    datasets: [
+                        {
+                            label: 'Naive RAG',
+                            data: [40, 20, 95, 95, 30],
+                            borderColor: '#9ca3af',
+                            backgroundColor: 'rgba(156, 163, 175, 0.2)',
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'GraphRAG',
+                            data: [85, 98, 10, 30, 80],
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Agentic RAG',
+                            data: [95, 80, 50, 25, 92],
+                            borderColor: '#f59e0b',
+                            backgroundColor: 'rgba(245, 158, 11, 0.25)',
+                            borderWidth: 2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { font: { size: 11 }, boxWidth: 12 }
+                        }
+                    },
+                    scales: {
+                        r: {
+                            angleLines: { color: '#e7e5e4' },
+                            grid: { color: '#e7e5e4' },
+                            pointLabels: { font: { size: 10, weight: '600' }, color: '#44403c' },
+                            ticks: { display: false, backdropColor: 'transparent' },
+                            min: 0,
+                            max: 100
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize App State
+        window.addEventListener('DOMContentLoaded', () => {
+            selectParadigm('agentic');
+            updateRetrievalDetails();
+            setGraphStage(1);
+            initLogitChart();
+            initRadarChart();
+        });
+    </script>
+</body>
+</html>
